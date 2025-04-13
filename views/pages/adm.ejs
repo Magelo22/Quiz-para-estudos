@@ -1,0 +1,61 @@
+<%- include ('../partials/header') %>
+    <main>
+        <h1>Olá, aqui é mostrado todos os Usuários</h1>
+        <div><h1>Alunos cadastrados:
+            <% for(const aluno of alunos) { %>
+            
+                <ul>    
+                <li>
+                <div>
+                    <h3>
+                    <%= aluno.nome %>
+                    </h3>
+                    <p>
+                            <%= aluno.email %>
+                    </p>
+                    <p>
+                        <%= aluno.senha %>
+                    </p>
+                </div>
+                    <div>
+                        <button type="button"> <a href="/deletar-alunos/<%=aluno.id%>">Deletar</a></button>
+                    </div>
+                    <div>
+                        <button type="button"><a href="/editar-alunos/<%=aluno.id%>">Atualizar</a></button>
+                    </div>
+                </li>
+                </ul>
+            <% } %>
+        </h1>
+    </div>
+    <div><h1>Professores cadastrados:
+        <% for(const professor of professores) { %>
+        
+            <ul>    
+            <li>
+            <div>
+                <h3>
+                <%= professor.nome %>
+                </h3>
+                <p>
+                        <%= professor.email %>
+                </p>
+                <p>
+                    <%= professor.senha %>
+                </p>
+            </div>
+                <div>
+                    <button type="button"> <a href="/deletar-professores/<%=professor.id%>">Deletar</a></button>
+                </div>
+                <div>
+                    <button type="button"><a href="/editar-professores/<%=professor.id%>">Atualizar</a></button>
+                </div>
+            </li>
+            </ul>
+        <% } %>
+    </h1>
+    </div>
+        
+    </main>
+
+<%- include ('../partials/footer') %>
