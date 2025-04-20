@@ -1,23 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
+    <style>
+        .header {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            background-color: white;
+            padding: 18px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #3b4d9c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .nav-links a.home-icon::before {
+            content: "🏠";
+            margin-right: 5px;
+        }
+
+        .login-button {
+            background-color: #3b4d9c;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #2c3d80;
+        }
+    </style>
 </head>
-<body>
+
+<body class="header">
     <header>
         <nav>
-            <div class="logo">
-                <a href="/">Meu Site</a>
-            </div>
-            <div class="nav-links">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/explorar">Explorar</a></li>
-                    <li><a href="/login">Login</a></li>
-                </ul>
+            <div class="navbar">
+                <div class="nav-links">
+                    <a href="/" class="home-icon">Home</a>
+                    <a href="/explorar">Explorar</a>
+                    <a href="/login">
+                        <button class="login-button">Login</button>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
-

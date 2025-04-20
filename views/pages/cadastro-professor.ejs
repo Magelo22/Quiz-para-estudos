@@ -1,0 +1,23 @@
+<%- include ('../partials/header') %>
+
+    <main>
+        <h1>Cadastro do Professor</h1>
+        <h2>Insira os seus dados</h2>
+    <form action="/inserir-professores" method="post">
+        <label for="nome" > Nome:</label>
+        <input type="text" id="nome" name="nome" placeholder="Nome do Professor">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Email do Professor">
+        <br>
+        <Label for="senha">Senha:</Label>
+        <input type="password" name="senha" id="senha" placeholder="Senha do Professor">
+        <input type="submit" value="Cadastrar">
+        <br><br>
+        <p>Já tem uma conta, faça login abaixo:</p>
+        <button type="button"><a href="/login-professor">Login do Professor</a></button>
+        <br><br>
+        <button type="button"><a href="/login">Voltar</a></button>
+    </main>
+
+<%- include ('../partials/footer') %>

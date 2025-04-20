@@ -11,6 +11,33 @@ app.set('view engine', 'ejs');
 
 //Endopoints do Aluno
 
+
+app.post('/logar-aluno', async (req, res) => {
+    const { email, senha } = req.body;
+    try {
+        const aluno = await pool.query("SELECT * FROM alunos WHERE email = $1", [email]);
+        const result = aluno.rows[0];
+        if (!email || !senha) {
+            res.status(400).send("Preencha todos os campos!")
+        } else {
+            if (result) {
+                if (senha === result.senha) {
+                    res.redirect('/');
+                }
+                else {
+                    res.status(401).send("Senha incorreta");
+                }
+            } else {
+                res.status(404).send("Aluno não encontrado");
+            }
+        }
+    } catch (error) {
+        console.error('Erro no postgreSQL', error);
+        res.status(500).send("Error ao tentar fazer login");
+    }
+});
+
+
 app.get('/alunos/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -56,7 +83,7 @@ app.get('/editar-alunos/:id', async (req, res) => {
     } catch (error) {
         console.error('Erro no postgreSQL', error);
         res.status(500).send("Error ao buscar aluno");
-    }
+    };
 });
 
 app.post('/atualizar-alunos/:id', async (req, res) => {
@@ -95,6 +122,32 @@ app.get('/deletar-alunos/:id', async (req, res) => {
 
 //Endpoints dos Professores
 
+app.post('/logar-professor', async (req, res) => {
+    const { email, senha } = req.body;
+    try {
+        if (!email || !senha) {
+            res.status(400).send("Preencha todos os campos!")
+        } else {
+                const professor = await pool.query("SELECT * FROM professores WHERE email = $1", [email]);
+                const result = professor.rows[0];
+
+                if (result) {
+                    if (senha === result.senha) {
+                        res.redirect('/');
+                    } else {
+                        res.status(400).send("Senha incorreta!");
+                    }
+                } else {
+                    res.status(400).send("Professor não encontrado!");
+                
+            }
+        }
+    } catch (error) {
+        console.error('Erro no postgreSQL', error);
+        res.status(500).send("Error ao logar professor");
+    }
+});
+
 app.get('/professores/:id', async (req, res) => {
     const id = req.params.id;
     try {
@@ -106,7 +159,7 @@ app.get('/professores/:id', async (req, res) => {
             res.render('pages/adm');
         }
     } catch (error) {
-        console.error('Erro no postgreSQL', error);
+        console.error(error);
         res.status(500).send("Error ao buscar professor");
     }
 });
@@ -135,7 +188,7 @@ app.get('/editar-professores/:id', async (req, res) => {
             res.status(400).send("ID não encontrado!");
         } else {
             const result = await pool.query('SELECT * FROM professores WHERE id = $1', [id]);
-            res.render('/editar-professor', { professor: result.rows[0], title: 'Editar Professor' });
+            res.render('pages/editar-professor', { professor: result.rows[0], title: 'Editar Professor' });
         }
     } catch (error) {
         console.error('Erro no postgreSQL', error);
@@ -143,8 +196,8 @@ app.get('/editar-professores/:id', async (req, res) => {
     }
 });
 
-app.post('atualizar-professores/:id', async (req, res) => {
-    const id = req.paramns.id;
+app.post('/atualizar-professores/:id', async (req, res) => {
+    const id = req.params.id;
     const { nome, email, senha } = req.body;
     try {
         if (!nome || !email || !senha) {
@@ -190,12 +243,12 @@ app.get('/login', (req, res) => {
     res.render('pages/login', { title: "Login" });
 });
 
-app.get('/login-aluno', (req, res) => {
-    res.render('pages/login-aluno', { title: "Login do Aluno" });
+app.get('/cadastro-aluno', (req, res) => {
+    res.render('pages/cadastro-aluno', { title: "Cadastro do Aluno" });
 });
 
-app.get('/login-professor', (req, res) => {
-    res.render('pages/login-professor', { title: "Login do Professor" });
+app.get('/cadastro-professor', (req, res) => {
+    res.render('pages/cadastro-professor', { title: "Cadastro do Professor" });
 });
 
 app.get('/users', async (req, res) => {
@@ -212,6 +265,13 @@ app.get('/users', async (req, res) => {
     }
 });
 
+app.get('/login-aluno', (req, res) => {
+    res.render('pages/login-aluno', { title: "Login do Aluno" });
+});
+
+app.get('/login-professor', (req, res) => {
+    res.render('pages/login-professor', { title: "Login do Professor" });
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta:`, PORT);
