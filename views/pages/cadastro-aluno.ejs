@@ -1,23 +1,147 @@
 <%- include ('../partials/header') %>
 
-    <main>
-        <h1>Cadastro do Aluno</h1>
-        <h2>Insira os seus dados</h2>
-    <form action="/inserir-alunos" method="post">
-        <label for="nome" > Nome:</label>
-        <input type="text" id="nome" name="nome" placeholder="Nome do Aluno">
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Email do Aluno">
-        <br>
-        <Label for="senha">Senha:</Label>
-        <input type="password" name="senha" id="senha" placeholder="Senha do Aluno">
-        <input type="submit" value="Cadastrar">
-        <br><br>
-        <p>Já tem uma conta, faça login abaixo:</p>
-        <button type="button"><a href="/login-aluno">Login do Aluno</a></button>
-        <br><br>
-        <button type="button"><a href="/login">Voltar</a></button>
+<style>
+    #pc-a {
+       margin: 0;
+       padding: 0;
+       background-color: #3c4a93;
+       font-family: Arial, sans-serif;
+       height: 100vh;
+       position: relative;
+     }
+ 
+     .login-container {
+       text-align: center;
+       color: white;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       padding-top: 150px;
+     }
+ 
+     .login-container h2 {
+       text-align: center;
+       margin-bottom: 30px;
+       font-size: 20px;
+     }
+ 
+     .input-group {
+       margin-bottom: 20px;
+       text-align: left;
+     }
+ 
+     label {
+       font-weight: bold;
+       display: block;
+       margin-bottom: 5px;
+     }
+ 
+     input[type="text"],
+     input[type="email"],
+     input[type="password"] {
+       width: 400px;
+       padding: 12px;
+       border: none;
+       border-radius: 25px;
+       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+       font-size: 14px;
+       outline: none;
+     }
+ 
+     input:focus {
+       box-shadow: 0 0 5px #00d4ff;
+     }
+ 
+     .button {
+       margin-top: 20px;
+       text-align: right;
+     }
+ 
+     button {
+       background-color: white;
+       color: #3c4a93;
+       font-weight: bold;
+       padding: 10px 25px;
+       border: none;
+       border-radius: 25px;
+       font-size: 14px;
+       cursor: pointer;
+       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+       margin: 5px 0;
+       margin-left: 10px;
+     }
+ 
+     .avancar {
+         margin-left: 320px;
+     }
+ 
+     button a {
+       text-decoration: none;
+       color: inherit;
+       display: block;
+     }
+ 
+     button:hover {
+       background-color: #e6e6e6;
+     }
+ 
+     .pc-div {
+       margin-top: -15px;
+       margin-bottom: 10px;
+     }
+ 
+     .extra-links {
+       margin-top: 10px;
+       margin-left: -180px;
+     }
+ 
+     .extra-links p {
+       font-size: 14px;
+       margin-bottom: 10px;
+       font-weight: bold;
+     }
+ 
+     .extra-button{
+       margin-left: 10px;
+     }
+   </style>
+
+    <main id="pc-a">
+        <div class="login-container">
+            <h2>Cadastro (Aluno)</h2>
+            <form id="loginForm" action="/inserir-alunos" method="post">
+              <div class="input-group">
+                <label for="nome">Digite seu nome:</label>
+                <input type="text" id="nome" name="nome">
+                <div class="pc-div"></div>
+              </div>
+        
+              <div class="input-group">
+                <label for="email">Digite seu e-mail:</label>
+                <input type="email" id="email" name="email">
+                <div class="pc-div"></div>
+              </div>
+        
+              <div class="input-group">
+                <label for="senha">Digite sua senha:</label>
+                <input type="password" id="senha" name="senha">
+                <div class="pc-div"></div>
+              </div>
+        
+              <div class="button">
+                <button type="submit">Avançar</button>
+              </div>
+            </form>
+        
+            <div class="extra-links">
+              <p>Já tem uma conta? faça login abaixo:</p>
+              <div>
+                <button type="button" class="extra-button"><a href="/login-aluno">Login do Aluno</a></button>
+                <button type="button" class="voltar-btt"><a href="/login">Voltar</a></button>
+              </div>
+            </div>
+          </div>
+        
     </main>
 
 <%- include ('../partials/footer') %>

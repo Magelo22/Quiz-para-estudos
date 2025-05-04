@@ -1,6 +1,7 @@
 <%- include ('../partials/header') %>
+
 <style>
-    .login {
+    #login {
       background-color: #3b4d9c;
       display: flex;
       flex-direction: column;
@@ -13,12 +14,12 @@
       text-align: center;
     }
 
-    h1 {
+    .pl-h1 {
       font-size: 18px;
       margin-bottom: 20px;
     }
 
-    button {
+    .pl-button {
       background-color: white;
       color: #3b4d9c;
       padding: 10px 65px;
@@ -34,18 +35,20 @@
       display: inline-block;
     }
 
-    button:hover {
+    .pl-button:hover {
       background-color: #dfe3f0;
     }
   </style>
-    <main class="login">
-        <h1>Faça seu Cadastro gratuitamente<br>para ver conteúdos personalizados e interagir com a nossa comunidade!</h1>
-        <h2><a href="/cadastro-aluno">
-            <button>Cadastro (Aluno)</button> 
-        </a></h2>
+
+    <main id="login">
+        <h1 class="pl-h1">Faça seu Cadastro gratuitamente<br>para ver conteúdos personalizados e interagir com a nossa comunidade!</h1>
         <h2><a href="/cadastro-professor">
-            <button>Cadastro (Professor)</button>
+          <button class="pl-button">Cadastro (Professor)</button>
+      </a></h2>
+        <h2><a href="/cadastro-aluno">
+            <button class="pl-button">Cadastro (Aluno)</button> 
         </a></h2>
+        
     </main>
 
 <%- include ('../partials/footer') %>
