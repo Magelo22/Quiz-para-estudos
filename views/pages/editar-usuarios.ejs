@@ -1,137 +1,199 @@
 <%- include ('../partials/header') %>
 
   <style>
-    .pc-a {
+    #atualizacao-page {
       margin: 0;
-      padding: 0;
+      padding: 20px;
       background-color: #3c4a93;
       font-family: Arial, sans-serif;
-      height: 100vh;
+      min-height: 100vh;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
     }
 
-    .login-container {
+    .atualizacao-container {
       text-align: center;
       color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 150px;
+      width: 100%;
+      max-width: 450px;
+      padding: 40px;
+      /* Aumentado para 40px (igual ao cadastro) */
+      box-sizing: border-box;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
-    .login-container h2 {
+    .atualizacao-container h2 {
       text-align: center;
       margin-bottom: 30px;
-      font-size: 20px;
+      font-size: 24px;
+      /* Igual ao cadastro */
     }
 
-    .input-group {
-      margin-bottom: 20px;
+    .atualizacao-input-group {
+      margin-bottom: 25px;
+      /* Aumentado de 20px para 25px (igual ao cadastro) */
       text-align: left;
+      width: 100%;
     }
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 400px;
-      padding: 12px;
+    .atualizacao-papel-btn {
+      width: 100%;
+      padding: 14px 20px;
       border: none;
       border-radius: 25px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 14px;
+      font-size: 15px;
+      text-align: center;
       outline: none;
-    }
-
-    input:focus {
-      box-shadow: 0 0 5px #00d4ff;
-    }
-
-    .button {
-      margin-top: 20px;
-      text-align: right;
-    }
-
-    button {
+      appearance: none;
       background-color: white;
       color: #3c4a93;
       font-weight: bold;
-      padding: 10px 25px;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233c4a93'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 15px;
+      padding-right: 40px;
+      height: auto;
+    }
+
+    .atualizacao-label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      /* Aumentado de 8px para 10px */
+      font-size: 15px;
+    }
+
+    .atualizacao-input {
+      width: 100%;
+      padding: 14px 20px;
       border: none;
       border-radius: 25px;
-      font-size: 14px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .atualizacao-input:focus {
+      box-shadow: 0 0 8px #00d4ff;
+    }
+
+    .atualizacao-button-group {
+      margin-top: 30px;
+      /* Aumentado de 25px para 30px */
+      text-align: center;
+      width: 100%;
+    }
+
+    .atualizacao-btn {
+      background-color: white;
+      color: #3c4a93;
+      font-weight: bold;
+      padding: 14px 40px;
+      /* Aumentado (igual ao cadastro) */
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      /* Aumentado de 15px para 16px */
       cursor: pointer;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      margin: 5px 0;
-      margin-left: 10px;
+      margin: 10px 0;
+      /* Aumentado de 8px para 10px */
+      transition: all 0.3s ease;
+      min-width: 220px;
+      /* Aumentado de 180px para 220px */
     }
 
-    .avancar {
-      margin-left: 320px;
-    }
-
-    button a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    button:hover {
+    .atualizacao-btn:hover {
       background-color: #e6e6e6;
+      transform: translateY(-2px);
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .extra-links {
-      margin-top: 10px;
-      margin-left: -180px;
+    /* Media Queries idênticas ao cadastro */
+    @media (min-width: 1200px) {
+      .atualizacao-container {
+        max-width: 500px;
+        padding: 40px;
+      }
+
+      .atualizacao-container h2 {
+        font-size: 26px;
+      }
     }
 
-    .extra-links p {
-      font-size: 14px;
-      margin-bottom: 10px;
-      font-weight: bold;
+    @media (max-width: 768px) {
+      .atualizacao-container {
+        padding: 30px;
+        max-width: 90%;
+      }
     }
 
-    .extra-button {
-      margin-left: 10px;
+    @media (max-width: 480px) {
+      .atualizacao-container {
+        padding: 25px 20px;
+        max-width: 95%;
+      }
+
+      .atualizacao-container h2 {
+        font-size: 22px;
+      }
+
+      .atualizacao-btn {
+        padding: 12px 30px;
+        min-width: 200px;
+        font-size: 15px;
+      }
     }
   </style>
 
-  <main class="pc-a">
-    <div class="login-container">
+  <main id="atualizacao-page">
+    <div class="atualizacao-container">
       <h2>Atualize os dados abaixo:</h2>
-      <form id="loginForm" action="/usuarios/atualizar-usuarios/<%=usuario.id%>" method="post">
-        <div class="input-group">
-          <label for="nome">Digite seu nome:</label>
-          <input type="text" id="nome" name="nome" value="<%= usuario.nome%>" required>
+      <form id="atualizacao-form" action="/usuarios/atualizar-usuarios/<%=usuario.id%>" method="post">
+        <div class="atualizacao-input-group">
+          <label for="atualizacao-nome" class="atualizacao-label">Digite seu nome:</label>
+          <input type="text" id="atualizacao-nome" name="nome" class="atualizacao-input" value="<%= usuario.nome%>"
+            required>
         </div>
 
-        <div class="input-group">
-          <label for="email">Digite seu e-mail:</label>
-          <input type="email" id="email" name="email" value="<%= usuario.email %>" required>
+        <div class="atualizacao-input-group">
+          <label for="atualizacao-email" class="atualizacao-label">Digite seu e-mail:</label>
+          <input type="email" id="atualizacao-email" name="email" class="atualizacao-input" value="<%= usuario.email %>"
+            required>
         </div>
 
-        <div class="input-group">
-          <label for="senha">Digite sua senha:</label>
-          <input type="password" id="senha" name="senha" value="<%= usuario.senha%>" required>
+        <div class="atualizacao-input-group">
+          <label for="atualizacao-senha" class="atualizacao-label">Digite sua senha:</label>
+          <input type="password" id="atualizacao-senha" name="senha" class="atualizacao-input"
+            value="<%= usuario.senha%>" required>
         </div>
 
-        <div class="input-group">
-          <label for="papel">Escolha o seu papel:</label>
-          <select id="papel" name="papel" required>
-            <option value="aluno">Aluno</option>
-            <option value="professor">Professor</option>
+        <div class="atualizacao-input-group">
+          <label for="atualizacao-papel" class="atualizacao-label">Escolha o seu papel:</label>
+          <select class="atualizacao-papel-btn" id="atualizacao-papel" name="papel" required>
+            <option value="aluno" <%=usuario.papel==='aluno' ? 'selected' : '' %>>Aluno</option>
+            <option value="professor" <%=usuario.papel==='professor' ? 'selected' : '' %>>Professor</option>
           </select>
         </div>
 
-        <div class="button">
-          <button type="submit">Atualizar</button>
+        <div class="atualizacao-button-group">
+          <button type="submit" class="atualizacao-btn">Atualizar</button>
         </div>
       </form>
+    </div>
   </main>
 
   <%- include ('../partials/footer') %>

@@ -19,13 +19,13 @@ app.use('/usuarios', usuariosRoutes);
 app.get('/quizes/:id', async (req, res) => {
     const Id = req.params.id;
     try {
-        if(!Id){
+        if (!Id) {
             res.status(400).send("ID não encontrado");
-        }else{
-        const result = await pool.query('SELECT * FROM quizes where id = $1', [Id]);
-        const quiz = result.rows[0];
-        res.render('pages/quiz');
-    }
+        } else {
+            const result = await pool.query('SELECT * FROM quizes where id = $1', [Id]);
+            const quiz = result.rows[0];
+            res.render('pages/quiz');
+        }
     } catch (error) {
         console.error("Erro no postgreSQL", error);
         res.status(400).send("Nenhum quiz encontrado");
@@ -34,14 +34,14 @@ app.get('/quizes/:id', async (req, res) => {
 
 app.post('/inserir-quiz', async (req, res) => {
     console.log(req.body);
-    const {email,titulo,descricao} = req.body;
+    const { email, titulo, descricao } = req.body;
     try {
         if (!titulo || !descricao || !email) {
             res.status(400).send("Preencha todos os campos!");
         } else {
             const result = await pool.query('SELECT id FROM professores WHERE email = $1', [email]);
             const Id = result.rows[0].id;
-            await pool.query('INSERT INTO quizes (titulo, descricao, professor_id) VALUES($1, $2, $3)', [titulo,descricao,Id]);
+            await pool.query('INSERT INTO quizes (titulo, descricao, professor_id) VALUES($1, $2, $3)', [titulo, descricao, Id]);
             res.redirect('/');
             console.log("Quiz criado com sucesso!");
         }
@@ -103,7 +103,7 @@ app.get('/deletar-quizes/:id', async (req, res) => {
 //Rotas
 
 app.get('/', async (req, res) => {
-    res.render('pages/index', {title: "Users" });
+    res.render('pages/index', { title: "Home" });
 });
 
 app.get('/explorar', (req, res) => {
@@ -126,8 +126,8 @@ app.get('/users', UsuariosController.getTodosUsuarios);
 
 app.get('/editar-usuarios/:id', UsuariosController.editar);
 
-app.get('/criar-quiz', (req,res)=>{
-    res.render('pages/criar-quiz', {title:"Criar Quiz"});
+app.get('/criar-quiz', (req, res) => {
+    res.render('pages/criar-quiz', { title: "Criar Quiz" });
 });
 
 const PORT = process.env.PORT || 3000;

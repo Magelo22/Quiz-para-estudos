@@ -1,111 +1,175 @@
 <%- include ('../partials/header') %>
+
     <style>
-        #pl-al {
+        #login-usuario-container {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             background-color: #3c4a93;
             font-family: Arial, sans-serif;
-            height: 100vh;
-            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
         }
 
-        .login-container {
+        .login-usuario-form-wrapper {
             text-align: center;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 200px;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        .login-container h2 {
+        .login-usuario-header {
             text-align: center;
             margin-bottom: 30px;
-            font-size: 20px;
+            font-size: 24px;
         }
 
-        .input-group {
-            margin-bottom: 20px;
+        .login-usuario-field-group {
+            margin-bottom: 25px;
             text-align: left;
+            width: 100%;
         }
 
-        label {
+        .login-usuario-field-label {
             font-weight: bold;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #fff;
+            letter-spacing: 0.5px;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 400px;
-            padding: 12px;
+        .login-usuario-field-input {
+            width: 100%;
+            padding: 14px 20px;
             border: none;
             border-radius: 25px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
+            box-sizing: border-box;
+            transition: box-shadow 0.3s ease;
         }
 
-        input:focus {
-            box-shadow: 0 0 5px #00d4ff;
+        .login-usuario-field-input:focus {
+            box-shadow: 0 0 8px #00d4ff;
         }
 
-        .button {
-            margin-top: 10px;
-            text-align: right;
+        .login-usuario-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 15px;
         }
 
-        button {
+        .login-usuario-action-btn {
             background-color: white;
             color: #3c4a93;
             font-weight: bold;
-            padding: 10px 25px;
+            padding: 14px 0;
             border: none;
             border-radius: 25px;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            margin: 5px 0;
-            margin-left: 10px;
-        }
-
-        button a {
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
             text-decoration: none;
-            color: inherit;
-            display: block;
         }
 
-        button:hover {
+        .login-usuario-action-btn:hover {
             background-color: #e6e6e6;
+            transform: translateY(-2px);
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .pl-div {
-            margin-top: -15px;
-            margin-bottom: 10px;
+        /* Responsividade */
+        @media (min-width: 1200px) {
+            .login-usuario-form-wrapper {
+                max-width: 500px;
+            }
+
+            .login-usuario-header {
+                font-size: 26px;
+            }
+
+            .login-usuario-field-label {
+                font-size: 17px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-usuario-form-wrapper {
+                padding: 30px;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-usuario-form-wrapper {
+                padding: 25px 20px;
+                max-width: 95%;
+            }
+
+            .login-usuario-header {
+                font-size: 22px;
+            }
+
+            .login-usuario-field-label {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .login-usuario-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .login-usuario-action-btn {
+                padding: 12px;
+                font-size: 15px;
+            }
+
+            .login-usuario-field-input {
+                padding: 12px 15px;
+            }
         }
     </style>
 
-    <main id="pl-al">
-        <div class="login-container">
-            <h2>Faça seu Login abaixo:</h2>
-            <form action="/usuarios/logar-usuario" method="post">
-                <div class="input-group">
-                    <label for="email">Digite seu e-mail:</label>
-                    <input type="email" id="email" name="email">
-                    <div class="pl-div"></div>
+    <main id="login-usuario-container">
+        <div class="login-usuario-form-wrapper">
+            <h2 class="login-usuario-header">Faça seu Login abaixo:</h2>
+            <form id="login-usuario-form" action="/usuarios/logar-usuario" method="post">
+                <div class="login-usuario-field-group">
+                    <label for="login-usuario-email" class="login-usuario-field-label">Digite seu e-mail:</label>
+                    <input type="email" id="login-usuario-email" name="email" class="login-usuario-field-input"
+                        required>
                 </div>
 
-                <div class="input-group">
-                    <label for="senha">Digite sua senha:</label>
-                    <input type="password" id="senha" name="senha">
-                    <div class="pl-div"></div>
+                <div class="login-usuario-field-group">
+                    <label for="login-usuario-senha" class="login-usuario-field-label">Digite sua senha:</label>
+                    <input type="password" id="login-usuario-senha" name="senha" class="login-usuario-field-input"
+                        required>
                 </div>
 
-                <div class="button">
-                    <button type="button" class="voltar-btt"><a href="/cadastro-usuarios">Voltar</a></button>
-                    <button type="submit">Logar</button>
+                <div class="login-usuario-actions">
+                    <a href="/cadastro-usuarios" class="login-usuario-action-btn">Voltar</a>
+                    <button type="submit" class="login-usuario-action-btn">Logar</button>
                 </div>
             </form>
+        </div>
     </main>
+
     <%- include ('../partials/footer') %>
