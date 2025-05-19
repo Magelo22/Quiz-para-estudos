@@ -5,11 +5,20 @@ const pool = require('./db');
 const { title } = require('process');
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const UsuariosController = require('./src/controllers/usuariosController');
-
+const session = require('express-session');
+const verificarAutenticacao = require('./src/middleware/usuarioMiddleware');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
+
+app.use(session({
+    secret: 'segredo-super-seguro',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+}));
+
 app.use('/usuarios', usuariosRoutes);
 
 
@@ -102,11 +111,11 @@ app.get('/deletar-quizes/:id', async (req, res) => {
 
 //Rotas
 
-app.get('/', async (req, res) => {
+app.get('/', verificarAutenticacao, async (req, res) => {
     res.render('pages/index', { title: "Home" });
 });
 
-app.get('/explorar', (req, res) => {
+app.get('/explorar', verificarAutenticacao, (req, res) => {
     res.render('pages/explorar', { title: "Explorar" });
 });
 
@@ -122,9 +131,9 @@ app.get('/login-usuario', (req, res) => {
     res.render('pages/login-usuario', { title: "Login do Usuario" });
 });
 
-app.get('/users', UsuariosController.getTodosUsuarios);
+app.get('/users', verificarAutenticacao, UsuariosController.getTodosUsuarios);
 
-app.get('/editar-usuarios/:id', UsuariosController.editar);
+app.get('/editar-usuarios/:id', verificarAutenticacao, UsuariosController.editar);
 
 app.get('/criar-quiz', (req, res) => {
     res.render('pages/criar-quiz', { title: "Criar Quiz" });

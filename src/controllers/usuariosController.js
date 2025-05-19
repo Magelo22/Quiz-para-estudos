@@ -10,6 +10,7 @@ class UsuariosController {
             const usuario = await UsuariosModel.findByEmail(email);
             if (usuario) {
                 if (usuario.senha === senha) {
+                    req.session.usuario = usuario;
                     return res.redirect('/');
                 } else {
                     return res.status(401).send("Senha incorreta");
@@ -50,7 +51,7 @@ class UsuariosController {
 
     static async editar(req, res) {
         const id = req.params.id;
-        try {   
+        try {
             if (!id) {
                 return res.status(400).send("ID não encontrado!");
             }

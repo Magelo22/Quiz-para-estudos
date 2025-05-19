@@ -1,223 +1,226 @@
-<%- include ('../partials/header') -%>
-  <style>
-    #cadastro-page {
-      margin: 0;
-      padding: 20px;
-      background-color: #3c4a93;
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-    }
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
+  #cadastro-page {
+    margin: 0;
+    padding: 20px;
+    background-color: #3c4a93;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .cadastro-container {
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .cadastro-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+  }
+
+  .cadastro-input-group {
+    margin-bottom: 20px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .cadastro-papel-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    text-align: center;
+    outline: none;
+    appearance: none;
+    background-color: white;
+    color: #3c4a93;
+    font-weight: bold;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233c4a93'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 15px;
+    padding-right: 40px;
+  }
+
+  .cadastro-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .cadastro-input {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .cadastro-input:focus {
+    box-shadow: 0 0 8px #00d4ff;
+  }
+
+  .cadastro-button-group {
+    margin-top: 25px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .cadastro-btn {
+    background-color: white;
+    color: #3c4a93;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 8px 0;
+    transition: all 0.3s ease;
+    width: auto;
+    min-width: 180px;
+  }
+
+  .cadastro-btn a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .cadastro-btn:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-2px);
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .cadastro-extra-links {
+    margin-top: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .cadastro-extra-links p {
+    font-size: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .cadastro-extra-links div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Media Queries para responsividade */
+  @media (min-width: 1200px) {
     .cadastro-container {
-      text-align: center;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 450px;
-      padding: 30px;
-      box-sizing: border-box;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      padding: 40px;
     }
 
     .cadastro-container h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 24px;
+      font-size: 26px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cadastro-container {
+      padding: 25px;
+      max-width: 90%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cadastro-container {
+      padding: 20px 15px;
+      max-width: 95%;
     }
 
-    .cadastro-input-group {
-      margin-bottom: 20px;
-      text-align: left;
-      width: 100%;
-    }
-
-    .cadastro-papel-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 25px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 15px;
-      text-align: center;
-      outline: none;
-      appearance: none;
-      background-color: white;
-      color: #3c4a93;
-      font-weight: bold;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233c4a93'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      background-size: 15px;
-      padding-right: 40px;
-    }
-
-    .cadastro-label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    .cadastro-input {
-      width: 100%;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 25px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 15px;
-      outline: none;
-      box-sizing: border-box;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .cadastro-input:focus {
-      box-shadow: 0 0 8px #00d4ff;
-    }
-
-    .cadastro-button-group {
-      margin-top: 25px;
-      text-align: center;
-      width: 100%;
+    .cadastro-container h2 {
+      font-size: 22px;
+      margin-bottom: 25px;
     }
 
     .cadastro-btn {
-      background-color: white;
-      color: #3c4a93;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      margin: 8px 0;
-      transition: all 0.3s ease;
-      width: auto;
-      min-width: 180px;
+      padding: 10px 25px;
+      min-width: 160px;
     }
+  }
+</style>
 
-    .cadastro-btn a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
+<main id="cadastro-page">
+  <div class="cadastro-container">
+    <h2>Faça o seu cadastro abaixo:</h2>
+    <form id="cadastro-form" action="/usuarios/inserir-usuarios" method="post">
+      <div class="cadastro-input-group">
+        <label for="cadastro-nome" class="cadastro-label">Digite seu nome:</label>
+        <input type="text" id="cadastro-nome" name="nome" class="cadastro-input" required>
+      </div>
 
-    .cadastro-btn:hover {
-      background-color: #e6e6e6;
-      transform: translateY(-2px);
-      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-    }
+      <div class="cadastro-input-group">
+        <label for="cadastro-email" class="cadastro-label">Digite seu e-mail:</label>
+        <input type="email" id="cadastro-email" name="email" class="cadastro-input" required>
+      </div>
 
-    .cadastro-extra-links {
-      margin-top: 25px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
+      <div class="cadastro-input-group">
+        <label for="cadastro-senha" class="cadastro-label">Digite sua senha:</label>
+        <input type="password" id="cadastro-senha" name="senha" class="cadastro-input" required>
+      </div>
 
-    .cadastro-extra-links p {
-      font-size: 15px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
+      <div class="cadastro-input-group">
+        <label for="cadastro-papel" class="cadastro-label">Clique abaixo e escolha o seu papel:</label>
+        <select class="cadastro-papel-btn" id="cadastro-papel" name="papel" required>
+          <option value="aluno">Aluno</option>
+          <option value="professor">Professor</option>
+        </select>
+      </div>
 
-    .cadastro-extra-links div {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      width: 100%;
-    }
+      <div class="cadastro-button-group">
+        <button type="submit" class="cadastro-btn">Cadastrar</button>
+      </div>
+    </form>
 
-    /* Media Queries para responsividade */
-    @media (min-width: 1200px) {
-      .cadastro-container {
-        max-width: 500px;
-        padding: 40px;
-      }
-
-      .cadastro-container h2 {
-        font-size: 26px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .cadastro-container {
-        padding: 25px;
-        max-width: 90%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cadastro-container {
-        padding: 20px 15px;
-        max-width: 95%;
-      }
-
-      .cadastro-container h2 {
-        font-size: 22px;
-        margin-bottom: 25px;
-      }
-
-      .cadastro-btn {
-        padding: 10px 25px;
-        min-width: 160px;
-      }
-    }
-  </style>
-
-  <main id="cadastro-page">
-    <div class="cadastro-container">
-      <h2>Faça o seu cadastro abaixo:</h2>
-      <form id="cadastro-form" action="/usuarios/inserir-usuarios" method="post">
-        <div class="cadastro-input-group">
-          <label for="cadastro-nome" class="cadastro-label">Digite seu nome:</label>
-          <input type="text" id="cadastro-nome" name="nome" class="cadastro-input" required>
-        </div>
-
-        <div class="cadastro-input-group">
-          <label for="cadastro-email" class="cadastro-label">Digite seu e-mail:</label>
-          <input type="email" id="cadastro-email" name="email" class="cadastro-input" required>
-        </div>
-
-        <div class="cadastro-input-group">
-          <label for="cadastro-senha" class="cadastro-label">Digite sua senha:</label>
-          <input type="password" id="cadastro-senha" name="senha" class="cadastro-input" required>
-        </div>
-
-        <div class="cadastro-input-group">
-          <label for="cadastro-papel" class="cadastro-label">Clique abaixo e escolha o seu papel:</label>
-          <select class="cadastro-papel-btn" id="cadastro-papel" name="papel" required>
-            <option value="aluno">Aluno</option>
-            <option value="professor">Professor</option>
-          </select>
-        </div>
-
-        <div class="cadastro-button-group">
-          <button type="submit" class="cadastro-btn">Cadastrar</button>
-        </div>
-      </form>
-
-      <div class="cadastro-extra-links">
-        <p>Já tem uma conta? faça login abaixo:</p>
-        <div>
-          <button type="button" class="cadastro-btn"><a href="/login-usuario">Login do Usuário</a></button>
-          <button type="button" class="cadastro-btn"><a href="/login">Voltar</a></button>
-        </div>
+    <div class="cadastro-extra-links">
+      <p>Já tem uma conta? faça login abaixo:</p>
+      <div>
+        <button type="button" class="cadastro-btn"><a href="/login-usuario">Login do Usuário</a></button>
+        <button type="button" class="cadastro-btn"><a href="/login">Voltar</a></button>
       </div>
     </div>
-  </main>
-
-  <%- include('../partials/footer') %>
+  </div>
+</main>
