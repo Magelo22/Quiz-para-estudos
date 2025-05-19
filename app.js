@@ -4,7 +4,6 @@ const app = express();
 const pool = require('./db');
 const { title } = require('process');
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
-const UsuariosController = require('./src/controllers/usuariosController');
 const session = require('express-session');
 const verificarAutenticacao = require('./src/middleware/usuarioMiddleware');
 
