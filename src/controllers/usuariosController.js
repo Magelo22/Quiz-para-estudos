@@ -85,7 +85,7 @@ class UsuariosController {
                 return res.status(400).send("Preencha todos os campos");
             }
             await UsuariosModel.update(id, nome, email, senha, papel);
-            res.redirect('/users');
+            res.redirect('/usuarios/users');
         } catch (error) {
             console.error('Erro no postgreSQL', error);
             return res.status(500).send("Error ao atualizar Usuario");
@@ -99,10 +99,27 @@ class UsuariosController {
                 return res.status(400).send("ID não encontrado!");
             }
             await UsuariosModel.delete(id);
-            res.redirect('/users');
+            res.redirect('/usuarios/users');
         } catch (error) {
             console.error('Erro no postgreSQL', error);
             return res.status(500).send("Error ao deletar Usuario");
+        }
+    }
+
+    static async getPerfil(req,res){
+        const id = req.params.id;
+        try{
+            if(!id){
+                return res.status(400).send("ID não encontrado!");
+            }
+            const usuario = await UsuariosModel.findById(id);
+            if(!usuario){
+                return res.status(404).send("Usuario não encontrado!");
+            }
+            res.render('pages/perfil-usuario', {usuario, title: 'Perfil do Usuario'});
+        } catch(error){
+            console.error('Erro no postgreSQL', error);
+            return res.status(500).send("Error ao buscar Usuario");
         }
     }
 

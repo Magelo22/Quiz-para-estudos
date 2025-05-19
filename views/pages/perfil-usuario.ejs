@@ -1,0 +1,270 @@
+<%- include('../partials/header')%>
+    <style>
+        /* Reset para garantir que não haja margens indesejadas */
+        #perfil-usuario-page-container {
+            height: 100%;
+            width: 100%;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        #perfil-usuario-page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f7fa;
+            margin: 0;
+            /* Remove margens padrão */
+        }
+
+        #perfil-usuario-page-header {
+            background: linear-gradient(135deg, #3b4d9c 0%, #1e2a5a 100%);
+            color: white;
+            padding: 3rem 1.5rem 2rem;
+            /* Aumentei o padding-top para 3rem */
+            text-align: center;
+            position: relative;
+            margin-top: 0;
+            /* Garante que não haja margem superior */
+        }
+
+        #perfil-usuario-page-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            /* Centraliza a imagem */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: block;
+            /* Garante que a margin auto funcione */
+            aspect-ratio: 1/1;
+            /* Garante que a imagem mantenha proporção quadrada */
+        }
+
+        /* Restante do CSS permanece igual */
+        .perfil-usuario-page-nome {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .perfil-usuario-page-email {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .perfil-usuario-page-papel {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        #perfil-usuario-page-content {
+            flex: 1;
+            padding: 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .perfil-usuario-page-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .perfil-usuario-page-card-title {
+            font-size: 1.3rem;
+            color: #3b4d9c;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .perfil-usuario-page-info-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .perfil-usuario-page-info-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 120px;
+        }
+
+        .perfil-usuario-page-info-value {
+            color: #333;
+            flex: 1;
+        }
+
+        #perfil-usuario-page-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .perfil-usuario-page-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .perfil-usuario-page-btn-primary {
+            background-color: #3b4d9c;
+            color: white;
+        }
+
+        .perfil-usuario-page-btn-secondary {
+            background-color: #e9ecef;
+            color: #333;
+        }
+
+        .perfil-usuario-page-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .perfil-usuario-page-btn-primary:hover {
+            background-color: #2c3a75;
+        }
+
+        .perfil-usuario-page-btn-secondary:hover {
+            background-color: #dde0e3;
+        }
+
+        @media (max-width: 768px) {
+            .perfil-usuario-page-nome {
+                font-size: 1.5rem;
+            }
+
+            #perfil-usuario-page-avatar {
+                width: 100px;
+                height: 100px;
+            }
+
+            .perfil-usuario-page-info-row {
+                flex-direction: column;
+            }
+
+            .perfil-usuario-page-info-label {
+                margin-bottom: 0.3rem;
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #perfil-usuario-page-header {
+                padding: 2rem 1rem 1.5rem;
+                /* Ajuste no padding para mobile */
+            }
+
+            #perfil-usuario-page-avatar {
+                width: 80px;
+                height: 80px;
+            }
+
+            .perfil-usuario-page-nome {
+                font-size: 1.3rem;
+            }
+
+            #perfil-usuario-page-actions {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .perfil-usuario-page-btn {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <div id="perfil-usuario-page-container">
+        <div id="perfil-usuario-page-wrapper">
+            <header id="perfil-usuario-page-header">
+                <img id="perfil-usuario-page-avatar"
+                    src="https://i.pinimg.com/236x/39/fe/9a/39fe9a99de1698c28a5592026cc280c8.jpg"
+                    alt="Imagem do Usuario">
+                <h1 class="perfil-usuario-page-nome">
+                    <%=usuario.nome%>
+                </h1>
+                <p class="perfil-usuario-page-email">
+                    <%=usuario.email%>
+                </p>
+                <span class="perfil-usuario-page-papel">
+                    <%=usuario.papel%>
+                </span>
+            </header>
+
+            <main id="perfil-usuario-page-content">
+                <section class="perfil-usuario-page-card">
+                    <h2 class="perfil-usuario-page-card-title">Informações Pessoais</h2>
+
+                    <div class="perfil-usuario-page-info-row">
+                        <span class="perfil-usuario-page-info-label">Nome completo:</span>
+                        <span class="perfil-usuario-page-info-value">
+                            <%=usuario.nome%>
+                        </span>
+                    </div>
+
+                    <div class="perfil-usuario-page-info-row">
+                        <span class="perfil-usuario-page-info-label">Data de nascimento:</span>
+                        <span class="perfil-usuario-page-info-value">
+                            <%=usuario.datnas%>
+                        </span>
+                    </div>
+
+                    <div class="perfil-usuario-page-info-row">
+                        <span class="perfil-usuario-page-info-label">Telefone:</span>
+                        <span class="perfil-usuario-page-info-value">
+                            <%= usuario.tel%>
+                        </span>
+                    </div>
+                </section>
+
+                <section class="perfil-usuario-page-card">
+                    <h2 class="perfil-usuario-page-card-title">Progresso</h2>
+
+                    <div class="perfil-usuario-page-info-row">
+                        <span class="perfil-usuario-page-info-label">Cursos completos:</span>
+                        <span class="perfil-usuario-page-info-value"></span>
+                    </div>
+
+                    <div class="perfil-usuario-page-info-row">
+                        <span class="perfil-usuario-page-info-label">Lições concluídas:</span>
+                        <span class="perfil-usuario-page-info-value"></span>
+                    </div>
+
+                    <div class="perfil-usuario-page-info-row">
+                        <span class="perfil-usuario-page-info-label">Pontuação total:</span>
+                        <span class="perfil-usuario-page-info-value"></span>
+                    </div>
+                </section>
+
+                <div id="perfil-usuario-page-actions">
+                    <button class="perfil-usuario-page-btn perfil-usuario-page-btn-primary">Editar Perfil</button>
+                    <button class="perfil-usuario-page-btn perfil-usuario-page-btn-secondary">Alterar Senha</button>
+                    <a href="/usuarios/logout"
+                        class="perfil-usuario-page-btn perfil-usuario-page-btn-secondary">Sair</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include('../partials/footer')%>
