@@ -8,7 +8,7 @@ CREATE TABLE usuarios (
     senha VARCHAR(255) NOT NULL,
     papel VARCHAR(10) CHECK (papel IN ('aluno', 'professor')) NOT NULL,
     telefone VARCHAR(15),
-    data_nasc DATE CHECK (data_nasc <= CURRENT_DATE),
+    data_nasc VARCHAR(10),
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
