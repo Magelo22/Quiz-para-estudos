@@ -152,24 +152,11 @@
   <main id="atualizacao-page">
     <div class="atualizacao-container">
       <h2>Atualize os dados abaixo:</h2>
-      <form id="atualizacao-form" action="/usuarios/atualizar-usuarios/<%=usuario.id%>" method="post">
+      <form id="atualizacao-form" action="/usuarios/atualizar-usuario/<%=usuario.id%>" method="post">
         <div class="atualizacao-input-group">
-          <label for="nome" class="atualizacao-label">Digite seu nome:</label>
+          <label for="nome" class="atualizacao-label">Digite seu novo nome:</label>
           <input type="text" id="atualizacao-nome" name="nome" class="atualizacao-input" value="<%= usuario.nome%>"
             required>
-        </div>
-
-        <div class="atualizacao-input-group">
-          <label for="email" class="atualizacao-label">Digite seu e-mail:</label>
-          <input type="email" id="atualizacao-email" name="email" class="atualizacao-input" value="<%= usuario.email %>"
-            required>
-        </div>
-
-
-        <div class="atualizacao-input-group">
-          <label for="senha" class="atualizacao-label">Digite sua senha:</label>
-          <input type="password" id="atualizacao-senha" name="senha" class="atualizacao-input"
-            value="<%= usuario.senha%>" required>
         </div>
 
         <div class="atualizacao-input-group">
@@ -185,12 +172,13 @@
         </div>
 
         <div class="atualizacao-input-group">
-          <label for="papel" class="atualizacao-label">Escolha o seu papel:</label>
+          <label for="atualizacao-papel" class="atualizacao-label">Escolha o seu papel:</label>
           <select class="atualizacao-papel-btn" id="atualizacao-papel" name="papel" required>
             <option value="aluno" <%=usuario.papel==='aluno' ? 'selected' : '' %>>Aluno</option>
             <option value="professor" <%=usuario.papel==='professor' ? 'selected' : '' %>>Professor</option>
           </select>
         </div>
+
 
         <div class="atualizacao-button-group">
           <button type="submit" class="atualizacao-btn">Atualizar</button>

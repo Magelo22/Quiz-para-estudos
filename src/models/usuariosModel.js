@@ -20,8 +20,12 @@ class UsuariosModel {
         await pool.query('INSERT INTO usuarios (nome,email,senha, papel) VALUES ($1,$2,$3,$4)', [nome, email, senha, papel]);
     }
 
-    static async update(id, nome, email, senha, papel) {
-        await pool.query('UPDATE usuarios SET nome = $1, email = $2, senha = $3, papel = $4 WHERE id = $5', [nome, email, senha, papel, id]);
+    static async update(id, nome, email, senha, telefone, data_nasc, papel) {
+        await pool.query('UPDATE usuarios SET nome = $1, email = $2, senha = $3, telefone = $4, data_nasc = $5, papel = $6 WHERE id = $7', [nome, email, senha, telefone, data_nasc, papel, id]);
+    }
+
+    static async updatePerfil(id, nome, telefone, data_nasc, papel) {
+        await pool.query('UPDATE usuarios SET nome = $1, telefone = $2, data_nasc = $3, papel = $4 WHERE id = $5', [nome, telefone, data_nasc, papel, id]);
     }
 
     static async delete(id) {

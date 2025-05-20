@@ -1,31 +1,28 @@
 <%- include('../partials/header')%>
+
     <style>
-        #perfil-usuario-page-container {
-            height: 100%;
-            width: 100%;
-            background-color: #f5f7fa;
+        .perfil-usuario-main {
             margin: 0;
             padding: 0;
-        }
-
-        #perfil-usuario-page-wrapper {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-color: #f5f7fa;
-            margin: 0;
+        }
 
+        #perfil-usuario-page-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         #perfil-usuario-page-header {
             background: linear-gradient(135deg, #3b4d9c 0%, #1e2a5a 100%);
             color: white;
             padding: 3rem 1.5rem 2rem;
-
             text-align: center;
             position: relative;
-            margin-top: 0;
-
         }
 
         #perfil-usuario-page-avatar {
@@ -35,23 +32,18 @@
             border: 4px solid white;
             object-fit: cover;
             margin: 0 auto 1rem;
-
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            display: block;
-
             aspect-ratio: 1/1;
-
         }
 
-
         .perfil-usuario-page-nome {
-            font-size: 1.8rem;
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .perfil-usuario-page-email {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             opacity: 0.9;
             margin-bottom: 1rem;
         }
@@ -70,6 +62,7 @@
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .perfil-usuario-page-card {
@@ -81,7 +74,7 @@
         }
 
         .perfil-usuario-page-card-title {
-            font-size: 1.3rem;
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
             color: #3b4d9c;
             margin-bottom: 1.2rem;
             padding-bottom: 0.5rem;
@@ -89,19 +82,20 @@
         }
 
         .perfil-usuario-page-info-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: 150px 1fr;
             margin-bottom: 1rem;
+            align-items: center;
+            gap: 1rem;
         }
 
         .perfil-usuario-page-info-label {
             font-weight: 600;
             color: #555;
-            min-width: 120px;
         }
 
         .perfil-usuario-page-info-value {
             color: #333;
-            flex: 1;
         }
 
         #perfil-usuario-page-actions {
@@ -109,6 +103,7 @@
             gap: 1rem;
             margin-top: 2rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .perfil-usuario-page-btn {
@@ -120,9 +115,11 @@
             border: none;
             flex: 1;
             min-width: 150px;
+            max-width: 250px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
+            font-size: clamp(0.9rem, 3vw, 1rem);
         }
 
         .perfil-usuario-page-btn-primary {
@@ -133,6 +130,17 @@
         .perfil-usuario-page-btn-secondary {
             background-color: #e9ecef;
             color: #333;
+        }
+
+        .perfil-usuario-page-btn-terciary {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .perfil-usuario-page-a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .perfil-usuario-page-btn:hover {
@@ -148,9 +156,14 @@
             background-color: #dde0e3;
         }
 
+        .perfil-usuario-page-btn-terciary:hover {
+            background-color: #ff5252;
+        }
+
+
         @media (max-width: 768px) {
-            .perfil-usuario-page-nome {
-                font-size: 1.5rem;
+            #perfil-usuario-page-header {
+                padding: 2.5rem 1rem 1.5rem;
             }
 
             #perfil-usuario-page-avatar {
@@ -158,12 +171,26 @@
                 height: 100px;
             }
 
+            #perfil-usuario-page-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .perfil-usuario-page-card {
+                padding: 1.2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
             .perfil-usuario-page-info-row {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
             }
 
             .perfil-usuario-page-info-label {
-                margin-bottom: 0.3rem;
+                width: 100%;
+            }
+
+            .perfil-usuario-page-info-value {
                 min-width: 100%;
             }
         }
@@ -171,31 +198,27 @@
         @media (max-width: 480px) {
             #perfil-usuario-page-header {
                 padding: 2rem 1rem 1.5rem;
-
             }
 
             #perfil-usuario-page-avatar {
-                width: 80px;
-                height: 80px;
-            }
-
-            .perfil-usuario-page-nome {
-                font-size: 1.3rem;
+                width: 90px;
+                height: 90px;
             }
 
             #perfil-usuario-page-actions {
                 flex-direction: column;
-                gap: 0.8rem;
+                align-items: center;
             }
 
             .perfil-usuario-page-btn {
                 width: 100%;
+                max-width: 100%;
             }
         }
     </style>
 
-    <div id="perfil-usuario-page-container">
-        <div id="perfil-usuario-page-wrapper">
+    <div id="perfil-usuario-main">
+        <div class="perfil-usuario-page-wrapper">
             <header id="perfil-usuario-page-header">
                 <img id="perfil-usuario-page-avatar"
                     src="https://i.pinimg.com/236x/39/fe/9a/39fe9a99de1698c28a5592026cc280c8.jpg"
@@ -211,7 +234,7 @@
                 </span>
             </header>
 
-            <main id="perfil-usuario-page-content">
+            <div id="perfil-usuario-page-content">
                 <section class="perfil-usuario-page-card">
                     <h2 class="perfil-usuario-page-card-title">Informações Pessoais</h2>
 
@@ -225,14 +248,14 @@
                     <div class="perfil-usuario-page-info-row">
                         <span class="perfil-usuario-page-info-label">Data de nascimento:</span>
                         <span class="perfil-usuario-page-info-value">
-                            <%=usuario.datnas%>
+                            <%=usuario.data_nasc%>
                         </span>
                     </div>
 
                     <div class="perfil-usuario-page-info-row">
                         <span class="perfil-usuario-page-info-label">Telefone:</span>
                         <span class="perfil-usuario-page-info-value">
-                            <%= usuario.tel%>
+                            <%= usuario.telefone%>
                         </span>
                     </div>
                 </section>
@@ -257,13 +280,17 @@
                 </section>
 
                 <div id="perfil-usuario-page-actions">
-                    <button class="perfil-usuario-page-btn perfil-usuario-page-btn-primary">Editar Perfil</button>
+                    <button class="perfil-usuario-page-btn perfil-usuario-page-btn-primary">
+                        <a class="perfil-usuario-page-a" href="/usuarios/editar-usuario/<%=usuario.id%>">Editar
+                            Perfil</a>
+                    </button>
                     <button class="perfil-usuario-page-btn perfil-usuario-page-btn-secondary">Alterar Senha</button>
-                    <a href="/usuarios/logout"
-                        class="perfil-usuario-page-btn perfil-usuario-page-btn-secondary">Sair</a>
+                    <button class="perfil-usuario-page-btn perfil-usuario-page-btn-terciary">
+                        <a class="perfil-usuario-page-a" href="/usuarios/logout">Sair</a>
+                    </button>
                 </div>
-            </main>
+            </div>
         </div>
-    </div>
+        </main>
 
-    <%- include('../partials/footer')%>
+        <%- include ('../partials/footer') %>

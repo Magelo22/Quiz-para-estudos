@@ -63,6 +63,8 @@ class UsuariosController {
         }
     }
 
+
+
     static async inserir(req, res) {
         const { nome, email, senha, papel } = req.body;
         try {
@@ -79,12 +81,12 @@ class UsuariosController {
 
     static async atualizar(req, res) {
         const id = req.params.id;
-        const { nome, email, senha, papel } = req.body;
+        const { nome, email, senha, telefone, data_nasc, papel } = req.body;
         try {
-            if (!nome || !email || !senha) {
+            if (!nome || !email || !senha || !telefone || !data_nasc) {
                 return res.status(400).send("Preencha todos os campos");
             }
-            await UsuariosModel.update(id, nome, email, senha, papel);
+            await UsuariosModel.update(id, nome, email, senha, telefone, data_nasc, papel);
             res.redirect('/usuarios/users');
         } catch (error) {
             console.error('Erro no postgreSQL', error);
@@ -106,20 +108,49 @@ class UsuariosController {
         }
     }
 
-    static async getPerfil(req,res){
+    static async getPerfil(req, res) {
         const id = req.params.id;
-        try{
-            if(!id){
+        try {
+            if (!id) {
                 return res.status(400).send("ID não encontrado!");
             }
             const usuario = await UsuariosModel.findById(id);
-            if(!usuario){
+            if (!usuario) {
                 return res.status(404).send("Usuario não encontrado!");
             }
-            res.render('pages/perfil-usuario', {usuario, title: 'Perfil do Usuario'});
-        } catch(error){
+            res.render('pages/perfil-usuario', { usuario, title: 'Perfil do Usuario' });
+        } catch (error) {
             console.error('Erro no postgreSQL', error);
             return res.status(500).send("Error ao buscar Usuario");
+        }
+    }
+
+    static async editPerfil(req, res) {
+        const id = req.params.id;
+        try {
+            if (!id) {
+                return res.status(400).send("ID não encontrado!");
+            }
+            const usuario = await UsuariosModel.findById(id);
+            res.render('pages/editar-usuario', { usuario, title: "Editar Perfil" });
+        } catch (error) {
+            console.error('Erro no postgreSQL', error);
+            return res.status(500).send("Error ao buscar Usuario");
+        }
+    }
+
+    static async atualizarPerfil(req, res) {
+        const id = req.params.id;
+        const { nome, telefone, data_nasc, papel } = req.body;
+        try {
+            if (!nome || !telefone || !data_nasc || !papel) {
+                return res.status(400).send("Preencha todos os campos");
+            }
+            await UsuariosModel.updatePerfil(id, nome, telefone, data_nasc, papel);
+            res.redirect(`/usuarios/perfil-usuario/${id}`);
+        } catch (error) {
+            console.error('Erro no postgreSQL', error);
+            return res.status(500).send("Error ao atualizar Usuario");
         }
     }
 
