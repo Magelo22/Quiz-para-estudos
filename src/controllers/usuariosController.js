@@ -1,4 +1,6 @@
 const UsuariosModel = require('../models/usuariosModel');
+const path = require('path');
+const fs = require('fs');
 
 class UsuariosController {
     static async logar(req, res) {
@@ -124,6 +126,40 @@ class UsuariosController {
             return res.status(500).send("Error ao buscar Usuario");
         }
     }
+
+    static async updateAvatar(req, res) {
+        const id = req.params.id;
+        if (!req.file) {
+            return res.status(400).send("Arquivo não encontrado!");
+        }
+        try {
+            const avatarPath = path.join('uploads', req.file.filename).replace(/\\/g, '/');
+            await UsuariosModel.updateAvatar(id, avatarPath);
+            res.redirect(`/usuarios/perfil-usuario/${id}`);
+        } catch (error) {
+            console.error('Erro no postgreSQL', error);
+            return res.status(500).send("Error ao atualizar Avatar");
+        }
+    }
+
+    static async getAvatar(req, res) {
+        const id = req.params.id;
+        try {
+            const avatarPath = await UsuariosModel.getAvatarPath(id);
+            if (!avatarPath) {
+                res.sendFile(path.join(__dirname, '../public/images/default-avatar.png'));
+            }
+            const fullPath = path.join(__dirname, '../../public', avatarPath);
+            if (fs.existsSync(fullPath)) {
+                return res.sendFile(fullPath);
+            }
+        } catch (error) {
+            console.error('Erro no postgreSQL', error);
+            return res.status(500).send("Error ao buscar Avatar");
+        }
+    }
+
+
 
     static async editPerfil(req, res) {
         const id = req.params.id;

@@ -8,6 +8,7 @@ CREATE TABLE usuarios (
     papel VARCHAR(10) CHECK (papel IN ('aluno', 'professor')) NOT NULL,
     telefone VARCHAR(15),
     data_nasc VARCHAR(10),
+    avatar_path VARCHAR(255),
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 

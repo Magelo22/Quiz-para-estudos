@@ -1,6 +1,8 @@
 const express = require('express');
 const UsuariosController = require('../controllers/usuariosController');
 const router = express.Router();
+const upload = require('../config/multer');
+
 const verificarAutenticacao = require('../middleware/usuarioMiddleware');
 const verificarAutoridade = require('../middleware/usuarioAdmin');
 
@@ -14,6 +16,9 @@ router.post('/atualizar-usuarios/:id', verificarAutenticacao, verificarAutoridad
 router.post('/atualizar-usuario/:id', verificarAutenticacao, UsuariosController.atualizarPerfil);
 router.get('/deletar-usuarios/:id', verificarAutenticacao, verificarAutoridade, UsuariosController.deletar);
 router.get('/perfil-usuario/:id', verificarAutenticacao, UsuariosController.getPerfil);
+router.post('/perfil-usuario/:id/avatar', upload, UsuariosController.updateAvatar);
+router.get('/avatar/:id', UsuariosController.getAvatar);
+
 
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {

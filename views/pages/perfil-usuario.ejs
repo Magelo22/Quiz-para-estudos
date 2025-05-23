@@ -220,9 +220,13 @@
     <div id="perfil-usuario-main">
         <div class="perfil-usuario-page-wrapper">
             <header id="perfil-usuario-page-header">
-                <img id="perfil-usuario-page-avatar"
-                    src="https://i.pinimg.com/236x/39/fe/9a/39fe9a99de1698c28a5592026cc280c8.jpg"
-                    alt="Imagem do Usuario">
+                <img id="perfil-usuario-page-avatar" src='/usuarios/avatar/<%=usuario.id%>'
+                    alt='Avatar de <%= usuario.nome%>' onerror="this.src='/images/default-avatar.png'">
+                <form action="/usuarios/perfil-usuario/<%= usuario.id %>/avatar" method="post"
+                    enctype="multipart/form-data">
+                    <input type="file" name="avatar" accept="image/*" required>
+                    <button type="submit">Atualizar Avatar</button>
+                </form>
                 <h1 class="perfil-usuario-page-nome">
                     <%=usuario.nome%>
                 </h1>
@@ -284,7 +288,6 @@
                         <a class="perfil-usuario-page-a" href="/usuarios/editar-usuario/<%=usuario.id%>">Editar
                             Perfil</a>
                     </button>
-                    <button class="perfil-usuario-page-btn perfil-usuario-page-btn-secondary">Alterar Senha</button>
                     <button class="perfil-usuario-page-btn perfil-usuario-page-btn-terciary">
                         <a class="perfil-usuario-page-a" href="/usuarios/logout">Sair</a>
                     </button>

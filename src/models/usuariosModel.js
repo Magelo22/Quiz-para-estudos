@@ -28,6 +28,15 @@ class UsuariosModel {
         await pool.query('UPDATE usuarios SET nome = $1, telefone = $2, data_nasc = $3, papel = $4 WHERE id = $5', [nome, telefone, data_nasc, papel, id]);
     }
 
+    static async updateAvatar(id, avatarPath) {
+        await pool.query('UPDATE usuarios SET avatar_path = $1 WHERE id = $2', [avatarPath, id]);
+    }
+
+    static async getAvatarPath(id) {
+        const result = await pool.query('SELECT avatar_path FROM usuarios WHERE id = $1', [id]);
+        return result.rows[0]?.avatar_path;
+    }
+
     static async delete(id) {
         await pool.query('DELETE FROM usuarios WHERE id = $1', [id]);
     }
