@@ -113,6 +113,42 @@
       box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
+    #perfil-usuario-page-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid white;
+      object-fit: cover;
+      margin: 0 auto 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      aspect-ratio: 1/1;
+    }
+
+    .atualizacao-file-input {
+      display: none;
+    }
+
+    .atualizacao-file-label {
+      background-color: white;
+      color: #3c4a93;
+      font-weight: bold;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      margin: 10px 0;
+      transition: all 0.3s ease;
+      min-width: 220px;
+    }
+
+    .atualizacao-file-label:hover {
+      background-color: #e6e6e6;
+      transform: translateY(-2px);
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
     @media (min-width: 1200px) {
       .atualizacao-container {
         max-width: 500px;
@@ -137,6 +173,11 @@
         max-width: 95%;
       }
 
+      #perfil-usuario-page-avatar {
+        width: 90px;
+        height: 90px;
+      }
+
       .atualizacao-container h2 {
         font-size: 22px;
       }
@@ -152,6 +193,16 @@
   <main id="atualizacao-page">
     <div class="atualizacao-container">
       <h2>Atualize os dados abaixo:</h2>
+      <div>
+        <img id="perfil-usuario-page-avatar" src='/usuarios/avatar/<%=usuario.id%>' alt='Avatar de <%= usuario.nome%>'
+          onerror="this.src='/images/default-avatar.png'">
+        <form action="/usuarios/perfil-usuario/<%= usuario.id %>/avatar" method="post" enctype="multipart/form-data">
+          <input type="file" id="avatar-upload" name="avatar" class="atualizacao-file-input" accept="image/*" required>
+          <label for="avatar-upload" class="atualizacao-file-label">Escolha a Imagem</label>
+          <br><br>
+          <button class="atualizacao-btn" type="submit">Atualizar Imagem</button>
+        </form>
+      </div>
       <form id="atualizacao-form" action="/usuarios/atualizar-usuario/<%=usuario.id%>" method="post">
         <div class="atualizacao-input-group">
           <label for="nome" class="atualizacao-label">Digite seu novo nome:</label>
@@ -178,7 +229,6 @@
             <option value="professor" <%=usuario.papel==='professor' ? 'selected' : '' %>>Professor</option>
           </select>
         </div>
-
 
         <div class="atualizacao-button-group">
           <button type="submit" class="atualizacao-btn">Atualizar</button>

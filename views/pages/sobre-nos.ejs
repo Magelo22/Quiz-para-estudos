@@ -1,0 +1,354 @@
+<%- include ('../partials/header') %>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .pagina-sobre-nos {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .about-hero {
+            background: linear-gradient(135deg, #3b4d9c 0%, #1e2a5a 100%);
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .about-hero .lead {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            padding-bottom: 15px;
+            font-size: 2.5rem;
+            color: #3b4d9c;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #3b4d9c;
+        }
+
+        .about-mission {
+            padding: 100px 0;
+            background: #f9f9f9;
+        }
+
+        .mission-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .mission-card h2 {
+            color: #3b4d9c;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 2rem;
+        }
+
+        .mission-card p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .about-team {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .team-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+        }
+
+        .perfil-usuario-page-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin: 0 auto 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .position {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .team-card p {
+            color: #303030;
+            font-size: 1.1rem;
+        }
+
+
+        .about-values {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #3b4d9c 0%, #1e2a5a 100%);
+            color: white;
+        }
+
+        .values-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .value-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .value-card i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+            color: #fff;
+        }
+
+        .value-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 80px 0;
+            }
+
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-hero .lead {
+                font-size: 1.4rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .mission-card,
+            .team-card,
+            .value-card {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+
+    <main class="pagina-sobre-nos">
+        <section class="about-hero">
+            <div class="container">
+                <h1>Sobre a Infor Quizz</h1>
+                <p class="lead">Revolucionando a educação através de experiências de aprendizagem interativas e
+                    personalizadas</p>
+            </div>
+        </section>
+
+        <section class="about-mission">
+            <div class="container">
+                <h2 class="section-title">Nossa Razão de Existir</h2>
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <h2>Missão</h2>
+                        <p>Democratizar o acesso à educação de qualidade através de uma plataforma de quizzes
+                            inteligente que se adapta às necessidades de cada aprendiz, tornando o processo educacional
+                            mais eficiente, engajador e acessível.</p>
+                    </div>
+                    <div class="mission-card">
+                        <h2>Visão</h2>
+                        <p>Ser reconhecida como a principal plataforma de aprendizagem adaptativa da América Latina até
+                            2026, impactando positivamente a vida de mais de 2 milhões de estudantes e profissionais em
+                            busca de conhecimento.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-team">
+            <div class="container">
+                <h2 class="section-title">Liderança Inovadora</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <img src="/images/Magelo.webp" alt="Imagem do Francisco Magelo Moreira de Sousa Filho"
+                            class="perfil-usuario-page-avatar">
+                        <h3>
+                            Francisco Magelo Moreira de Sousa Filho
+                        </h3>
+                        <p class="position">Scrum Master e Desenvolvedor</p>
+                        <p>Especialista em metodologias ágeis e desenvolvimento de software educacional, com foco em
+                            criar experiências de aprendizagem significativas.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="/images/Carla.jpg" alt="" class="perfil-usuario-page-avatar">
+                        <h3>
+                            Carla Leticia Rodrigues Albuquerque
+                        </h3>
+                        <p class="position">Designer</p>
+                        <p>Designer especializado em experiências de aprendizagem inovadoras, com foco em design
+                            instrucional e interfaces intuitivas para educação, combinando criatividade e funcionalidade
+                            para engajar alunos e facilitar o conhecimento.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="/images/Caio.jpg" alt="Imagem do Caio Antony Almeida de Oliveira"
+                            class="perfil-usuario-page-avatar">
+                        <h3>
+                            Caio Antony Almeida de Oliveira
+                        </h3>
+                        <p class="position">Desenvolvedor</p>
+                        <p>Desenvolvedor(a) especializado em software educacional, focado em arquitetura limpa,
+                            usabilidade
+                            e integração de ferramentas pedagógicas para transformar a educação por meio da tecnologia.
+                        </p>
+                    </div>
+                    <div class="team-card">
+                        <img src="/images/Guilherme.jpg" alt="" class="perfil-usuario-page-avatar">
+                        <h3>
+                            João Guilherme Moura Gomes
+                        </h3>
+                        <p class="position">DBA</p>
+                        <p>DBA especializado em ambientes educacionais, com expertise em otimização, segurança e
+                            governança de dados para garantir alta disponibilidade e desempenho de sistemas de
+                            aprendizagem online.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="/images/Melquisedec.jpg" alt="" class="perfil-usuario-page-avatar">
+                        <h3>
+                            Melquisedec Ferreira Sousa
+                        </h3>
+                        <p class="position">Desenvolvedor</p>
+                        <p>Desenvolvedor especializado em software educacional, focado em arquitetura limpa, usabilidade
+                            e integração de ferramentas pedagógicas para transformar a educação por meio da tecnologia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-values">
+            <div class="container">
+                <h2 class="section-title" style="color: #fff;">Nossos Princípios</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Inovação Contínua</h3>
+                        <p>Estamos sempre buscando novas formas de melhorar a experiência de aprendizagem através da
+                            tecnologia mais avançada, mantendo-nos na vanguarda da educação digital.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Excelência Pedagógica</h3>
+                        <p>Nosso conteúdo é desenvolvido em parceria com especialistas e baseado nas mais recentes
+                            pesquisas em ciência da aprendizagem e neuroeducação.</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Impacto Social</h3>
+                        <p>Acreditamos no poder transformador da educação e nos comprometemos a tornar o conhecimento
+                            acessível a todos, independentemente de sua condição socioeconômica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include ('../partials/footer') %>

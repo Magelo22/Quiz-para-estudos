@@ -41,6 +41,10 @@ app.get('/explorar', verificarAutenticacao, (req, res) => {
     res.render('pages/explorar', { title: "Explorar" });
 });
 
+app.get('/sobre-nos', verificarAutenticacao, (req,res) =>{
+    res.render('pages/sobre-nos', { title: "Sobre Nós" });
+})
+
 app.get('/login', (req, res) => {
     res.render('pages/login', { title: "Login" });
 });

@@ -127,10 +127,6 @@
             color: white;
         }
 
-        .perfil-usuario-page-btn-secondary {
-            background-color: #e9ecef;
-            color: #333;
-        }
 
         .perfil-usuario-page-btn-terciary {
             background-color: #ff6b6b;
@@ -150,10 +146,6 @@
 
         .perfil-usuario-page-btn-primary:hover {
             background-color: #2c3a75;
-        }
-
-        .perfil-usuario-page-btn-secondary:hover {
-            background-color: #dde0e3;
         }
 
         .perfil-usuario-page-btn-terciary:hover {
@@ -222,11 +214,6 @@
             <header id="perfil-usuario-page-header">
                 <img id="perfil-usuario-page-avatar" src='/usuarios/avatar/<%=usuario.id%>'
                     alt='Avatar de <%= usuario.nome%>' onerror="this.src='/images/default-avatar.png'">
-                <form action="/usuarios/perfil-usuario/<%= usuario.id %>/avatar" method="post"
-                    enctype="multipart/form-data">
-                    <input type="file" name="avatar" accept="image/*" required>
-                    <button type="submit">Atualizar Avatar</button>
-                </form>
                 <h1 class="perfil-usuario-page-nome">
                     <%=usuario.nome%>
                 </h1>

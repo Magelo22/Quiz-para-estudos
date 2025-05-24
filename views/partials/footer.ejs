@@ -1,9 +1,87 @@
-<footer>
-    <div class="footer-content">
-        <p>&copy; <span id="current-year"></span> Meu Site. Todos os direitos reservados.</p>
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #footer {
+        background-color: #3c4a93;
+        color: #fff;
+        padding: 30px 0;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .footer-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        padding: 5px 0;
+    }
+
+    .footer-links a:hover {
+        transform: translateY(-2px);
+    }
+
+    .footer-content {
+        margin-top: 15px;
+    }
+
+    .footer-content p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+
+    @media (max-width: 600px) {
+        .footer-links {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #footer {
+            padding: 20px 0;
+        }
+    }
+</style>
+
+<footer id="footer">
+    <div class="footer-container">
+        <div class="footer-links">
+            <a href="/">Início</a>
+            <a href="/explorar">Explorar</a>
+            <a href="/sobre-nos">Sobre</a>
+        </div>
+        <div class="footer-content">
+            <p>&copy; <span id="current-year"></span> Meu Site. Todos os direitos reservados.</p>
+        </div>
     </div>
 </footer>
+
 <script>
-    const currentYear = new Date().getFullYear();
-    document.getElementById('current-year').textContent = currentYear;
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 </script>

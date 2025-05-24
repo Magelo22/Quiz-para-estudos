@@ -135,7 +135,7 @@ class UsuariosController {
         try {
             const avatarPath = path.join('uploads', req.file.filename).replace(/\\/g, '/');
             await UsuariosModel.updateAvatar(id, avatarPath);
-            res.redirect(`/usuarios/perfil-usuario/${id}`);
+            res.redirect(`/usuarios/editar-usuario/${id}`);
         } catch (error) {
             console.error('Erro no postgreSQL', error);
             return res.status(500).send("Error ao atualizar Avatar");
@@ -146,12 +146,15 @@ class UsuariosController {
         const id = req.params.id;
         try {
             const avatarPath = await UsuariosModel.getAvatarPath(id);
-            if (!avatarPath) {
-                res.sendFile(path.join(__dirname, '../public/images/default-avatar.png'));
+            if (!avatarPath || typeof avatarPath !== 'string') {
+                return res.sendFile(path.join(__dirname, '../../public/images/default-avatar.png'));
             }
             const fullPath = path.join(__dirname, '../../public', avatarPath);
             if (fs.existsSync(fullPath)) {
                 return res.sendFile(fullPath);
+            }
+            else {
+                return res.sendFile(path.join(__dirname, '../../public/images/default-avatar.png'));
             }
         } catch (error) {
             console.error('Erro no postgreSQL', error);

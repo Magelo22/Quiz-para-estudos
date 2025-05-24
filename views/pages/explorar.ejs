@@ -1,11 +1,534 @@
 <%- include ('../partials/header') %>
 
-    <main>
-        <h1>Olá, bem vindo a página de explorar</h1>
-        <h1>Destaques:</h1>
-        <h2>aqui ficará os quizes</h2>
-        <h1>Em alta:</h1>
-        <h2>aqui ficará os quizes</h2>
+    <style>
+        :root {
+            --primary-color: #3c4a93;
+            --secondary-color: #2c3d80;
+            --accent-color: #4895ef;
+            --dark-color: #2b2d42;
+            --light-color: #f8f9fa;
+            --text-color: #495057;
+            --text-light: #6c757d;
+        }
+
+        .pagina-explore {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .explore-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Cabeçalho Principal */
+        .explore-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .explore-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .explore-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Seção de Filtros - Melhor Alinhamento */
+        .filters-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2.5rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .filter-select {
+            padding: 0.8rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            min-width: 200px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Banner Promocional - Centralizado */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            max-width: 1000px;
+            box-shadow: 0 4px 20px rgba(60, 74, 147, 0.2);
+        }
+
+        .promo-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .promo-button {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .promo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Seções de Conteúdo - Alinhamento Consistente */
+        .content-section {
+            margin-bottom: 3.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            color: var(--dark-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Categorias - Alinhamento Perfeito */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1.2rem;
+            justify-items: center;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            max-width: 180px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .category-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        /* Quizzes - Grid Alinhado */
+        .quizzes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            justify-items: center;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-image-container {
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .quiz-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .quiz-card:hover .quiz-image {
+            transform: scale(1.05);
+        }
+
+        .quiz-content {
+            padding: 1.5rem;
+        }
+
+        .quiz-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--dark-color);
+            line-height: 1.3;
+        }
+
+        .quiz-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .quiz-difficulty {
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .easy {
+            background: #e6f7ee;
+            color: #28a745;
+        }
+
+        .medium {
+            background: #fff8e6;
+            color: #ffc107;
+        }
+
+        .hard {
+            background: #feecec;
+            color: #dc3545;
+        }
+
+        /* Responsividade - Alinhamento em Todas as Telas */
+        @media (max-width: 992px) {
+            .explore-title {
+                font-size: 2.2rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .explore-title {
+                font-size: 2rem;
+            }
+
+            .promo-banner {
+                padding: 2rem 1.5rem;
+            }
+
+            .promo-title {
+                font-size: 1.6rem;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-bar {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .explore-title {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-card {
+                max-width: 100%;
+            }
+
+            .quizzes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-card {
+                max-width: 100%;
+            }
+        }
+    </style>
+
+    <main class="pagina-explore">
+        <div class="explore-container">
+            <!-- Cabeçalho Principal -->
+            <div class="explore-header">
+                <h1 class="explore-title">Explore Nossos Quizzes</h1>
+                <p class="explore-subtitle">Descubra e desafie seus conhecimentos em diversas áreas do saber</p>
+            </div>
+
+            <!-- Seção de Filtros - Perfeitamente Alinhada -->
+            <div class="filters-section">
+                <div class="search-filter">
+                    <div class="search-bar">
+                        <span class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </span>
+                        <input type="text" placeholder="Pesquisar quizzes...">
+                    </div>
+                    <select class="filter-select">
+                        <option value="">Todas Categorias</option>
+                        <option value="technology">Tecnologia</option>
+                        <option value="science">Ciências</option>
+                        <option value="history">História</option>
+                        <option value="math">Matemática</option>
+                        <option value="geography">Geografia</option>
+                        <option value="art">Artes</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">Todas Dificuldades</option>
+                        <option value="easy">Fácil</option>
+                        <option value="medium">Médio</option>
+                        <option value="hard">Difícil</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Banner Promocional - Centralizado e Alinhado -->
+            <div class="promo-banner">
+                <h3 class="promo-title">Quizzes Premium com Conteúdo Exclusivo</h3>
+                <p>Desbloqueie todos os recursos e desafios especiais</p>
+                <button class="promo-button">Experimente Grátis</button>
+            </div>
+
+            <!-- Seção de Categorias - Alinhamento Perfeito -->
+            <section class="content-section">
+                <h2 class="section-title">Navegue por Categorias</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">💻</div>
+                        <div>Tecnologia</div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🧪</div>
+                        <div>Ciências</div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">📜</div>
+                        <div>História</div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🧮</div>
+                        <div>Matemática</div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🌎</div>
+                        <div>Geografia</div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🎨</div>
+                        <div>Artes</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Quizzes em Destaque - Alinhamento Consistente -->
+            <section class="content-section">
+                <h2 class="section-title">Quizzes em Destaque</h2>
+                <div class="quizzes-grid">
+                    <div class="quiz-card">
+                        <div class="quiz-image-container">
+                            <img src="https://source.unsplash.com/random/600x400/?technology,code" alt="Programação"
+                                class="quiz-image">
+                        </div>
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Fundamentos de Programação</h3>
+                            <p class="quiz-description">Domine os conceitos básicos de lógica e algoritmos para iniciar
+                                sua jornada na programação</p>
+                            <div class="quiz-meta">
+                                <span>15 questões</span>
+                                <span class="quiz-difficulty easy">Fácil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quiz-card">
+                        <div class="quiz-image-container">
+                            <img src="https://source.unsplash.com/random/600x400/?science,chemistry" alt="Química"
+                                class="quiz-image">
+                        </div>
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Química Orgânica</h3>
+                            <p class="quiz-description">Explore as funções orgânicas e reações químicas essenciais para
+                                estudantes</p>
+                            <div class="quiz-meta">
+                                <span>20 questões</span>
+                                <span class="quiz-difficulty medium">Médio</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quiz-card">
+                        <div class="quiz-image-container">
+                            <img src="https://source.unsplash.com/random/600x400/?history,brazil"
+                                alt="História do Brasil" class="quiz-image">
+                        </div>
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Brasil Império</h3>
+                            <p class="quiz-description">Conheça os principais eventos e personalidades do período
+                                imperial brasileiro</p>
+                            <div class="quiz-meta">
+                                <span>18 questões</span>
+                                <span class="quiz-difficulty hard">Difícil</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Quizzes Recentes - Mesmo Padrão de Alinhamento -->
+            <section class="content-section">
+                <h2 class="section-title">Adicionados Recentemente</h2>
+                <div class="quizzes-grid">
+                    <div class="quiz-card">
+                        <div class="quiz-image-container">
+                            <img src="https://source.unsplash.com/random/600x400/?math,algebra" alt="Matemática"
+                                class="quiz-image">
+                        </div>
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Álgebra Linear</h3>
+                            <p class="quiz-description">Matrizes, vetores e transformações lineares para estudantes de
+                                exatas</p>
+                            <div class="quiz-meta">
+                                <span>12 questões</span>
+                                <span class="quiz-difficulty medium">Médio</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quiz-card">
+                        <div class="quiz-image-container">
+                            <img src="https://source.unsplash.com/random/600x400/?art,painting" alt="Artes"
+                                class="quiz-image">
+                        </div>
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">História da Arte</h3>
+                            <p class="quiz-description">Descubra os principais movimentos artísticos e seus grandes
+                                mestres</p>
+                            <div class="quiz-meta">
+                                <span>14 questões</span>
+                                <span class="quiz-difficulty easy">Fácil</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quiz-card">
+                        <div class="quiz-image-container">
+                            <img src="https://source.unsplash.com/random/600x400/?world,map" alt="Geografia"
+                                class="quiz-image">
+                        </div>
+                        <div class="quiz-content">
+                            <h3 class="quiz-title">Geografia Mundial</h3>
+                            <p class="quiz-description">Teste seu conhecimento sobre países, capitais e curiosidades
+                                globais</p>
+                            <div class="quiz-meta">
+                                <span>16 questões</span>
+                                <span class="quiz-difficulty medium">Médio</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
-<%- include ('../partials/footer') %>
+    <%- include ('../partials/footer') %>
