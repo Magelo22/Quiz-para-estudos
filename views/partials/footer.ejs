@@ -68,20 +68,21 @@
         }
     }
 </style>
-
-<footer id="footer">
-    <div class="footer-container">
-        <div class="footer-links">
-            <a href="/">Início</a>
-            <a href="/explorar">Explorar</a>
-            <a href="/sobre-nos">Sobre</a>
+<main>
+    <footer id="footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="/">Início</a>
+                <a href="/explorar">Explorar</a>
+                <a href="/sobre-nos">Sobre</a>
+            </div>
+            <div class="footer-content">
+                <p>&copy; <span id="current-year"></span> Meu Site. Todos os direitos reservados.</p>
+            </div>
         </div>
-        <div class="footer-content">
-            <p>&copy; <span id="current-year"></span> Meu Site. Todos os direitos reservados.</p>
-        </div>
-    </div>
-</footer>
-
+    </footer>
+</main>
+</body>
 <script>
     document.getElementById('current-year').textContent = new Date().getFullYear();
 </script>

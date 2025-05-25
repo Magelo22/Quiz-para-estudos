@@ -19,6 +19,9 @@
             padding: 0;
             color: var(--text-color);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .home-container {
@@ -26,6 +29,7 @@
             margin: 0 auto;
             padding: 0 20px;
             width: 100%;
+            flex: 1;
         }
 
         .hero-section {
@@ -48,6 +52,7 @@
             flex: 1;
             display: flex;
             justify-content: center;
+            align-items: center;
             width: 100%;
         }
 
@@ -56,6 +61,7 @@
             height: auto;
             max-height: 400px;
             border-radius: 8px;
+            object-fit: contain;
         }
 
         .welcome-title {
@@ -288,11 +294,11 @@
         }
     </style>
 
-    <main class="home-container">
-        <div class="home-body">
+    <main class="home-body">
+        <div class="home-container">
             <section class="hero-section">
                 <div class="hero-content">
-                    <h1 class="welcome-title">Bem-vindo ao <span class="highlight">Infor Quizz</span></h1>
+                    <h1 class="welcome-title">Bem-vindo ao <span class="highlight">Infor Quiz</span></h1>
                     <p class="site-description">
                         Plataforma premium de quizzes educativos onde conhecimento e diversão se encontram.
                         Desafie seu intelecto com nossos quizzes cuidadosamente elaborados por especialistas.
