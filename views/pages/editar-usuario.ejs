@@ -1,127 +1,134 @@
 <%- include ('../partials/header') %>
 
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     #atualizacao-page {
       margin: 0;
       padding: 20px;
-      background-color: #3c4a93;
-      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #dfe3f0 100%);
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
       min-height: 100vh;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    #atualizacao-page::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    #atualizacao-page::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      z-index: 0;
     }
 
     .atualizacao-container {
-      text-align: center;
-      color: white;
+      position: relative;
+      z-index: 1;
+      color: #2a3a7a;
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
-      max-width: 450px;
-      padding: 40px;
-      box-sizing: border-box;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 550px;
+      padding: 50px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
 
-    .atualizacao-container h2 {
+    .atualizacao-header {
       text-align: center;
       margin-bottom: 30px;
-      font-size: 24px;
-    }
-
-    .atualizacao-input-group {
-      margin-bottom: 25px;
-      text-align: left;
       width: 100%;
     }
 
-    .atualizacao-papel-btn {
-      width: 100%;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 25px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 15px;
-      text-align: center;
-      outline: none;
-      appearance: none;
-      background-color: white;
-      color: #3c4a93;
-      font-weight: bold;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233c4a93'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      background-size: 15px;
-      padding-right: 40px;
-      height: auto;
-    }
-
-    .atualizacao-label {
-      font-weight: bold;
-      display: block;
+    .atualizacao-title {
+      font-size: 28px;
+      color: #2a3a7a;
+      font-weight: 700;
       margin-bottom: 10px;
-      font-size: 15px;
+      position: relative;
+      padding-bottom: 15px;
     }
 
-    .atualizacao-input {
-      width: 100%;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 25px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 15px;
-      outline: none;
-      box-sizing: border-box;
-      transition: box-shadow 0.3s ease;
+    .atualizacao-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b4d9c, #6a82eb);
+      border-radius: 4px;
     }
 
-    .atualizacao-input:focus {
-      box-shadow: 0 0 8px #00d4ff;
-    }
-
-    .atualizacao-button-group {
-      margin-top: 30px;
-      text-align: center;
-      width: 100%;
-    }
-
-    .atualizacao-btn {
-      background-color: white;
-      color: #3c4a93;
-      font-weight: bold;
-      padding: 14px 40px;
-      border: none;
-      border-radius: 25px;
+    .atualizacao-subtitle {
       font-size: 16px;
-      cursor: pointer;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      margin: 10px 0;
-      transition: all 0.3s ease;
-      min-width: 220px;
+      color: #6b7280;
+      font-weight: 400;
     }
 
-    .atualizacao-btn:hover {
-      background-color: #e6e6e6;
-      transform: translateY(-2px);
-      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 30px;
+      width: 100%;
     }
 
     #perfil-usuario-page-avatar {
-      width: 120px;
-      height: 120px;
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
-      border: 4px solid white;
+      border: 4px solid #dfe3f0;
       object-fit: cover;
-      margin: 0 auto 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      aspect-ratio: 1/1;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(59, 77, 156, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    #perfil-usuario-page-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 28px rgba(59, 77, 156, 0.3);
+    }
+
+    .avatar-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .atualizacao-file-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      gap: 15px;
     }
 
     .atualizacao-file-input {
@@ -129,101 +136,197 @@
     }
 
     .atualizacao-file-label {
-      background-color: white;
-      color: #3c4a93;
-      font-weight: bold;
-      padding: 14px 40px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      margin: 10px 0;
       transition: all 0.3s ease;
-      min-width: 220px;
+      background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 15px rgba(59, 77, 156, 0.2);
+      text-align: center;
+      width: auto;
     }
 
     .atualizacao-file-label:hover {
-      background-color: #e6e6e6;
       transform: translateY(-2px);
-      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 20px rgba(59, 77, 156, 0.3);
     }
 
-    @media (min-width: 1200px) {
-      .atualizacao-container {
-        max-width: 500px;
-        padding: 40px;
-      }
+    .atualizacao-form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      width: 100%;
+    }
 
-      .atualizacao-container h2 {
-        font-size: 26px;
-      }
+    .atualizacao-input-group {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+    }
+
+    .atualizacao-label {
+      font-size: 15px;
+      color: #2a3a7a;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .atualizacao-input {
+      padding: 16px 20px;
+      border: 1px solid #dfe3f0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background-color: #f9fafc;
+      color: #2a3a7a;
+      width: 100%;
+    }
+
+    .atualizacao-input:focus {
+      outline: none;
+      border-color: #6a82eb;
+      box-shadow: 0 0 0 3px rgba(106, 130, 235, 0.1);
+    }
+
+    .atualizacao-papel-btn {
+      padding: 16px 20px;
+      border: 1px solid #dfe3f0;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background-color: #f9fafc;
+      color: #2a3a7a;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232a3a7a'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 20px center;
+      background-size: 15px;
+      cursor: pointer;
+      font-weight: 500;
+      width: 100%;
+    }
+
+    .atualizacao-papel-btn:focus {
+      outline: none;
+      border-color: #6a82eb;
+      box-shadow: 0 0 0 3px rgba(106, 130, 235, 0.1);
+    }
+
+    .atualizacao-button-group {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .atualizacao-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 15px rgba(59, 77, 156, 0.2);
+    }
+
+    .atualizacao-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 77, 156, 0.3);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      filter: invert(0.5);
     }
 
     @media (max-width: 768px) {
       .atualizacao-container {
-        padding: 30px;
+        padding: 40px;
         max-width: 90%;
+      }
+
+      .atualizacao-title {
+        font-size: 24px;
+      }
+
+      #perfil-usuario-page-avatar {
+        width: 120px;
+        height: 120px;
       }
     }
 
     @media (max-width: 480px) {
       .atualizacao-container {
-        padding: 25px 20px;
+        padding: 30px;
         max-width: 95%;
+        border-radius: 16px;
       }
 
-      #perfil-usuario-page-avatar {
-        width: 90px;
-        height: 90px;
-      }
-
-      .atualizacao-container h2 {
+      .atualizacao-title {
         font-size: 22px;
       }
 
-      .atualizacao-btn {
-        padding: 12px 30px;
-        min-width: 200px;
-        font-size: 15px;
+      .atualizacao-input {
+        padding: 14px 16px;
+      }
+
+      #perfil-usuario-page-avatar {
+        width: 100px;
+        height: 100px;
       }
     }
   </style>
 
   <main id="atualizacao-page">
     <div class="atualizacao-container">
-      <h2>Atualize os dados abaixo:</h2>
-      <div>
+      <div class="atualizacao-header">
+        <h2 class="atualizacao-title">Atualizar Perfil</h2>
+        <p class="atualizacao-subtitle">Mantenha suas informações sempre atualizadas</p>
+      </div>
+
+      <div class="avatar-section">
         <img id="perfil-usuario-page-avatar" src='/usuarios/avatar/<%=usuario.id%>' alt='Avatar de <%= usuario.nome%>'
           onerror="this.src='/images/default-avatar.png'">
-        <form action="/usuarios/perfil-usuario/<%= usuario.id %>/avatar" method="post" enctype="multipart/form-data">
-          <input type="file" id="avatar-upload" name="avatar" class="atualizacao-file-input" accept="image/*" required>
-          <label for="avatar-upload" class="atualizacao-file-label">Escolha a Imagem</label>
-          <br><br>
-          <button class="atualizacao-btn" type="submit">Atualizar Imagem</button>
+
+        <form class="avatar-form" action="/usuarios/perfil-usuario/<%= usuario.id %>/avatar" method="post"
+          enctype="multipart/form-data">
+          <div class="atualizacao-file-group">
+            <input type="file" id="avatar-upload" name="avatar" class="atualizacao-file-input" accept="image/*">
+            <label for="avatar-upload" class="atualizacao-file-label">Alterar Foto</label>
+            <button class="atualizacao-btn" type="submit">Salvar Imagem</button>
+          </div>
         </form>
       </div>
-      <form id="atualizacao-form" action="/usuarios/atualizar-usuario/<%=usuario.id%>" method="post">
+
+      <form class="atualizacao-form" id="atualizacao-form" action="/usuarios/atualizar-usuario/<%=usuario.id%>"
+        method="post">
         <div class="atualizacao-input-group">
-          <label for="nome" class="atualizacao-label">Digite seu novo nome:</label>
+          <label for="atualizacao-nome" class="atualizacao-label">Nome completo</label>
           <input type="text" id="atualizacao-nome" name="nome" class="atualizacao-input" value="<%= usuario.nome%>"
             required>
         </div>
 
         <div class="atualizacao-input-group">
-          <label for="telefone" class="atualizacao-label">Digite seu número</label>
+          <label for="atualizacao-tell" class="atualizacao-label">Telefone</label>
           <input type="tel" id="atualizacao-tell" name="telefone" class="atualizacao-input"
             placeholder="(00) 00000-0000" value="<%= usuario.telefone%>" required>
         </div>
 
         <div class="atualizacao-input-group">
-          <label for="data_nasc" class="atualizacao-label">Digite sua data de nascimento:</label>
+          <label for="atualizacao-nascimento" class="atualizacao-label">Data de nascimento</label>
           <input type="date" id="atualizacao-nascimento" name="data_nasc" class="atualizacao-input"
             value="<%= usuario.data_nasc%>" required>
         </div>
 
         <div class="atualizacao-input-group">
-          <label for="atualizacao-papel" class="atualizacao-label">Escolha o seu papel:</label>
+          <label for="atualizacao-papel" class="atualizacao-label">Tipo de conta</label>
           <select class="atualizacao-papel-btn" id="atualizacao-papel" name="papel" required>
             <option value="aluno" <%=usuario.papel==='aluno' ? 'selected' : '' %>>Aluno</option>
             <option value="professor" <%=usuario.papel==='professor' ? 'selected' : '' %>>Professor</option>
@@ -231,10 +334,29 @@
         </div>
 
         <div class="atualizacao-button-group">
-          <button type="submit" class="atualizacao-btn">Atualizar</button>
+          <button type="submit" class="atualizacao-btn">Salvar Alterações</button>
         </div>
       </form>
     </div>
   </main>
+
+  <script>
+    document.getElementById('atualizacao-tell').addEventListener('input', function (e) {
+      e.target.value = e.target.value
+        .replace(/\D/g, '')
+        .replace(/^(\d{2})(\d)/g, '($1) $2')
+        .replace(/(\d{5})(\d)/, '$1-$2');
+    });
+
+    document.getElementById('avatar-upload').addEventListener('change', function (e) {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          document.getElementById('perfil-usuario-page-avatar').src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+  </script>
 
   <%- include ('../partials/footer') %>

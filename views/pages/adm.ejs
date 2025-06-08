@@ -1,195 +1,351 @@
 <%- include ('../partials/header') %>
 
     <style>
-        #usuarios-page {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-            color: #333;
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
+        }
+
+        #usuarios-page {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 30px;
+            color: #2a3a7a;
+            box-sizing: border-box;
+        }
+
+        #usuarios-page .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         #usuarios-page h1 {
             color: #3b4d9c;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        #usuarios-page h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b4d9c, #6a82eb);
+            border-radius: 4px;
+        }
+
+        #usuarios-page .add-user-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 77, 156, 0.3);
         }
 
         #usuarios-page .table-container {
             overflow-x: auto;
             margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
         }
 
         #usuarios-page table {
             width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-
-        #usuarios-page th,
-        #usuarios-page td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 800px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         #usuarios-page th {
-            background-color: #3b4d9c;
+            background: #3b4d9c;
             color: white;
-            font-weight: bold;
+            font-weight: 600;
+            padding: 16px 20px;
+            text-align: left;
             position: sticky;
             top: 0;
         }
 
+        #usuarios-page th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        #usuarios-page th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        #usuarios-page td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f2f7;
+            vertical-align: middle;
+        }
+
+        #usuarios-page tr:last-child td {
+            border-bottom: none;
+        }
+
         #usuarios-page tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: #f9fafc;
         }
 
         #usuarios-page tr:hover {
-            background-color: #f1f3f9;
+            background-color: #f1f4fd;
+        }
+
+        #usuarios-page .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #dfe3f0;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        #usuarios-page .user-name {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        #usuarios-page .role-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        #usuarios-page .role-badge.aluno {
+            background-color: #e1f0fe;
+            color: #1a73e8;
+        }
+
+        #usuarios-page .role-badge.professor {
+            background-color: #e6f4ea;
+            color: #34a853;
         }
 
         #usuarios-page .actions {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        #usuarios-page .edit-btn,
-        #usuarios-page .delete-btn {
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-weight: bold;
+        #usuarios-page .action-btn {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: 600;
             transition: all 0.3s ease;
             font-size: 0.9rem;
-            white-space: nowrap;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            cursor: pointer;
         }
 
         #usuarios-page .edit-btn {
             background-color: #3b4d9c;
             color: white;
-            border: 1px solid #3b4d9c;
         }
 
         #usuarios-page .edit-btn:hover {
-            background-color: #2c3d80;
+            background-color: #2c3a7a;
             transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 8px rgba(59, 77, 156, 0.2);
         }
 
         #usuarios-page .delete-btn {
             background-color: #f44336;
             color: white;
-            border: 1px solid #f44336;
         }
 
         #usuarios-page .delete-btn:hover {
             background-color: #d32f2f;
             transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 8px rgba(211, 47, 47, 0.2);
         }
 
         #usuarios-page .no-users {
             text-align: center;
-            padding: 20px;
-            color: #666;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 1.1rem;
         }
 
+        #usuarios-page .no-users svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 992px) {
+            #usuarios-page {
+                padding: 0 20px;
+            }
+        }
 
         @media (max-width: 768px) {
+            #usuarios-page {
+                padding: 0 15px;
+                margin: 30px auto;
+            }
+
+            #usuarios-page .page-header {
+                margin-bottom: 30px;
+            }
+
+            #usuarios-page h1 {
+                font-size: 1.8rem;
+            }
 
             #usuarios-page th,
             #usuarios-page td {
-                padding: 8px 10px;
-                font-size: 0.9rem;
+                padding: 12px 15px;
             }
 
-            #usuarios-page .edit-btn,
-            #usuarios-page .delete-btn {
-                padding: 5px 8px;
-                font-size: 0.8rem;
+            #usuarios-page .action-btn {
+                padding: 6px 10px;
+                font-size: 0.85rem;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
             #usuarios-page {
                 padding: 0 10px;
             }
 
-            #usuarios-page h1 {
-                margin-bottom: 20px;
-            }
-
             #usuarios-page .actions {
                 flex-direction: column;
-                gap: 5px;
+                gap: 8px;
+            }
+
+            #usuarios-page .action-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 
-    <div id="usuarios-page">
-        <h1>Todos os usuarios são listados aqui</h1>
-        <div>
-            <h1>Lista de Usuários:</h1>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Data de Nascimento</th>
-                            <th>Papel</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (usuarios && usuarios.length> 0) { %>
-                            <% usuarios.forEach(usuario=> { %>
-                                <tr>
-                                    <td>
-                                        <%= usuario.id %>
-                                    </td>
-                                    <td>
-                                        <%= usuario.nome %>
-                                    </td>
-                                    <td>
-                                        <%= usuario.email %>
-                                    </td>
-                                    <td>
-                                        <%= usuario.telefone %>
-                                    </td>
-                                    <td>
-                                        <%= usuario.data_nasc %>
-                                    </td>
-                                    <td>
-                                        <%= usuario.papel %>
-                                    </td>
-                                    <td class="actions">
-                                        <a class="edit-btn"
-                                            href="/usuarios/editar-usuarios/<%= usuario.id %>">Editar</a>
-                                        <a class="delete-btn"
-                                            href="/usuarios/deletar-usuarios/<%= usuario.id %>">Deletar</a>
-                                    </td>
-                                </tr>
-                                <% }) %>
-                                    <% } else { %>
-                                        <tr>
-                                            <td colspan="7" class="no-users">Nenhum usuário encontrado.</td>
-                                        </tr>
-                                        <% } %>
-                    </tbody>
-                </table>
-            </div>
+    <main id="usuarios-page">
+        <div class="page-header">
+            <h1>Lista de Usuários</h1>
         </div>
-    </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Nascimento</th>
+                        <th>Papel</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (usuarios && usuarios.length> 0) { %>
+                        <% usuarios.forEach(usuario=> { %>
+                            <tr>
+                                <td>
+                                    <%= usuario.id %>
+                                </td>
+                                <td>
+                                    <span class="user-name">
+                                        <img src='/usuarios/avatar/<%=usuario.id%>' alt='Avatar' class="user-avatar"
+                                            onerror="this.src='/images/default-avatar.png'">
+                                        <%= usuario.nome %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <%= usuario.email %>
+                                </td>
+                                <td>
+                                    <%= usuario.telefone %>
+                                </td>
+                                <td>
+                                    <%= new Date(usuario.data_nasc).toLocaleDateString('pt-BR') %>
+                                </td>
+                                <td><span class="role-badge <%= usuario.papel %>">
+                                        <%= usuario.papel %>
+                                    </span></td>
+                                <td>
+                                    <div class="actions">
+                                        <a class="action-btn edit-btn"
+                                            href="/usuarios/editar-usuarios/<%= usuario.id %>">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                                <path
+                                                    d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            Editar
+                                        </a>
+                                        <a class="action-btn delete-btn"
+                                            href="/usuarios/deletar-usuarios/<%= usuario.id %>">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M3 6H5H21" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            Excluir
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="7" class="no-users">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                                            </svg>
+                                            <p>Nenhum usuário encontrado</p>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                if (!confirm('Tem certeza que deseja excluir este usuário?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 
     <%- include ('../partials/footer') %>

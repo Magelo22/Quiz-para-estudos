@@ -6,7 +6,7 @@
     }
 
     #login-inicial-page {
-        background-color: #3b4d9c;
+        background: linear-gradient(135deg, #f5f7fa 0%, #dfe3f0 100%);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -14,92 +14,248 @@
         min-height: 100vh;
         margin: 0;
         padding: 20px;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-        color: white;
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        color: #2a3a7a;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #login-inicial-page::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 300px;
+        height: 300px;
+        background: rgba(59, 77, 156, 0.08);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    #login-inicial-page::after {
+        content: '';
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 400px;
+        height: 400px;
+        background: rgba(59, 77, 156, 0.05);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .login-content {
+        position: relative;
+        z-index: 1;
+        max-width: 600px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 24px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 20px;
     }
 
     .login-inicial-titulo {
-        font-size: 22px;
+        font-size: 28px;
         margin-bottom: 30px;
         line-height: 1.4;
-        max-width: 600px;
-        padding: 0 20px;
+        font-weight: 600;
+        color: #2a3a7a;
+        position: relative;
+        padding-bottom: 20px;
+    }
+
+    .login-inicial-titulo::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, #3b4d9c, #6a82eb);
+        border-radius: 3px;
+    }
+
+    .login-inicial-subtitulo {
+        font-size: 16px;
+        color: #6b7280;
+        margin-bottom: 40px;
+        font-weight: 400;
+        line-height: 1.6;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
     }
 
     .login-inicial-botao {
-        background-color: white;
-        color: #3b4d9c;
-        padding: 12px 70px;
-        margin: 10px;
+        background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+        color: #fff;
+        padding: 16px 30px;
         border: none;
-        border-radius: 25px;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-        font-size: 17px;
-        font-weight: bold;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(59, 77, 156, 0.3);
+        font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
         display: inline-block;
-        min-width: 220px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .login-inicial-botao::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #6a82eb 0%, #3b4d9c 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
     }
 
     .login-inicial-botao:hover {
-        background-color: #dfe3f0;
-        transform: translateY(-2px);
-        box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(59, 77, 156, 0.4);
+    }
+
+    .login-inicial-botao:hover::before {
+        opacity: 1;
+    }
+
+    .login-inicial-botao:active {
+        transform: translateY(1px);
+    }
+
+    .login-inicial-botao.secondary {
+        background: transparent;
+        color: #3b4d9c;
+        border: 2px solid #dfe3f0;
+        box-shadow: none;
+    }
+
+    .login-inicial-botao.secondary:hover {
+        background: rgba(223, 227, 240, 0.3);
+        box-shadow: none;
+    }
+
+    .brand-logo {
+        margin-bottom: 30px;
+        width: 120px;
+        height: auto;
+    }
+
+    .login-footer {
+        position: relative;
+        z-index: 1;
+        color: #6b7280;
+        font-size: 13px;
+        margin-top: 30px;
+        padding: 0 20px;
+        max-width: 600px;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .footer-link {
+        color: #3b4d9c;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        font-weight: 500;
+    }
+
+    .footer-link:hover {
+        color: #6a82eb;
+        text-decoration: underline;
     }
 
     @media (max-width: 768px) {
-        .login-inicial-titulo {
-            font-size: 20px;
-            margin-bottom: 25px;
+        .login-content {
+            padding: 30px;
         }
 
-        .login-inicial-botao {
-            padding: 12px 50px;
-            font-size: 16px;
-            min-width: 200px;
+        .login-inicial-titulo {
+            font-size: 24px;
         }
     }
 
     @media (max-width: 480px) {
-        .login-inicial-titulo {
-            font-size: 18px;
-            margin-bottom: 20px;
-            padding: 0 15px;
+        .login-content {
+            padding: 25px 20px;
+            border-radius: 16px;
         }
 
-        .login-inicial-botao {
-            padding: 10px 40px;
+        .login-inicial-titulo {
+            font-size: 22px;
+            padding-bottom: 15px;
+        }
+
+        .login-inicial-subtitulo {
             font-size: 15px;
-            min-width: 180px;
-            margin: 8px;
-        }
-    }
-
-    @media (max-width: 360px) {
-        .login-inicial-titulo {
-            font-size: 16px;
+            margin-bottom: 30px;
         }
 
-        .login-inicial-botao {
-            width: 100%;
-            max-width: 250px;
+        .button-container {
+            max-width: 100%;
+        }
+
+        .footer-links {
+            gap: 10px;
+        }
+
+        .login-footer {
+            font-size: 12px;
         }
     }
 </style>
 
 <main id="login-inicial-page">
-    <h1 class="login-inicial-titulo">Faça seu Cadastro gratuitamente<br>para ver conteúdos personalizados e
-        interagir com a nossa plataforma!</h1>
-    <h2><a href="/cadastro-usuarios">
-            <button class="login-inicial-botao">Cadastre-se</button>
+    <div class="login-content">
+        <img src="/images/logo.png" alt="Logo da Empresa" class="brand-logo">
 
-        </a></h2>
-    <h2><a href="/login-usuario">
-            <button class="login-inicial-botao">Login</button>
+        <h1 class="login-inicial-titulo">Faça seu Cadastro gratuitamente</h1>
+        <p class="login-inicial-subtitulo">Acesse conteúdos personalizados e desfrute de uma experiência completa em
+            nossa plataforma</p>
 
-        </a></h2>
+        <div class="button-container">
+            <a href="/cadastro-usuarios" class="login-inicial-botao">
+                Criar Conta Gratuita
+            </a>
+            <a href="/login-usuario" class="login-inicial-botao secondary">
+                Já tenho uma conta
+            </a>
+        </div>
+    </div>
+
+    <div class="login-footer">
+        <p>Ao continuar, você concorda com nossos</p>
+        <div class="footer-links">
+            <a href="/termos-de-servico" class="footer-link">Termos de Serviço</a>
+            <a href="/politica-de-privacidade" class="footer-link">Política de Privacidade</a>
+            <a href="/cookies" class="footer-link">Cookies</a>
+            <a href="/ajuda" class="footer-link">Ajuda</a>
+        </div>
+        <p style="margin-top: 15px;">© 2025 InforQuiz. Todos os direitos reservados.</p>
+    </div>
 </main>

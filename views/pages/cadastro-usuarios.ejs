@@ -8,217 +8,284 @@
   #cadastro-page {
     margin: 0;
     padding: 20px;
-    background-color: #3c4a93;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #dfe3f0 100%);
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     min-height: 100vh;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  #cadastro-page::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: rgba(106, 130, 235, 0.1);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  #cadastro-page::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: rgba(106, 130, 235, 0.08);
+    border-radius: 50%;
+    z-index: 0;
   }
 
   .cadastro-container {
-    text-align: center;
-    color: white;
+    position: relative;
+    z-index: 1;
+    color: #2a3a7a;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 450px;
-    padding: 30px;
-    box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
   }
 
-  .cadastro-container h2 {
+  .cadastro-header {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 24px;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  .cadastro-title {
+    font-size: 28px;
+    color: #2a3a7a;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+
+  .cadastro-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #3b4d9c, #6a82eb);
+    border-radius: 4px;
+  }
+
+  .cadastro-subtitle {
+    font-size: 16px;
+    color: #6b7280;
+    font-weight: 400;
+  }
+
+  .cadastro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
   }
 
   .cadastro-input-group {
-    margin-bottom: 20px;
-    text-align: left;
-    width: 100%;
-  }
-
-  .cadastro-papel-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    font-size: 15px;
-    text-align: center;
-    outline: none;
-    appearance: none;
-    background-color: white;
-    color: #3c4a93;
-    font-weight: bold;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233c4a93'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 15px;
-    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
   }
 
   .cadastro-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
     font-size: 15px;
+    color: #2a3a7a;
+    margin-bottom: 8px;
+    font-weight: 600;
   }
 
   .cadastro-input {
-    width: 100%;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 25px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 16px 20px;
+    border: 1px solid #dfe3f0;
+    border-radius: 12px;
     font-size: 15px;
-    outline: none;
-    box-sizing: border-box;
-    transition: box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: #f9fafc;
+    color: #2a3a7a;
   }
 
   .cadastro-input:focus {
-    box-shadow: 0 0 8px #00d4ff;
+    outline: none;
+    border-color: #6a82eb;
+    box-shadow: 0 0 0 3px rgba(106, 130, 235, 0.1);
+  }
+
+  .cadastro-papel-btn {
+    padding: 16px 20px;
+    border: 1px solid #dfe3f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #f9fafc;
+    color: #2a3a7a;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232a3a7a'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .cadastro-papel-btn:focus {
+    outline: none;
+    border-color: #6a82eb;
+    box-shadow: 0 0 0 3px rgba(106, 130, 235, 0.1);
   }
 
   .cadastro-button-group {
-    margin-top: 25px;
-    text-align: center;
+    margin-top: 10px;
     width: 100%;
   }
 
   .cadastro-btn {
-    background-color: white;
-    color: #3c4a93;
-    font-weight: bold;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 25px;
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
     font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    margin: 8px 0;
     transition: all 0.3s ease;
-    width: auto;
-    min-width: 180px;
   }
 
-  .cadastro-btn a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+  .primary-btn {
+    background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(59, 77, 156, 0.2);
   }
 
-  .cadastro-btn:hover {
-    background-color: #e6e6e6;
+  .primary-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(59, 77, 156, 0.3);
   }
 
-  .cadastro-extra-links {
-    margin-top: 25px;
+  .secondary-btn {
+    background: white;
+    color: #3b4d9c;
+    border: 1px solid #dfe3f0;
+    margin-top: 15px;
+  }
+
+  .secondary-btn:hover {
+    background: #f5f7fa;
+  }
+
+  .cadastro-footer {
+    margin-top: 30px;
+    color: #6b7280;
+    font-size: 14px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
   }
 
-  .cadastro-extra-links p {
-    font-size: 15px;
-    margin-bottom: 15px;
-    font-weight: bold;
-  }
-
-  .cadastro-extra-links div {
+  .footer-links {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
     justify-content: center;
-    width: 100%;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
   }
 
-  @media (min-width: 1200px) {
-    .cadastro-container {
-      max-width: 500px;
-      padding: 40px;
-    }
+  .footer-link {
+    color: #3b4d9c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
 
-    .cadastro-container h2 {
-      font-size: 26px;
-    }
+  .footer-link:hover {
+    color: #6a82eb;
+    text-decoration: underline;
   }
 
   @media (max-width: 768px) {
     .cadastro-container {
-      padding: 25px;
-      max-width: 90%;
+      padding: 40px;
+    }
+
+    .cadastro-title {
+      font-size: 24px;
     }
   }
 
   @media (max-width: 480px) {
     .cadastro-container {
-      padding: 20px 15px;
-      max-width: 95%;
+      padding: 30px;
+      border-radius: 16px;
     }
 
-    .cadastro-container h2 {
+    .cadastro-title {
       font-size: 22px;
-      margin-bottom: 25px;
     }
 
-    .cadastro-btn {
-      padding: 10px 25px;
-      min-width: 160px;
+    .footer-links {
+      gap: 10px;
+      flex-direction: column;
     }
   }
 </style>
 
 <main id="cadastro-page">
   <div class="cadastro-container">
-    <h2>Faça o seu cadastro abaixo:</h2>
-    <form id="cadastro-form" action="/usuarios/inserir-usuarios" method="post">
+    <div class="cadastro-header">
+      <h1 class="cadastro-title">Crie sua conta</h1>
+      <p class="cadastro-subtitle">Preencha seus dados para começar</p>
+    </div>
+
+    <form class="cadastro-form" id="cadastro-form" action="/usuarios/inserir-usuarios" method="post">
       <div class="cadastro-input-group">
-        <label for="cadastro-nome" class="cadastro-label">Digite seu nome completo:</label>
-        <input type="text" id="cadastro-nome" name="nome" class="cadastro-input" required>
+        <label for="cadastro-nome" class="cadastro-label">Nome completo</label>
+        <input type="text" id="cadastro-nome" name="nome" class="cadastro-input" placeholder="Digite seu nome completo"
+          required>
       </div>
 
       <div class="cadastro-input-group">
-        <label for="cadastro-email" class="cadastro-label">Digite seu e-mail:</label>
-        <input type="email" id="cadastro-email" name="email" class="cadastro-input" required>
+        <label for="cadastro-email" class="cadastro-label">E-mail</label>
+        <input type="email" id="cadastro-email" name="email" class="cadastro-input" placeholder="seu@email.com"
+          required>
       </div>
 
       <div class="cadastro-input-group">
-        <label for="cadastro-senha" class="cadastro-label">Digite sua senha:</label>
-        <input type="password" id="cadastro-senha" name="senha" class="cadastro-input" required>
+        <label for="cadastro-senha" class="cadastro-label">Senha</label>
+        <input type="password" id="cadastro-senha" name="senha" class="cadastro-input" placeholder="••••••••" required>
       </div>
 
       <div class="cadastro-input-group">
-        <label for="cadastro-papel" class="cadastro-label">Clique abaixo e escolha o seu papel:</label>
+        <label for="cadastro-papel" class="cadastro-label">Tipo de conta</label>
         <select class="cadastro-papel-btn" id="cadastro-papel" name="papel" required>
+          <option value="" disabled selected>Selecione seu perfil</option>
           <option value="aluno">Aluno</option>
           <option value="professor">Professor</option>
         </select>
       </div>
 
       <div class="cadastro-button-group">
-        <button type="submit" class="cadastro-btn">Cadastrar</button>
+        <button type="submit" class="cadastro-btn primary-btn">Cadastrar</button>
       </div>
     </form>
 
-    <div class="cadastro-extra-links">
-      <p>Já tem uma conta? faça login abaixo:</p>
-      <div>
-        <button type="button" class="cadastro-btn"><a href="/login-usuario">Login do Usuário</a></button>
-        <button type="button" class="cadastro-btn"><a href="/login">Voltar</a></button>
+    <div class="cadastro-footer">
+      <p>Já possui uma conta?</p>
+      <div class="footer-links">
+        <a href="/login-usuario" class="footer-link">Acessar minha conta</a>
+        <a href="/" class="footer-link">Voltar à página inicial</a>
       </div>
     </div>
   </div>
