@@ -12,6 +12,18 @@ CREATE TABLE usuarios (
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+CREATE TABLE quizes (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    id_professor INTEGER NOT NULL REFERENCES usuarios(id),
+    dificuldade VARCHAR(7) CHECK (dificuldade IN ('Fácil', 'Médio', 'Difícil')) NOT NULL,
+    questoes INT NOT NULL,
+    imagem_path VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
     -- Inserir o usuário Admin
     
 INSERT INTO usuarios (nome, email, senha, papel)

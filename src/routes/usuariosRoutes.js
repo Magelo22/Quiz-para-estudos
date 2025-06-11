@@ -1,7 +1,7 @@
 const express = require('express');
 const UsuariosController = require('../controllers/usuariosController');
 const router = express.Router();
-const upload = require('../config/multer');
+const upload = require('../config/user-multer');
 
 const verificarAutenticacao = require('../middleware/usuarioMiddleware');
 const verificarAutoridade = require('../middleware/usuarioAdmin');

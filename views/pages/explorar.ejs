@@ -426,55 +426,37 @@
             </section>
 
             <!-- Seção de Quizzes em Destaque - Alinhamento Consistente -->
+
+            <h2 class="section-title">Quizzes em Destaque</h2>
             <section class="content-section">
-                <h2 class="section-title">Quizzes em Destaque</h2>
-                <div class="quizzes-grid">
-                    <div class="quiz-card">
-                        <div class="quiz-image-container">
-                            <img src="https://source.unsplash.com/random/600x400/?technology,code" alt="Programação"
-                                class="quiz-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">Fundamentos de Programação</h3>
-                            <p class="quiz-description">Domine os conceitos básicos de lógica e algoritmos para iniciar
-                                sua jornada na programação</p>
-                            <div class="quiz-meta">
-                                <span>15 questões</span>
-                                <span class="quiz-difficulty easy">Fácil</span>
+                <% if (quizes && quizes.length > 0) { %>
+                    <% quizes.forEach(quiz=> { %>
+                        <div class="quizzes-grid">
+                            <div class="quiz-card">
+                                <div class="quiz-image-container">
+                                    <img src='/quizes/imagem/<%= quiz.id %>' alt="Imagem do Quiz" class="quiz-image">
+                                </div>
+                                <div class="quiz-content">
+                                    <h3 class="quiz-title">
+                                        <%= quiz.titulo %>
+                                    </h3>
+                                    <p class="quiz-description">
+                                        <%= quiz.descricao %>
+                                    </p>
+                                    <div class="quiz-meta">
+                                        <span></span>
+                                        <span class="quiz-difficulty <%= quiz.dificuldade.toLowerCase() %>">
+                                            <%= quiz.dificuldade %>
+                                        </span>
+                                    </div>
+                                    <a href="/quiz/<%= quiz.id %>" class="quiz-button">Fazer Quiz</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="quiz-card">
-                        <div class="quiz-image-container">
-                            <img src="https://source.unsplash.com/random/600x400/?science,chemistry" alt="Química"
-                                class="quiz-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">Química Orgânica</h3>
-                            <p class="quiz-description">Explore as funções orgânicas e reações químicas essenciais para
-                                estudantes</p>
-                            <div class="quiz-meta">
-                                <span>20 questões</span>
-                                <span class="quiz-difficulty medium">Médio</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quiz-card">
-                        <div class="quiz-image-container">
-                            <img src="https://source.unsplash.com/random/600x400/?history,brazil"
-                                alt="História do Brasil" class="quiz-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">Brasil Império</h3>
-                            <p class="quiz-description">Conheça os principais eventos e personalidades do período
-                                imperial brasileiro</p>
-                            <div class="quiz-meta">
-                                <span>18 questões</span>
-                                <span class="quiz-difficulty hard">Difícil</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <% }) %>
+                            <% } else { %>
+                                <p>Nenhum quiz encontrado.</p>
+                                <% } %>
             </section>
 
             <!-- Seção de Quizzes Recentes - Mesmo Padrão de Alinhamento -->
@@ -488,7 +470,8 @@
                         </div>
                         <div class="quiz-content">
                             <h3 class="quiz-title">Álgebra Linear</h3>
-                            <p class="quiz-description">Matrizes, vetores e transformações lineares para estudantes de
+                            <p class="quiz-description">Matrizes, vetores e transformações
+                                lineares para estudantes de
                                 exatas</p>
                             <div class="quiz-meta">
                                 <span>12 questões</span>
@@ -503,7 +486,8 @@
                         </div>
                         <div class="quiz-content">
                             <h3 class="quiz-title">História da Arte</h3>
-                            <p class="quiz-description">Descubra os principais movimentos artísticos e seus grandes
+                            <p class="quiz-description">Descubra os principais movimentos
+                                artísticos e seus grandes
                                 mestres</p>
                             <div class="quiz-meta">
                                 <span>14 questões</span>
@@ -518,7 +502,8 @@
                         </div>
                         <div class="quiz-content">
                             <h3 class="quiz-title">Geografia Mundial</h3>
-                            <p class="quiz-description">Teste seu conhecimento sobre países, capitais e curiosidades
+                            <p class="quiz-description">Teste seu conhecimento sobre países,
+                                capitais e curiosidades
                                 globais</p>
                             <div class="quiz-meta">
                                 <span>16 questões</span>

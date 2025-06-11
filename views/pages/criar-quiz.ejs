@@ -1,147 +1,35 @@
 <%- include ('../partials/header') %>
 
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Criar Quiz</title>
-
-    </head>
-
-    <body>
-        <main>
-            <div>
-                <h1>aqui ocorrerá a criação do quiz:</h1>
-                <form action="/inserir-quiz" method="post">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Email do Professor" required>
-
-                    <label for="titulo">Titulo:</label>
-                    <input type="text" id="titulo" name="titulo" placeholder="Titulo do Quiz" required>
-
-                    <label for="descricao">Descrição:</label>
-                    <input type="text" id="descricao" name="descricao" placeholder="Descricao do Quiz" required>
-
-                    <div id="perguntas">
-                        <div class="pergunta mb-4 p-3 border">
-                            <h4>Pergunta 1</h4>
-                            <input type="text" name="perguntas[0][texto]" class="form-control mb-2"
-                                placeholder="Texto da pergunta" required>
-                            <div class="opcoes">
-                                <div class="opcao mb-2">
-                                    <div class="input-group">
-                                        <input type="text" name="perguntas[0][opcoes][0][texto]" class="form-control"
-                                            placeholder="Opção 1" required>
-                                        <span class="input-group-text">
-                                            <input type="radio" name="perguntas[0][correta]" value="0" required> Correta
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-primary add-opcao">+ Opção</button>
-                            <button type="button" class="btn btn-sm btn-danger remover-pergunta">Remover</button>
-                        </div>
+    <main>
+        <div>
+            <h1>Prencha as informações do seu Quiz</h1>
+            <form action='/quizes/inserir-quizes' method="post" enctype="multipart/form-data">
+                <div>
+                    <div class="atualizacao-file-quiz">
+                        <input type="file" id="imagem_upload" name="imagem" class="atualizacao-file-quiz-input"
+                            accept="image/*" required>
+                        <label for="imagem_path" class="atualizacao-file-imagem-label">Adicionar Imagem</label>
                     </div>
-                    <button type="button" class="btn btn-sm btn-primary add-pergunta">Adicionar pergunta</button>
-                    <input type="submit" value="Criar Quiz" class="btn btn-primary" style="margin-top:20px;">
-                </form>
-            </div>
-        </main>
-
-        <script>
-            let perguntaCount = 1;
-            let opcaoCounts = [1];
-
-
-            document.querySelector('.add-pergunta').addEventListener('click', function () {
-                const container = document.getElementById('perguntas');
-                const novaPergunta = document.createElement('div');
-                novaPergunta.className = 'pergunta mb-4 p-3 border';
-                novaPergunta.innerHTML = `
-        <h4>Pergunta ${perguntaCount + 1}</h4>
-        <input type="text" name="perguntas[${perguntaCount}][texto]" class="form-control mb-2" placeholder="Texto da pergunta" required>
-        
-        <div class="opcoes">
-            <div class="opcao mb-2">
-                <div class="input-group">
-                    <input type="text" name="perguntas[${perguntaCount}][opcoes][0][texto]" class="form-control" placeholder="Opção 1" required>
-                    <span class="input-group-text">
-                        <input type="radio" name="perguntas[${perguntaCount}][correta]" value="0" required> Correta
-                    </span>
                 </div>
-            </div>
-        </div>
-        
-        <button type="button" class="btn btn-sm btn-primary add-opcao">+ Opção</button>
-        <button type="button" class="btn btn-sm btn-danger remover-pergunta">Remover</button>
-    `;
+                <label for="titulo">Titulo:</label>
+                <input type="text" id="titulo" name="titulo" placeholder="Titulo do Quiz" required>
 
-                container.appendChild(novaPergunta);
-                opcaoCounts[perguntaCount] = 1;
-                perguntaCount++;
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Descricao do Quiz" required>
 
-                novaPergunta.querySelector('.add-opcao').addEventListener('click', adicionarOpcao);
-                novaPergunta.querySelector('.remover-pergunta').addEventListener('click', function () {
-                    if (document.querySelectorAll('.pergunta').length > 1) {
-                        novaPergunta.remove();
-                    } else {
-                        alert('O quiz precisa ter pelo menos uma pergunta!');
-                    }
-                });
-            });
+                <label for="questoes">Quantidade de questões:</label>
+                <input type="number" id="questoes" name="questoes" placeholder="questoes do Quiz" required>
 
-            function adicionarOpcao(e) {
-                const pergunta = e.target.closest('.pergunta');
-                const perguntaIndex = Array.from(document.querySelectorAll('.pergunta')).indexOf(pergunta);
-                const opcoesContainer = pergunta.querySelector('.opcoes');
+                <label for="dificuldade">Qual a dificuldade:</label>
+                <select name="dificuldade" id="dificuldade">
+                    <option value="" disabled selected>Selecione a dificuldade</option>
+                    <option value="Fácil">Fácil</option>
+                    <option value="Médio">Médio</option>
+                    <option value="Difícil">Difícil</option>
+                </select>
 
-                const opcaoIndex = opcaoCounts[perguntaIndex];
-                const novaOpcao = document.createElement('div');
-                novaOpcao.className = 'opcao mb-2';
-                novaOpcao.innerHTML = `
-        <div class="input-group">
-            <input type="text" name="perguntas[${perguntaIndex}][opcoes][${opcaoIndex}][texto]" class="form-control" placeholder="Opção ${opcaoIndex + 1}" required>
-            <span class="input-group-text">
-                <input type="radio" name="perguntas[${perguntaIndex}][correta]" value="${opcaoIndex}"> Correta
-            </span>
-            <button class="btn btn-outline-danger remover-opcao" type="button">×</button>
-        </div>
-    `;
-
-                opcoesContainer.appendChild(novaOpcao);
-                opcaoCounts[perguntaIndex]++;
-
-                novaOpcao.querySelector('.remover-opcao').addEventListener('click', function () {
-                    if (opcoesContainer.querySelectorAll('.opcao').length > 1) {
-                        novaOpcao.remove();
-                    } else {
-                        alert('Cada pergunta precisa ter pelo menos uma opção!');
-                    }
-                });
-            }
-
-            document.querySelectorAll('.add-opcao').forEach(btn => {
-                btn.addEventListener('click', adicionarOpcao);
-            });
-
-            document.querySelectorAll('.remover-pergunta').forEach(btn => {
-                btn.addEventListener('click', function (e) {
-                    const pergunta = e.target.closest('.pergunta');
-                    if (document.querySelectorAll('.pergunta').length > 1) {
-                        pergunta.remove();
-                    } else {
-                        alert('O quiz precisa ter pelo menos uma pergunta!');
-                    }
-                });
-            });
-        </script>
-    </body>
-
-    </html>
-
-
-
+                <button type="submit">Continuar</button>
+            </form>
+    </main>
 
     <%- include ('../partials/footer') %>

@@ -4,6 +4,7 @@ const app = express();
 const pool = require('./db');
 const { title } = require('process');
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
+const quizesroutes = require('./src/routes/quizRoutes')
 const session = require('express-session');
 const verificarAutenticacao = require('./src/middleware/usuarioMiddleware');
 
@@ -30,7 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/usuarios', usuariosRoutes);
-
+app.use('/quizes', quizesroutes)
 //Rotas
 
 app.get('/', verificarAutenticacao, async (req, res) => {
@@ -41,7 +42,7 @@ app.get('/explorar', verificarAutenticacao, (req, res) => {
     res.render('pages/explorar', { title: "Explorar" });
 });
 
-app.get('/sobre-nos', verificarAutenticacao, (req,res) =>{
+app.get('/sobre-nos', verificarAutenticacao, (req, res) => {
     res.render('pages/sobre-nos', { title: "Sobre Nós" });
 })
 
@@ -57,12 +58,16 @@ app.get('/login-usuario', (req, res) => {
     res.render('pages/login-usuario', { title: "Login do Usuario" });
 });
 
-app.get('/criar-quiz', (req, res) => {
+app.get('/criar-quiz', verificarAutenticacao, (req, res) => {
     res.render('pages/criar-quiz', { title: "Criar Quiz" });
 });
 
+app.get('/criar-perguntas', verificarAutenticacao, (req, res) => {
+    res.render('pages/criar-perguntas', { title: "Criar Perguntas" });
+})
+
 app.use((req, res) => {
-  res.status(404).send('Página não encontrada');
+    res.status(404).send('Página não encontrada');
 });
 
 const PORT = process.env.PORT || 3000;
