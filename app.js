@@ -5,6 +5,7 @@ const pool = require('./db');
 const { title } = require('process');
 const usuariosRoutes = require('./src/routes/usuariosRoutes');
 const quizesroutes = require('./src/routes/quizRoutes')
+const questoesroutes = require('./src/routes/questoesRoutes');
 const session = require('express-session');
 const verificarAutenticacao = require('./src/middleware/usuarioMiddleware');
 
@@ -31,15 +32,13 @@ app.use((req, res, next) => {
 });
 
 app.use('/usuarios', usuariosRoutes);
-app.use('/quizes', quizesroutes)
+app.use('/quizes', quizesroutes);
+app.use('/questoes', questoesroutes);
+
 //Rotas
 
 app.get('/', verificarAutenticacao, async (req, res) => {
     res.render('pages/index', { title: "Home" });
-});
-
-app.get('/explorar', verificarAutenticacao, (req, res) => {
-    res.render('pages/explorar', { title: "Explorar" });
 });
 
 app.get('/sobre-nos', verificarAutenticacao, (req, res) => {
@@ -61,10 +60,6 @@ app.get('/login-usuario', (req, res) => {
 app.get('/criar-quiz', verificarAutenticacao, (req, res) => {
     res.render('pages/criar-quiz', { title: "Criar Quiz" });
 });
-
-app.get('/criar-perguntas', verificarAutenticacao, (req, res) => {
-    res.render('pages/criar-perguntas', { title: "Criar Perguntas" });
-})
 
 app.use((req, res) => {
     res.status(404).send('Página não encontrada');

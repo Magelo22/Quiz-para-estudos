@@ -1,9 +1,346 @@
 <%- include ('../partials/header') %>
-    <main>
-        <h1>Ensira o conteúdo do Quiz</h1>
-        <form action="" method="">
+    <style>
+        #criar-questao-main {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #dfe3f0 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-        </form>
+        #criar-questao-main::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(106, 130, 235, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        #criar-questao-main::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: rgba(106, 130, 235, 0.08);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        #criar-questao-container {
+            position: relative;
+            z-index: 1;
+            color: #2a3a7a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+
+        #criar-questao-titulo {
+            font-size: 28px;
+            color: #2a3a7a;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        #criar-questao-titulo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b4d9c, #6a82eb);
+            border-radius: 4px;
+        }
+
+
+        #criar-questao-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+
+        .criar-questao-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .criar-questao-label {
+            font-size: 15px;
+            color: #2a3a7a;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+
+        .criar-questao-input,
+        .criar-questao-textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #dfe3f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f9fafc;
+            color: #2a3a7a;
+        }
+
+        .criar-questao-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .criar-questao-input:focus,
+        .criar-questao-textarea:focus,
+        .criar-questao-select:focus {
+            outline: none;
+            border-color: #6a82eb;
+            box-shadow: 0 0 0 3px rgba(106, 130, 235, 0.1);
+        }
+
+
+        .criar-questao-upload-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .criar-questao-upload-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .criar-questao-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 30px 20px;
+            border: 2px dashed #dfe3f0;
+            border-radius: 12px;
+            background-color: #f9fafc;
+            color: #3b4d9c;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .criar-questao-upload-label:hover {
+            border-color: #6a82eb;
+            background-color: rgba(106, 130, 235, 0.05);
+        }
+
+        .criar-questao-upload-label::before {
+            content: '+';
+            font-size: 2rem;
+            color: #6a82eb;
+            margin-bottom: 10px;
+        }
+
+
+        .criar-questao-select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #dfe3f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f9fafc;
+            color: #2a3a7a;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232a3a7a'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 15px;
+            cursor: pointer;
+        }
+
+
+        #criar-questao-submit {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(59, 77, 156, 0.2);
+            margin-top: 10px;
+        }
+
+        #criar-questao-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 77, 156, 0.3);
+        }
+
+
+        .criar-questao-preview {
+            display: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .criar-questao-preview-img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+
+        @media (max-width: 768px) {
+            #criar-questao-container {
+                padding: 40px;
+            }
+
+            #criar-questao-titulo {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #criar-questao-container {
+                padding: 30px;
+                border-radius: 16px;
+            }
+
+            #criar-questao-titulo {
+                font-size: 22px;
+            }
+        }
+    </style>
+
+    <main id="criar-questao-main">
+        <div id="criar-questao-container">
+            <h1 id="criar-questao-titulo">Criar Questão <%= questaoAtual %> de <%= numQuestoes %><br>para: <%=
+                            quiz.titulo %>
+            </h1>
+
+            <form id="criar-questao-form"
+                action="/questoes/inserir-questoes/<%= quiz.id %>?questaoAtual=<%= questaoAtual %>&numQuestoes=<%= numQuestoes %>"
+                method="post" enctype="multipart/form-data">
+                <div class="criar-questao-upload-container">
+                    <input type="file" id="criar-questao-upload" name="imagem" class="criar-questao-upload-input"
+                        accept="image/*">
+                    <label for="criar-questao-upload" class="criar-questao-upload-label">Clique para adicionar uma
+                        imagem</label>
+                </div>
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-enunciado" class="criar-questao-label">Enunciado:</label>
+                    <textarea id="criar-questao-enunciado" name="enunciado" class="criar-questao-textarea"
+                        required></textarea>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-alternativa-a" class="criar-questao-label">Alternativa A:</label>
+                    <input type="text" id="criar-questao-alternativa-a" name="alternativa_a" class="criar-questao-input"
+                        required>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-alternativa-b" class="criar-questao-label">Alternativa B:</label>
+                    <input type="text" id="criar-questao-alternativa-b" name="alternativa_b" class="criar-questao-input"
+                        required>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-alternativa-c" class="criar-questao-label">Alternativa C:</label>
+                    <input type="text" id="criar-questao-alternativa-c" name="alternativa_c" class="criar-questao-input"
+                        required>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-alternativa-d" class="criar-questao-label">Alternativa D:</label>
+                    <input type="text" id="criar-questao-alternativa-d" name="alternativa_d" class="criar-questao-input"
+                        required>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-alternativa-e" class="criar-questao-label">Alternativa E:</label>
+                    <input type="text" id="criar-questao-alternativa-e" name="alternativa_e" class="criar-questao-input"
+                        required>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-resposta-correta" class="criar-questao-label">Resposta Correta:</label>
+                    <select name="resposta_correta" id="criar-questao-resposta-correta" class="criar-questao-select"
+                        required>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select>
+                </div>
+
+                <div class="criar-questao-input-group">
+                    <label for="criar-questao-explicacao" class="criar-questao-label">Explicação (opcional):</label>
+                    <textarea id="criar-questao-explicacao" name="explicacao" class="criar-questao-textarea"></textarea>
+                </div>
+
+                <input type="hidden" name="ordem" value="<%= questaoAtual %>">
+
+                <% if (questaoAtual < numQuestoes) { %>
+                    <button type="submit" id="criar-questao-submit">Próxima Questão</button>
+                    <% } else { %>
+                        <button type="submit" id="criar-questao-submit">Finalizar Quiz</button>
+                        <% } %>
+            </form>
+        </div>
     </main>
 
-<%- include ('../partials/footer') %>
+    <script>
+        document.getElementById('criar-questao-upload').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    let previewContainer = document.querySelector('.criar-questao-preview');
+                    if (!previewContainer) {
+                        previewContainer = document.createElement('div');
+                        previewContainer.className = 'criar-questao-preview';
+                        const previewImg = document.createElement('img');
+                        previewImg.className = 'criar-questao-preview-img';
+                        previewContainer.appendChild(previewImg);
+                        const fileUploadDiv = document.querySelector('.criar-questao-upload-container');
+                        fileUploadDiv.parentNode.insertBefore(previewContainer, fileUploadDiv.nextSibling);
+                    }
+                    previewContainer.style.display = 'block';
+                    previewContainer.querySelector('img').src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <%- include ('../partials/footer') %>

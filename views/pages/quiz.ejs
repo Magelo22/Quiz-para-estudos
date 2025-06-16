@@ -1,0 +1,394 @@
+<%- include('../partials/header') %>
+
+    <main class="quiz-container">
+        <div class="quiz-header">
+            <h1>
+                <%= quiz.titulo%>
+            </h1>
+            <div class="quiz-progress">
+                <span id="current-question">1</span>/<span id="total-questions">
+                    <%= questoes.length %>
+                </span>
+            </div>
+            <div class="quiz-score">
+                Pontuação: <span id="score">0</span>
+            </div>
+            <div class="quiz-timer">
+                Tempo restante: <span id="time">00:00</span>
+            </div>
+        </div>
+
+        <div class="quiz-question-container">
+            <% if (questoes && questoes.length> 0) { %>
+                <% const indices=Array.from({length: questoes.length}, (_, i)=> i);
+
+                    for (let i = indices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [indices[i], indices[j]] = [indices[j], indices[i]];
+                    }
+                    %>
+
+                    <% indices.forEach((questaoIndex, index)=> {
+                        const questao = questoes[questaoIndex];
+
+                        const alternativas = [
+                        { letra: 'a', texto: questao.alternativa_a },
+                        { letra: 'b', texto: questao.alternativa_b },
+                        { letra: 'c', texto: questao.alternativa_c },
+                        { letra: 'd', texto: questao.alternativa_d }
+                        ];
+
+                        if (questao.alternativa_e) {
+                        alternativas.push({ letra: 'e', texto: questao.alternativa_e });
+                        }
+
+                        for (let i = alternativas.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [alternativas[i], alternativas[j]] = [alternativas[j], alternativas[i]];
+                        }
+
+                        let respostaCorreta = '';
+                        alternativas.forEach((alt, idx) => {
+                        if (alt.letra === questao.resposta_correta.toLowerCase()) {
+                        respostaCorreta = String.fromCharCode(97 + idx);
+                        }
+                        });
+                        %>
+                        <div class="question-wrapper <%= index === 0 ? 'active' : 'hidden' %>" data-index="<%= index %>"
+                            data-original-index="<%= questaoIndex %>">
+                            <div class="question-image-container">
+                                <% if (questao.imagem_path) { %>
+                                    <img src="/questoes/imagem/<%= questao.id %>" alt="Imagem da questão"
+                                        class="question-image">
+                                    <% } %>
+                            </div>
+                            <h2 class="question-text">
+                                <%= questao.enunciado %>
+                            </h2>
+
+                            <div class="options-container">
+                                <% alternativas.forEach((alt, idx)=> {
+                                    const optionLetter = String.fromCharCode(97 + idx);
+                                    %>
+                                    <button class="option-btn" data-option="<%= optionLetter %>"
+                                        data-correct="<%= optionLetter === respostaCorreta %>">
+                                        <%= alt.texto %>
+                                    </button>
+                                    <% }); %>
+                            </div>
+
+                            <div class="feedback-container hidden">
+                                <p class="feedback-text"></p>
+                            </div>
+
+                            <div class="explanation-container hidden">
+                                <h3>Explicação:</h3>
+                                <p class="explanation-text">
+                                    <%= questao.explicacao %>
+                                </p>
+                            </div>
+
+                            <button class="next-btn hidden">Próxima Questão</button>
+                        </div>
+                        <% }); %>
+                            <% } else { %>
+                                <p>Nenhuma questão disponível</p>
+                                <% } %>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionWrappers = document.querySelectorAll('.question-wrapper');
+            const currentQuestionElement = document.getElementById('current-question');
+            const scoreElement = document.getElementById('score');
+            const timeElement = document.getElementById('time');
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let answered = false;
+
+
+            const totalQuestions = questionWrappers.length;
+            const timePerQuestion = 3 * 60;
+            let totalTime = totalQuestions * timePerQuestion;
+            let timerInterval;
+
+
+            function startTimer() {
+                updateTimerDisplay();
+
+                timerInterval = setInterval(() => {
+                    totalTime--;
+                    updateTimerDisplay();
+
+                    if (totalTime <= 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz();
+                    }
+                }, 1000);
+            }
+
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(totalTime / 60);
+                const seconds = totalTime % 60;
+                timeElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+
+                if (totalTime <= 30) {
+                    timeElement.style.color = '#f44336';
+                    timeElement.style.fontWeight = 'bold';
+                }
+            }
+
+
+            function finishQuiz() {
+                const quizContainer = document.querySelector('.quiz-question-container');
+                const answeredQuestions = document.querySelectorAll('.question-wrapper:not(.hidden) .option-btn:disabled').length;
+
+                quizContainer.innerHTML = `
+                <div class="quiz-completed">
+                    <h2>Tempo esgotado!</h2>
+                    <p>Você respondeu ${answeredQuestions} de ${totalQuestions} questões.</p>
+                    <p>Sua pontuação final: ${score}/${totalQuestions}</p>
+                    <a href="/quizes/explorar" class="back-to-explore-btn">Voltar para Explorar</a>
+                </div>
+            `;
+            }
+
+
+            startTimer();
+
+            showQuestion(currentQuestionIndex);
+
+            document.querySelectorAll('.option-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    if (answered) return;
+
+                    answered = true;
+                    const isCorrect = this.dataset.correct === 'true';
+
+                    if (isCorrect) {
+                        score++;
+                        scoreElement.textContent = score;
+                    }
+
+                    const feedbackContainer = this.closest('.question-wrapper').querySelector('.feedback-container');
+                    const feedbackText = feedbackContainer.querySelector('.feedback-text');
+                    feedbackText.textContent = isCorrect ? 'Resposta correta! ✔️' : 'Resposta incorreta! ❌';
+                    feedbackContainer.classList.remove('hidden');
+
+                    const explanationContainer = this.closest('.question-wrapper').querySelector('.explanation-container');
+                    explanationContainer.classList.remove('hidden');
+
+                    const nextButton = this.closest('.question-wrapper').querySelector('.next-btn');
+                    nextButton.classList.remove('hidden');
+
+                    highlightAnswers(this.closest('.question-wrapper'), isCorrect, this.dataset.option);
+
+                    this.closest('.options-container').querySelectorAll('.option-btn').forEach(btn => {
+                        btn.disabled = true;
+                    });
+                });
+            });
+
+            document.querySelectorAll('.next-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    currentQuestionIndex++;
+
+                    if (currentQuestionIndex < questionWrappers.length) {
+                        showQuestion(currentQuestionIndex);
+                        answered = false;
+                    } else {
+                        clearInterval(timerInterval);
+                        const quizContainer = document.querySelector('.quiz-question-container');
+                        quizContainer.innerHTML = `
+                        <div class="quiz-completed">
+                            <h2>Quiz concluído!</h2>
+                            <p>Sua pontuação final: ${score}/${questionWrappers.length}</p>
+                            <a href="/quizes/explorar" class="back-to-explore-btn">Voltar para Explorar</a>
+                        </div>
+                    `;
+                    }
+                });
+            });
+
+            function showQuestion(index) {
+                questionWrappers.forEach(wrapper => {
+                    wrapper.classList.add('hidden');
+                });
+
+                questionWrappers[index].classList.remove('hidden');
+                currentQuestionElement.textContent = index + 1;
+            }
+
+            function highlightAnswers(questionWrapper, isCorrect, selectedOption) {
+                const options = questionWrapper.querySelectorAll('.option-btn');
+
+                options.forEach(option => {
+                    if (option.dataset.correct === 'true') {
+                        option.classList.add('correct-answer');
+                    } else if (option.dataset.option === selectedOption && !isCorrect) {
+                        option.classList.add('incorrect-answer');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .quiz-progress,
+        .quiz-score,
+        .quiz-timer {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .quiz-timer {
+            color: #3b4d9c;
+        }
+
+        .question-image {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 5px;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 12px 20px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .correct-answer {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%) !important;
+            color: white;
+            border-color: transparent !important;
+        }
+
+        .incorrect-answer {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%) !important;
+            color: white;
+            border-color: transparent !important;
+        }
+
+        .feedback-container {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .feedback-text {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .explanation-container {
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .explanation-text {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .next-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59, 77, 156, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .quiz-completed {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .quiz-completed h2 {
+            color: #3b4d9c;
+            margin-bottom: 10px;
+        }
+
+        .back-to-explore-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .back-to-explore-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59, 77, 156, 0.4);
+        }
+    </style>
+
+    <%- include('../partials/footer') %>

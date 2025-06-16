@@ -9,7 +9,9 @@ CREATE TABLE usuarios (
     telefone VARCHAR(15),
     data_nasc VARCHAR(10),
     avatar_path VARCHAR(255),
-    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    pontuacao_total INTEGER DEFAULT 0,
+    licoes_concluidas INTEGER DEFAULT 0
 );
 
 CREATE TABLE quizes (
@@ -20,11 +22,361 @@ CREATE TABLE quizes (
     dificuldade VARCHAR(7) CHECK (dificuldade IN ('Fácil', 'Médio', 'Difícil')) NOT NULL,
     questoes INT NOT NULL,
     imagem_path VARCHAR(255) NOT NULL,
+    categoria VARCHAR(10) CHECK (categoria IN ('Tecnologia', 'Ciências', 'História', 'Matemática', 'Geografia', 'Artes')) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE questoes (
+    id SERIAL PRIMARY KEY,
+    id_quiz INTEGER NOT NULL REFERENCES quizes(id) ON DELETE CASCADE,
+    enunciado VARCHAR(1000) NOT NULL,
+    imagem_path VARCHAR(255),
+    alternativa_a VARCHAR(1000) NOT NULL,
+    alternativa_b VARCHAR(1000) NOT NULL,
+    alternativa_c VARCHAR(1000) NOT NULL,
+    alternativa_d VARCHAR(1000) NOT NULL,
+    alternativa_e VARCHAR(1000) NOT NULL,
+    resposta_correta VARCHAR(1) CHECK (resposta_correta IN ('A', 'B', 'C', 'D', 'E')) NOT NULL,
+    explicacao VARCHAR(1000), -- Explicação opcional para a resposta
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 
     -- Inserir o usuário Admin
     
 INSERT INTO usuarios (nome, email, senha, papel)
 VALUES ('Admin', 'admin@admin.com', 'admin123', 'professor');
+
+    -- Inserir Quizes para demonstrar
+
+-- Inserindo o primeiro quiz de Tecnologia
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'Tecnologia e Sociedade - ENEM', 
+    'Quiz sobre o impacto da tecnologia na sociedade contemporânea, temas frequentes no ENEM', 
+    1, 
+    'Médio', 
+    8, 
+    'public/uploads/imagem-1234567890.jpg', 
+    'Tecnologia'
+);
+
+-- Questões para o primeiro quiz
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(1, 'A popularização dos smartphones trouxe mudanças significativas no comportamento social. Uma das consequências dessa transformação é:', 'public/uploads/imagem-1234567891.jpg', 'O aumento do isolamento social, com pessoas interagindo mais virtualmente do que pessoalmente', 'A redução do acesso à informação por parte da população', 'A eliminação das diferenças sociais devido ao acesso igualitário à tecnologia', 'O fim dos meios de comunicação tradicionais, como rádio e TV', 'A diminuição do uso da internet em dispositivos móveis', 'A', 'Os smartphones facilitam a comunicação virtual mas podem reduzir interações face a face, levando a um maior isolamento social.'),
+(1, 'A inteligência artificial está transformando o mercado de trabalho. Sobre esse impacto, é correto afirmar que:', NULL, 'Substituirá todas as profissões, tornando o trabalho humano obsoleto', 'Criará novas profissões enquanto automatiza tarefas repetitivas', 'Apenas afetará empregos na área industrial', 'Não terá qualquer impacto significativo no futuro do trabalho', 'Eliminará apenas empregos de baixa qualificação', 'B', 'A IA tende a automatizar tarefas repetitivas, mas também cria novas oportunidades e profissões que exigem habilidades humanas.'),
+(1, 'A Lei Geral de Proteção de Dados (LGPD) foi criada principalmente para:', 'public/uploads/imagem-1234567892.jpg', 'Aumentar a velocidade da internet no Brasil', 'Regular o uso de dados pessoais por empresas e governos', 'Obrigar todos os cidadãos a compartilharem seus dados online', 'Proibir completamente o uso de redes sociais', 'Substituir todas as leis anteriores sobre tecnologia', 'B', 'A LGPD tem como objetivo principal proteger os dados pessoais e regular como organizações podem coletar e usar essas informações.'),
+(1, 'O conceito de "fake news" está diretamente relacionado a:', NULL, 'A velocidade de processamento dos computadores quânticos', 'A disseminação de informações falsas ou enganosas nas redes digitais', 'Um novo modelo de smartphone lançado recentemente', 'Uma técnica de programação para apps móveis', 'Um tipo de vírus de computador', 'B', 'Fake news referem-se à propagação deliberada de desinformação através de plataformas digitais e redes sociais.'),
+(1, 'A computação em nuvem permite:', 'public/uploads/imagem-1234567893.jpg', 'Armazenar dados localmente em um único computador', 'Acessar arquivos e programas apenas no dispositivo onde foram instalados', 'Guardar e processar dados em servidores remotos acessíveis via internet', 'Utilizar apenas aplicativos específicos para clima meteorológico', 'Reduzir a necessidade de conexão com a internet', 'C', 'A computação em nuvem oferece recursos de armazenamento e processamento através da internet, sem necessidade de infraestrutura local.'),
+(1, 'Qual destes é considerado um desafio ético no desenvolvimento de inteligência artificial?', NULL, 'O alto custo dos equipamentos necessários', 'A lentidão no processamento de grandes volumes de dados', 'A possibilidade de viés algorítmico e discriminação', 'A dificuldade em conectar dispositivos à internet', 'A necessidade de reiniciar os sistemas frequentemente', 'C', 'Os vieses nos algoritmos podem perpetuar discriminações existentes na sociedade, um dos principais desafios éticos da IA.'),
+(1, 'A Internet das Coisas (IoT) refere-se a:', 'public/uploads/imagem-1234567894.jpg', 'Um novo sistema operacional para computadores', 'A conexão de dispositivos físicos à internet para coleta e troca de dados', 'Um tipo especial de cabo de internet de alta velocidade', 'Uma rede social exclusiva para profissionais de TI', 'Um protocolo de segurança para transações bancárias', 'B', 'IoT envolve a interconexão de objetos cotidianos à internet, permitindo que coletem e compartilhem dados.'),
+(1, 'A inclusão digital é importante porque:', NULL, 'Aumenta o valor de mercado das empresas de tecnologia', 'Garante que todos tenham acesso às mesmas oportunidades na era digital', 'Fornece mais dados para empresas de publicidade', 'Torna obrigatório o uso de smartphones por crianças', 'Diminui a necessidade de educação tradicional', 'B', 'A inclusão digital busca reduzir desigualdades ao proporcionar acesso igualitário às tecnologias da informação.');
+
+-- Inserindo o segundo quiz de Tecnologia
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'Redes e Segurança Digital - ENEM', 
+    'Questões sobre internet, redes de computadores e segurança digital, temas recorrentes no ENEM', 
+    1, 
+    'Difícil', 
+    9, 
+    'public/uploads/imagem-1234567895.jpg', 
+    'Tecnologia'
+);
+
+-- Questões para o segundo quiz
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(2, 'O protocolo HTTPS em um site indica que:', 'public/uploads/imagem-1234567896.jpg', 'O site pertence a uma grande empresa', 'A conexão entre o usuário e o site está criptografada', 'O site possui mais recursos multimídia', 'O carregamento da página será mais rápido', 'O site não coleta nenhum dado do usuário', 'B', 'HTTPS (HyperText Transfer Protocol Secure) garante que a comunicação entre navegador e servidor está criptografada.'),
+(2, 'Phishing é uma técnica usada por criminosos para:', NULL, 'Melhorar a velocidade da internet', 'Roubar informações sensíveis através de mensagens enganosas', 'Consertar computadores remotamente', 'Proteger dados pessoais na nuvem', 'Otimizar o desempenho de redes Wi-Fi', 'B', 'Phishing envolve tentativas de obter dados confidenciais fingindo ser uma comunicação confiável.'),
+(2, 'A função principal de um firewall em uma rede de computadores é:', 'public/uploads/imagem-1234567897.jpg', 'Aumentar a velocidade da conexão com a internet', 'Controlar o tráfego de dados, bloqueando acessos não autorizados', 'Melhorar a qualidade do sinal Wi-Fi', 'Armazenar backups automáticos dos arquivos', 'Converter sinais analógicos em digitais', 'B', 'Firewall atua como barreira de segurança, filtrando o tráfego de rede conforme regras definidas.'),
+(2, 'Qual destas NÃO é uma característica da tecnologia 5G?', NULL, 'Maior velocidade de transmissão de dados', 'Menor latência (tempo de resposta)', 'Maior capacidade de conectar dispositivos simultaneamente', 'Não necessita de antenas para transmissão', 'Suporte a aplicações que demandam alta conectividade', 'D', 'O 5G ainda requer antenas, embora possam ser diferentes e mais numerosas que as de tecnologias anteriores.'),
+(2, 'A diferença fundamental entre software livre e software proprietário é que:', 'public/uploads/imagem-1234567898.jpg', 'O software livre não pode ser modificado', 'O software proprietário tem seu código-fonte aberto para qualquer pessoa', 'O software livre permite acesso, modificação e redistribuição do código-fonte', 'O software livre é sempre gratuito', 'Não há diferenças significativas entre eles', 'C', 'Software livre garante liberdades como uso, estudo, modificação e distribuição do código, não necessariamente sendo gratuito.'),
+(2, 'A computação quântica difere da computação clássica principalmente por:', NULL, 'Utilizar bits que podem representar apenas 0 ou 1', 'Operar com qubits que podem estar em superposição de estados', 'Ser mais barata e acessível que computadores tradicionais', 'Não precisar de energia elétrica para funcionar', 'Ter sido inventada antes dos computadores clássicos', 'B', 'Qubits podem representar 0, 1 ou ambos simultaneamente (superposição quântica), permitindo novos paradigmas de processamento.'),
+(2, 'O deepfake é uma tecnologia que:', 'public/uploads/imagem-1234567899.jpg', 'Melhora a qualidade de fotos antigas', 'Cria representações falsas mas realistas de pessoas usando IA', 'Aumenta a profundidade de cores em monitores', 'Protege contra vírus de computador', 'Compacta arquivos sem perda de qualidade', 'B', 'Deepfake usa inteligência artificial para criar mídias manipuladas onde pessoas parecem dizer ou fazer coisas que não fizeram.'),
+(2, 'A neutralidade da rede significa que:', NULL, 'A internet deve tratar todo tráfego de dados igualmente, sem discriminação', 'As redes sociais não podem ter opiniões políticas', 'Os provedores devem fornecer acesso gratuito à internet', 'Os usuários não podem expressar opiniões online', 'O governo controla todo o conteúdo da internet', 'A', 'Neutralidade da rede é o princípio de que ISPs devem tratar todo tráfego de dados da mesma forma, sem bloquear ou privilegiar conteúdos.'),
+(2, 'A criptografia de ponta a ponta em aplicativos de mensagem garante que:', 'public/uploads/imagem-1234567900.jpg', 'As mensagens possam ser lidas pelo provedor do serviço', 'Apenas os dispositivos do remetente e destinatário podem decifrar as mensagens', 'As mensagens são armazenadas permanentemente em servidores centrais', 'O conteúdo das mensagens pode ser modificado durante o trânsito', 'As mensagens chegam mais rápido ao destinatário', 'B', 'Criptografia ponta a ponta protege a comunicação de modo que apenas os participantes da conversa podem ler as mensagens.');
+
+-- Inserir o primeiro quiz de Ciências
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'Ciências da Natureza - ENEM (Parte 1)',
+    'Quiz com questões de Biologia, Química e Física que caíram em edições anteriores do ENEM',
+    1,
+    'Médio',
+    9,
+    'public/uploads/imagem-1234567890.jpg',
+    'Ciências'
+);
+
+-- Questões para o primeiro quiz de Ciências (id_quiz = 3)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(3, 'O ar atmosférico pode ser utilizado para armazenar o excedente de energia gerada no sistema elétrico, diminuindo seu desperdício, por meio da seguinte ação:', NULL, 'Conversão de energia elétrica em energia potencial gravitacional.', 'Conversão de energia elétrica em energia química.', 'Conversão de energia elétrica em energia térmica.', 'Conversão de energia elétrica em energia cinética.', 'Conversão de energia elétrica em energia pneumática.', 'D', 'A resposta correta é D, pois o ar comprimido (energia pneumática) é uma forma eficiente de armazenar energia elétrica excedente.'),
+(3, 'Uma pessoa que esteja passando mal e precise de atendimento médico, ao ligar para o SAMU, disca 192. O simples ato de discar esse número em qualquer telefone, mesmo público, aciona o serviço de atendimento porque', NULL, 'O aparelho telefônico envia um sinal codificado para a central.', 'A operadora de telefonia reconhece automaticamente o número.', 'O número 192 é um número gratuito, que não precisa de créditos.', 'O telefone público é programado para aceitar chamadas de emergência sem cartão.', 'O número 192 é universal e pode ser discado de qualquer lugar do mundo.', 'B', 'A resposta correta é B, pois as operadoras de telefonia reconhecem automaticamente números de emergência como o 192.'),
+(3, 'O benzeno, um importante solvente para a indústria química, é obtido industrialmente pela', NULL, 'Oxidação do carvão mineral.', 'Destilação do petróleo.', 'Hidrogenação do alcatrão.', 'Eletrólise de soluções aquosas.', 'Redução do monóxido de carbono.', 'B', 'A resposta correta é B, pois o benzeno é obtido principalmente através da destilação do petróleo.'),
+(3, 'O processo de obtenção de energia nuclear baseia-se na', 'public/uploads/imagem-1234567891.jpg', 'Fusão de núcleos atômicos de urânio.', 'Fissão de núcleos atômicos de urânio.', 'Queima de combustível nuclear.', 'Aquecimento de água por meio de reações químicas.', 'Geração de eletricidade por meio de campos magnéticos.', 'B', 'A resposta correta é B, pois a energia nuclear é obtida através da fissão (quebra) de núcleos atômicos de urânio.'),
+(3, 'A dengue é uma doença viral transmitida pelo mosquito Aedes aegypti. O combate a essa doença inclui medidas preventivas como:', NULL, 'Vacinação em massa da população.', 'Uso de antibióticos em áreas endêmicas.', 'Eliminação de criadouros do mosquito.', 'Distribuição de repelentes para toda a população.', 'Isolamento dos doentes em hospitais.', 'C', 'A resposta correta é C, pois a principal medida preventiva é eliminar os locais onde o mosquito se reproduz.'),
+(3, 'O efeito estufa é um fenômeno natural que:', NULL, 'Aumenta a temperatura da Terra devido à reflexão da luz solar.', 'Mantém a temperatura da Terra adequada para a vida.', 'Diminui a temperatura da Terra durante a noite.', 'Causa o resfriamento global quando intensificado.', 'É responsável pela destruição da camada de ozônio.', 'B', 'A resposta correta é B, pois o efeito estufa natural é essencial para manter a temperatura adequada na Terra.'),
+(3, 'Na fotossíntese, as plantas verdes transformam:', NULL, 'Energia luminosa em energia química.', 'Energia térmica em energia luminosa.', 'Energia química em energia luminosa.', 'Energia elétrica em energia térmica.', 'Energia nuclear em energia química.', 'A', 'A resposta correta é A, pois a fotossíntese converte energia luminosa em energia química armazenada em moléculas orgânicas.'),
+(3, 'O aquecimento global pode ser agravado pelo aumento na concentração atmosférica de:', NULL, 'Oxigênio molecular (O₂).', 'Gás nitrogênio (N₂).', 'Dióxido de carbono (CO₂).', 'Gás hidrogênio (H₂).', 'Gás nobre argônio (Ar).', 'C', 'A resposta correta é C, pois o CO₂ é um dos principais gases do efeito estufa que contribuem para o aquecimento global.'),
+(3, 'A tabela periódica dos elementos químicos está organizada em ordem crescente de:', 'public/uploads/imagem-1234567892.jpg', 'Massa atômica.', 'Número atômico.', 'Raio atômico.', 'Eletronegatividade.', 'Energia de ionização.', 'B', 'A resposta correta é B, pois os elementos são organizados pelo número atômico (número de prótons).');
+
+-- Inserir o segundo quiz de Ciências
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'Ciências da Natureza - ENEM (Parte 2)',
+    'Segundo quiz com questões de Biologia, Química e Física que caíram no ENEM',
+    1,
+    'Difícil',
+    10,
+    'public/uploads/imagem-1234567893.jpg',
+    'Ciências'
+);
+
+-- Questões para o segundo quiz de Ciências (id_quiz = 4)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(4, 'A energia solar é uma alternativa para geração de eletricidade, especialmente em países tropicais, como o Brasil. Entre as vantagens dessa fonte de energia, inclui-se:', NULL, 'Baixo custo de instalação em comparação com hidrelétricas.', 'Não poluição do ar durante a geração de energia.', 'Dispensa o uso de baterias para armazenamento.', 'Fornecimento contínuo durante 24 horas.', 'Independência de condições climáticas para geração.', 'B', 'A resposta correta é B, pois a energia solar não emite poluentes durante a geração de eletricidade.'),
+(4, 'O processo de eutrofização ocorre quando:', NULL, 'Há aumento excessivo de nutrientes em um corpo d''água.', 'A temperatura da água diminui abruptamente.', 'Há contaminação por metais pesados.', 'O pH da água se torna muito ácido.', 'A salinidade da água aumenta consideravelmente.', 'A', 'A resposta correta é A, pois a eutrofização é causada pelo excesso de nutrientes (como fósforo e nitrogênio) na água.'),
+(4, 'O princípio de funcionamento de um motor a explosão está baseado na:', NULL, 'Expansão dos gases resultantes da queima do combustível.', 'Contração do pistão devido ao resfriamento interno.', 'Eletrólise da mistura ar-combustível.', 'Fusão nuclear controlada do combustível.', 'Ionização das moléculas de oxigênio no cilindro.', 'A', 'A resposta correta é A, pois o motor funciona pela expansão dos gases da combustão que movem os pistões.'),
+(4, 'O DNA é uma molécula que contém a informação genética. Sua estrutura é formada por:', 'public/uploads/imagem-1234567894.jpg', 'Uma fita simples de nucleotídeos.', 'Duas fitas antiparalelas de nucleotídeos.', 'Três fitas enroladas em hélice.', 'Quatro fitas pareadas por pontes de hidrogênio.', 'Cinco fitas ligadas por grupos fosfato.', 'B', 'A resposta correta é B, pois o DNA tem estrutura de dupla hélice com duas fitas antiparalelas.'),
+(4, 'A principal função das mitocôndrias nas células eucarióticas é:', NULL, 'Síntese de proteínas.', 'Armazenamento de material genético.', 'Produção de energia (ATP).', 'Digestão intracelular.', 'Síntese de lipídios.', 'C', 'A resposta correta é C, pois as mitocôndrias são responsáveis pela produção de ATP (energia) na célula.'),
+(4, 'O fenômeno da resistência bacteriana a antibióticos está relacionado com:', NULL, 'O uso indiscriminado de antibióticos.', 'A falta de higiene pessoal.', 'O excesso de vacinação.', 'A poluição do ar por indústrias.', 'O consumo de alimentos transgênicos.', 'A', 'A resposta correta é A, pois o uso excessivo e inadequado de antibióticos seleciona bactérias resistentes.'),
+(4, 'A Lei da Conservação das Massas, proposta por Lavoisier, estabelece que:', NULL, 'A massa total dos produtos é sempre maior que a dos reagentes.', 'A massa total dos reagentes é sempre maior que a dos produtos.', 'A massa total dos reagentes é igual à massa total dos produtos.', 'A massa não se conserva em reações químicas.', 'Apenas a energia se conserva nas reações químicas.', 'C', 'A resposta correta é C, pois a lei afirma que a massa total se conserva nas reações químicas.'),
+(4, 'O princípio de Arquimedes está relacionado com:', NULL, 'A pressão exercida por fluidos em repouso.', 'O empuxo sofrido por corpos imersos em fluidos.', 'A capilaridade em tubos estreitos.', 'A tensão superficial dos líquidos.', 'A viscosidade dos fluidos em movimento.', 'B', 'A resposta correta é B, pois o princípio de Arquimedes explica a força de empuxo em corpos submersos.'),
+(4, 'A camada de ozônio na estratosfera é importante porque:', NULL, 'Aumenta a temperatura média da Terra.', 'Filtra a radiação ultravioleta do Sol.', 'Fornece oxigênio para a respiração.', 'Mantém o equilíbrio térmico dos oceanos.', 'Regula as correntes marítimas.', 'B', 'A resposta correta é B, pois o ozônio filtra os raios UV prejudiciais à vida na Terra.'),
+(4, 'As células-tronco têm a capacidade de se diferenciar em diversos tipos celulares. Por isso, são importantes para:', 'public/uploads/imagem-1234567895.jpg', 'Produção de hormônios em larga escala.', 'Fabricação de vacinas contra vírus.', 'Terapias de regeneração de tecidos.', 'Síntese de antibióticos naturais.', 'Criação de novos órgãos artificiais.', 'C', 'A resposta correta é C, pois as células-tronco têm potencial para regenerar tecidos danificados.');
+
+-- Inserindo o primeiro quiz de História (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'História do Brasil - ENEM', 
+    'Quiz com questões sobre a História do Brasil que caíram no ENEM', 
+    1, 
+    'Médio', 
+    8, 
+    'public/uploads/imagem-1234567890.jpg', 
+    'História'
+);
+
+-- Questões para o primeiro quiz (id_quiz = 5)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES 
+(5, 'Qual foi o principal produto de exportação do Brasil durante o ciclo econômico conhecido como "Ciclo do Ouro"?', NULL, 'Cana-de-açúcar', 'Algodão', 'Ouro', 'Café', 'Borracha', 'C', 'O Ciclo do Ouro (século XVIII) teve como principal produto o ouro, explorado principalmente em Minas Gerais.'),
+(5, 'A Inconfidência Mineira (1789) foi influenciada por qual movimento externo?', NULL, 'Revolução Industrial', 'Independência dos EUA', 'Revolução Francesa', 'Guerra dos Sete Anos', 'Unificação Italiana', 'B', 'A Inconfidência Mineira foi influenciada pelas ideias iluministas e pelo exemplo da Independência dos EUA (1776).'),
+(5, 'Qual foi o principal objetivo da Revolução Pernambucana de 1817?', NULL, 'Abolir a escravidão', 'Independência de Pernambuco', 'Proclamar a República', 'Restaurar o domínio português', 'Anexar Pernambuco à Holanda', 'C', 'A Revolução Pernambucana pretendia proclamar uma república independente, influenciada por ideias liberais.'),
+(5, 'O que estabelecia a Lei Eusébio de Queirós de 1850?', NULL, 'Fim do tráfico negreiro', 'Abolição da escravidão', 'Liberdade aos filhos de escravos', 'Indenização aos senhores', 'Regulamentação do trabalho livre', 'A', 'A Lei Eusébio de Queirós proibiu o tráfico de escravos para o Brasil, pressionado pela Inglaterra.'),
+(5, 'Qual foi o principal motivo da Guerra do Paraguai (1864-1870)?', 'public/uploads/imagem-1234567891.jpg', 'Disputa por terras', 'Controle do rio da Prata', 'Anexação do Uruguai', 'Independência do Paraguai', 'Interesse britânico', 'B', 'O conflito surgiu da disputa pela hegemonia na região do rio da Prata.'),
+(5, 'O que caracterizou a política do "Encilhamento" na Primeira República?', NULL, 'Reforma agrária', 'Especulação financeira', 'Industrialização', 'Educação pública', 'Imigração europeia', 'B', 'O Encilhamento foi uma política econômica que gerou grande especulação financeira e inflação.'),
+(5, 'Qual foi o principal motivo da Revolta da Vacina (1904)?', 'public/uploads/imagem-1234567892.jpg', 'Falta de medicamentos', 'Obrigatoriedade da vacinação', 'Aumento de impostos', 'Falta de alimentos', 'Reforma urbana', 'B', 'A revolta ocorreu devido à campanha obrigatória de vacinação contra a varíola imposta por Oswaldo Cruz.'),
+(5, 'O que estabelecia a Lei de Terras de 1850?', NULL, 'Doação de terras a imigrantes', 'Regulamentação da posse de terras', 'Abolição das sesmarias', 'Criação de assentamentos', 'Desapropriação de latifúndios', 'B', 'A lei determinava que as terras devolutas só poderiam ser adquiridas por compra, não por posse.');
+
+-- Inserindo o segundo quiz de História (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'História Mundial - ENEM', 
+    'Questões sobre História Mundial que já apareceram no ENEM', 
+    1, 
+    'Difícil', 
+    10, 
+    'public/uploads/imagem-1234567893.jpg', 
+    'História'
+);
+
+-- Questões para o segundo quiz (id_quiz = 6)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES 
+(6, 'Qual foi o principal fator que contribuiu para a queda do Império Romano do Ocidente?', NULL, 'Invasões bárbaras', 'Crise econômica', 'Guerras civis', 'Peste bubônica', 'Expansão do Cristianismo', 'A', 'As invasões dos povos germânicos foram decisivas para a queda de Roma em 476 d.C.'),
+(6, 'O que foi a Guerra dos Cem Anos (1337-1453)?', 'public/uploads/imagem-1234567894.jpg', 'Conflito entre França e Inglaterra', 'Guerra civil na Espanha', 'Cruzada contra os muçulmanos', 'Revolta camponesa', 'Disputa pelo Sacro Império', 'A', 'Foi um longo conflito entre França e Inglaterra pela posse de territórios franceses.'),
+(6, 'Qual foi o principal motivo das Grandes Navegações nos séculos XV e XVI?', NULL, 'Expandir o Cristianismo', 'Encontrar novas rotas comerciais', 'Fugir das pestes', 'Descobrir novos continentes', 'Difundir a cultura europeia', 'B', 'A busca por novas rotas para as Índias, após a queda de Constantinopla, foi o principal motivo.'),
+(6, 'O que caracterizou o Absolutismo monárquico na Europa?', NULL, 'Poder dividido com o parlamento', 'Centralização do poder no rei', 'Democracia representativa', 'Governo teocrático', 'Federalismo', 'B', 'O Absolutismo concentrava todo o poder político nas mãos do monarca.'),
+(6, 'Qual foi o principal lema da Revolução Francesa (1789)?', 'public/uploads/imagem-1234567895.jpg', 'Paz, Pão e Terra', 'Liberdade, Igualdade, Fraternidade', 'Terra e Liberdade', 'Ordem e Progresso', 'Deus, Pátria e Família', 'B', 'Este lema sintetizava os ideais revolucionários de liberdade política e igualdade jurídica.'),
+(6, 'O que foi a Revolução Industrial?', NULL, 'Revolta operária', 'Processo de mecanização da produção', 'Independência das colônias', 'Reforma agrária', 'Movimento artístico', 'B', 'Foi a transição para novos processos de manufatura entre 1760 e 1840.'),
+(6, 'Qual foi o principal motivo da Primeira Guerra Mundial (1914-1918)?', NULL, 'Disputa colonial', 'Assassinato do arquiduque Francisco Ferdinando', 'Rivalidade econômica', 'Expansionismo alemão', 'Conflitos nacionalistas', 'B', 'O assassinato em Sarajevo foi o estopim, mas as causas eram complexas (alianças, nacionalismo, imperialismo).'),
+(6, 'O que caracterizou a Crise de 1929?', 'public/uploads/imagem-1234567896.jpg', 'Hiperinflação', 'Queda da bolsa de valores', 'Desemprego em massa', 'Superprodução agrícola', 'Todas as alternativas', 'E', 'A crise teve múltiplas facetas: financeira, industrial, agrícola e social.'),
+(6, 'Qual foi o principal objetivo da ONU, criada em 1945?', NULL, 'Promover a paz mundial', 'Combater o comunismo', 'Regular a economia global', 'Expandir a democracia', 'Controlar armamentos', 'A', 'Manter a paz e segurança internacionais é seu objetivo principal, segundo a Carta das Nações Unidas.'),
+(6, 'O que caracterizou a Guerra Fria (1947-1991)?', NULL, 'Confronto direto EUA-URSS', 'Corrida armamentista', 'Disputa ideológica', 'Conflitos por procuração', 'Todas as alternativas', 'E', 'A Guerra Fria envolveu confronto político, econômico, ideológico e tecnológico entre as superpotências.');
+
+-- Inserir o primeiro quiz de História (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES ('História do Brasil - ENEM', 'Quiz com questões sobre História do Brasil que caíram no ENEM', 1, 'Médio', 8, 'public/uploads/imagem-1234567890.jpg', 'História');
+
+-- Questões para o primeiro quiz (id_quiz = 7)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES 
+(7, 'Qual foi o principal objetivo do movimento conhecido como "Revolta da Vacina", ocorrido no Rio de Janeiro em 1904?', 'public/uploads/imagem-1234567891.jpg', 'Combater a política de saneamento básico do governo', 'Exigir a saída do presidente Rodrigues Alves', 'Protestar contra a obrigatoriedade da vacinação antivariólica', 'Defender a liberdade de imprensa', 'Reivindicar melhores salários para os trabalhadores', 'C', 'A Revolta da Vacina foi uma revolta popular contra a campanha de vacinação obrigatória contra a varíola imposta pelo governo federal.'),
+
+(7, 'A Inconfidência Mineira (1789) e a Conjuração Baiana (1798) são consideradas movimentos precursores da independência do Brasil. Sobre esses movimentos, é correto afirmar que:', 'public/uploads/imagem-1234567892.jpg', 'Ambos defendiam o fim da escravidão', 'A Inconfidência Mineira tinha caráter mais elitista que a Conjuração Baiana', 'Os dois movimentos foram influenciados diretamente pela Revolução Industrial', 'A Conjuração Baiana foi liderada pela aristocracia rural', 'Ambos obtiveram sucesso em seus objetivos', 'B', 'A Inconfidência Mineira foi liderada pela elite mineira, enquanto a Conjuração Baiana teve maior participação popular.'),
+
+(7, 'O período conhecido como "República Velha" (1889-1930) foi marcado por:', 'public/uploads/imagem-1234567893.jpg', 'Política dos Governadores e coronelismo', 'Industrialização acelerada e reforma agrária', 'Centralização política e fim do federalismo', 'Participação popular ampla nas decisões políticas', 'Domínio político exclusivo do Partido Comunista', 'A', 'A República Velha foi caracterizada pela Política dos Governadores (acordo entre governo federal e elites estaduais) e pelo coronelismo (poder local dos grandes proprietários rurais).'),
+
+(7, 'Sobre o processo de independência do Brasil (1822), é correto afirmar que:', 'public/uploads/imagem-1234567894.jpg', 'Foi um processo revolucionário que eliminou todas as estruturas coloniais', 'Teve ampla participação popular em todas as regiões do país', 'Manteve a monarquia como forma de governo', 'Resultou em imediata democratização política', 'Cortou todos os laços econômicos com Portugal', 'C', 'A independência do Brasil manteve a monarquia e muitas estruturas sociais e econômicas do período colonial.'),
+
+(7, 'O "Milagre Econômico" brasileiro (1968-1973) foi caracterizado por:', 'public/uploads/imagem-1234567895.jpg', 'Crescimento econômico acelerado com concentração de renda', 'Distribuição equitativa de riquezas e redução das desigualdades', 'Prioridade absoluta aos investimentos sociais', 'Redução da participação do Estado na economia', 'Estagnação industrial e aumento do desemprego', 'A', 'O período foi marcado por alto crescimento do PIB, mas também por aumento da concentração de renda e endividamento externo.'),
+
+(7, 'A chamada "Era Vargas" (1930-1945) incluiu, entre suas principais medidas:', 'public/uploads/imagem-1234567896.jpg', 'Criação da CLT e legislação trabalhista', 'Privatização de empresas estatais', 'Redução da intervenção do Estado na economia', 'Adoção de políticas neoliberais', 'Fim do voto secreto', 'A', 'Vargas criou a Consolidação das Leis do Trabalho (CLT) e ampliou os direitos trabalhistas.'),
+
+(7, 'O Tratado de Tordesilhas (1494) estabeleceu:', 'public/uploads/imagem-1234567897.jpg', 'A divisão do mundo entre Portugal e Espanha', 'A independência das colônias portuguesas', 'O fim da escravidão indígena', 'A união das coroas ibéricas', 'O domínio português sobre toda a América', 'A', 'O tratado dividiu as terras descobertas e a descobrir entre Portugal e Espanha através de um meridiano.'),
+
+(7, 'O ciclo da borracha na Amazônia (fim do século XIX e início do XX) teve como consequência:', 'public/uploads/imagem-1234567898.jpg', 'O enriquecimento permanente da região', 'A modernização urbana de Manaus e Belém', 'A imediata industrialização da Amazônia', 'O fim da exploração da mão de obra indígena', 'A substituição completa da agricultura pela extração', 'B', 'O ciclo trouxe desenvolvimento urbano temporário, com construções como o Teatro Amazonas em Manaus.');
+
+-- Inserir o segundo quiz de História (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES ('História Mundial - ENEM', 'Questões de História Mundial que já apareceram no ENEM', 1, 'Difícil', 10, 'public/uploads/imagem-1234567899.jpg', 'História');
+
+-- Questões para o segundo quiz (id_quiz = 8)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES 
+(8, 'A Revolução Industrial, iniciada na Inglaterra no século XVIII, está relacionada com:', 'public/uploads/imagem-1234567900.jpg', 'A manutenção do sistema de produção artesanal', 'A consolidação do capitalismo e do sistema fabril', 'O aumento da importância do trabalho servil', 'A diminuição do êxodo rural', 'O fim da divisão social do trabalho', 'B', 'A Revolução Industrial marcou a consolidação do capitalismo industrial e do sistema de produção em fábricas.'),
+
+(8, 'Sobre o Iluminismo, movimento intelectual do século XVIII, é correto afirmar que:', 'public/uploads/imagem-1234567901.jpg', 'Defendia o absolutismo monárquico como forma ideal de governo', 'Rejeitava o uso da razão como instrumento de conhecimento', 'Criticava as estruturas tradicionais de poder e privilégios', 'Propagava a manutenção da sociedade estamental', 'Era contrário à liberdade religiosa', 'C', 'O Iluminismo criticava o Antigo Regime, defendendo ideias como liberdade, igualdade e uso da razão.'),
+
+(8, 'A Primeira Guerra Mundial (1914-1918) teve como uma de suas causas:', 'public/uploads/imagem-1234567902.jpg', 'O expansionismo japonês no Pacífico', 'A rivalidade entre potências europeias e o sistema de alianças', 'A crise econômica de 1929', 'A Revolução Russa de 1917', 'O surgimento da Guerra Fria', 'B', 'As rivalidades imperialistas e o sistema de alianças (Tríplice Entente x Tríplice Aliança) foram fatores decisivos para o conflito.'),
+
+(8, 'A Guerra Fria (1947-1991) foi caracterizada por:', 'public/uploads/imagem-1234567903.jpg', 'Confronto militar direto entre EUA e URSS', 'Cooperação econômica entre capitalistas e socialistas', 'Disputa ideológica e tecnológica entre EUA e URSS', 'Formação de alianças militares permanentes contra a China', 'Unificação política da Europa sob uma só bandeira', 'C', 'A Guerra Fria foi marcada pela disputa indireta (ideológica, tecnológica, espacial) entre as duas superpotências.'),
+
+(8, 'O Renascimento Cultural dos séculos XV e XVI na Europa está associado:', 'public/uploads/imagem-1234567904.jpg', 'Ao fortalecimento exclusivo dos valores religiosos medievais', 'À rejeição completa da cultura clássica greco-romana', 'Ao antropocentrismo e valorização da razão humana', 'À diminuição da produção artística', 'Ao isolamento cultural da Europa', 'C', 'O Renascimento valorizou o ser humano (antropocentrismo) e recuperou elementos da cultura clássica.'),
+
+(8, 'A Revolução Francesa (1789) teve como um de seus legados:', 'public/uploads/imagem-1234567905.jpg', 'A consolidação do feudalismo na Europa', 'A difusão de ideias como liberdade e igualdade jurídica', 'O fim imediato de todas as monarquias europeias', 'A eliminação completa das desigualdades sociais', 'A centralização do poder na Igreja Católica', 'B', 'A Revolução difundiu ideais liberais e democráticos que influenciaram todo o Ocidente.'),
+
+(8, 'O imperialismo do século XIX foi marcado por:', 'public/uploads/imagem-1234567906.jpg', 'A descolonização da África e Ásia', 'A expansão europeia sobre África e Ásia, com justificativas como o "fardo do homem branco"', 'O respeito às culturas locais dos povos dominados', 'A formação de uma economia mundial igualitária', 'A recusa de qualquer intervenção estatal na economia', 'B', 'O imperialismo justificava a dominação com ideias de superioridade racial e civilizatória.'),
+
+(8, 'A Crise de 1929, que começou nos EUA, teve como uma de suas causas:', 'public/uploads/imagem-1234567907.jpg', 'A superprodução industrial e agrícola não acompanhada pelo consumo', 'O excesso de regulamentação estatal da economia', 'A falta de inovações tecnológicas', 'O pequeno volume de crédito disponível', 'A ausência de especulação na bolsa de valores', 'A', 'A crise foi causada pela superprodução, especulação e desequilíbrio entre produção e consumo.'),
+
+(8, 'A Reforma Protestante do século XVI:', 'public/uploads/imagem-1234567908.jpg', 'Fortaleceu o poder político do Papa', 'Manteve a unidade religiosa na Europa', 'Foi liderada por figuras como Martinho Lutero e João Calvino', 'Não teve qualquer impacto político', 'Rejeitou completamente a Bíblia como texto sagrado', 'C', 'A Reforma foi liderada por Lutero (Alemanha), Calvino (Suíça) e outros, rompendo com a Igreja Católica.'),
+
+(8, 'A globalização contemporânea tem como uma de suas características:', 'public/uploads/imagem-1234567909.jpg', 'A diminuição dos fluxos de informação', 'O fortalecimento das barreiras comerciais', 'A integração econômica e cultural em escala mundial', 'A redução da importância das tecnologias de comunicação', 'O fim das empresas multinacionais', 'C', 'A globalização é marcada pela integração econômica, cultural e tecnológica em nível mundial.');
+
+-- Inserir o primeiro quiz de Matemática (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria) 
+VALUES (
+    'Matemática ENEM - Álgebra e Funções',
+    'Quiz com questões de Álgebra e Funções que caíram em edições anteriores do ENEM',
+    1,
+    'Médio',
+    8,
+    'public/uploads/imagem-1234567890-algebra.jpg',
+    'Matemática'
+);
+
+-- Questões para o primeiro quiz (id_quiz = 9)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao) VALUES
+(9, 'Uma empresa de telefonia celular possui dois planos para os seus clientes. O plano Alfa cobra um valor fixo de R$ 80,00 e mais R$ 0,30 por minuto de conversação. O plano Beta cobra um valor fixo de R$ 50,00 e mais R$ 0,80 por minuto de conversação. A partir de quantos minutos de conversação o plano Alfa é mais vantajoso para o cliente?', 'public/uploads/imagem-1234567891-plano-telefonia.jpg', '25 minutos', '30 minutos', '40 minutos', '60 minutos', '80 minutos', 'D', 'Igualando as funções: 80 + 0,3x = 50 + 0,8x → 30 = 0,5x → x = 60 minutos. Acima de 60 minutos, o plano Alfa se torna mais vantajoso.'),
+(9, 'Uma função quadrática f(x) = ax² + bx + c tem como gráfico uma parábola com vértice no ponto (2, -1) e que passa pelo ponto (0, 3). Qual é o valor de a + b + c?', 'public/uploads/imagem-1234567892-parabola.jpg', '1', '2', '3', '4', '5', 'C', 'Usando o vértice: f(x) = a(x-2)² -1. Substituindo (0,3): 3 = a(0-2)² -1 → 4 = 4a → a=1. A função é f(x) = (x-2)² -1 = x² -4x +3. Logo, a+b+c = 1-4+3 = 0.'),
+(9, 'O número de bactérias em uma cultura cresce segundo a função N(t) = 1000 · 2^t, onde t é dado em horas. Após quanto tempo essa cultura terá 32.000 bactérias?', 'public/uploads/imagem-1234567893-bacterias.jpg', '3 horas', '4 horas', '5 horas', '6 horas', '7 horas', 'C', 'Resolvendo 32000 = 1000 · 2^t → 32 = 2^t → 2^5 = 2^t → t = 5 horas.'),
+(9, 'Uma loja oferece um desconto de 20% em um produto que custa R$ 150,00. Se o cliente pagar à vista, tem um desconto adicional de 10% sobre o valor já descontado. Qual é o valor final pago à vista?', 'public/uploads/imagem-1234567894-desconto.jpg', 'R$ 105,00', 'R$ 108,00', 'R$ 112,00', 'R$ 120,00', 'R$ 135,00', 'B', 'Primeiro desconto: 150 - 20% = 120. Segundo desconto: 120 - 10% = 108. Valor final: R$ 108,00.'),
+(9, 'Qual é a soma das raízes da equação x³ - 6x² + 11x - 6 = 0?', 'public/uploads/imagem-1234567895-equacao.jpg', '2', '3', '5', '6', '11', 'D', 'Pelas Relações de Girard, a soma das raízes de x³ - 6x² + 11x - 6 = 0 é -(-6)/1 = 6.'),
+(9, 'Se log₂ x + log₂ (x - 2) = 3, então x é igual a:', 'public/uploads/imagem-1234567896-logaritmo.jpg', '1', '2', '3', '4', '5', 'D', 'Condição de existência: x > 2. log₂ [x(x-2)] = 3 → x² -2x = 8 → x² -2x -8 = 0 → x = 4 ou x = -2 (não serve). Solução: x = 4.'),
+(9, 'Uma progressão aritmética tem primeiro termo igual a 3 e razão igual a 5. Qual é o valor do 10º termo?', 'public/uploads/imagem-1234567897-pa.jpg', '38', '43', '48', '53', '58', 'C', 'Fórmula do termo geral: aₙ = a₁ + (n-1)r → a₁₀ = 3 + (10-1)·5 = 3 + 45 = 48.'),
+(9, 'Se f(x) = 3x + 2 e g(x) = x² - 1, qual é o valor de f(g(2))?', 'public/uploads/imagem-1234567898-funcao-composta.jpg', '5', '8', '11', '14', '17', 'C', 'Calculando g(2) = 2² -1 = 3. Então f(g(2)) = f(3) = 3·3 + 2 = 11.');
+
+-- Inserir o segundo quiz de Matemática (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria) 
+VALUES (
+    'Matemática ENEM - Geometria e Estatística',
+    'Questões de Geometria e Estatística que apareceram no ENEM em anos anteriores',
+    1,
+    'Difícil',
+    9,
+    'public/uploads/imagem-1234567899-geometria.jpg',
+    'Matemática'
+);
+
+-- Questões para o segundo quiz (id_quiz = 10)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao) VALUES
+(10, 'Um cubo tem aresta de 6 cm. Qual é a medida da diagonal desse cubo?', 'public/uploads/imagem-1234567900-cubo.jpg', '6√2 cm', '6√3 cm', '12 cm', '12√2 cm', '12√3 cm', 'B', 'A diagonal do cubo é d = a√3 = 6√3 cm.'),
+(10, 'Em um triângulo retângulo, a hipotenusa mede 10 cm e um dos catetos mede 6 cm. Qual é a área desse triângulo?', 'public/uploads/imagem-1234567901-triangulo.jpg', '12 cm²', '18 cm²', '24 cm²', '30 cm²', '36 cm²', 'C', 'Calculando o outro cateto: b = √(10² - 6²) = √64 = 8 cm. Área = (6×8)/2 = 24 cm².'),
+(10, 'Uma esfera tem volume igual a 288π cm³. Qual é a medida do raio dessa esfera?', 'public/uploads/imagem-1234567902-esfera.jpg', '4 cm', '5 cm', '6 cm', '7 cm', '8 cm', 'C', 'V = (4/3)πr³ → 288π = (4/3)πr³ → r³ = 216 → r = 6 cm.'),
+(10, 'Em um cilindro circular reto, a altura é igual ao triplo do raio da base. Se o volume do cilindro é 81π cm³, qual é a altura?', 'public/uploads/imagem-1234567903-cilindro.jpg', '3 cm', '6 cm', '9 cm', '12 cm', '15 cm', 'C', 'h = 3r. V = πr²h = πr²(3r) = 3πr³ = 81π → r³ = 27 → r = 3 cm → h = 9 cm.'),
+(10, 'Os ângulos internos de um pentágono regular medem:', 'public/uploads/imagem-1234567904-pentagono.jpg', '72°', '90°', '108°', '120°', '135°', 'C', 'Soma dos ângulos internos: (5-2)×180° = 540°. Cada ângulo: 540°/5 = 108°.'),
+(10, 'Em uma pesquisa com 200 pessoas, 70 gostam de futebol, 90 gostam de vôlei e 30 gostam dos dois esportes. Quantas pessoas não gostam de nenhum desses esportes?', 'public/uploads/imagem-1234567905-diagrama.jpg', '40', '50', '60', '70', '80', 'D', 'Usando o Princípio da Inclusão-Exclusão: 70 + 90 - 30 = 130 gostam de pelo menos um esporte. Logo, 200 - 130 = 70 não gostam de nenhum.'),
+(10, 'A média aritmética de cinco números é 10. Se retirarmos um desses números, que é igual a 6, qual será a nova média?', 'public/uploads/imagem-1234567906-media.jpg', '9', '10', '11', '12', '13', 'C', 'Soma total: 5×10 = 50. Nova soma: 50 - 6 = 44. Nova média: 44/4 = 11.'),
+(10, 'Em uma distribuição normal com média 50 e desvio padrão 10, aproximadamente que porcentagem dos dados está entre 40 e 60?', 'public/uploads/imagem-1234567907-distribuicao.jpg', '34%', '47,5%', '68%', '95%', '99,7%', 'C', 'Entre μ-σ e μ+σ (40 e 60) temos aproximadamente 68% dos dados na distribuição normal.'),
+(10, 'Uma urna contém 5 bolas vermelhas, 3 bolas azuis e 2 bolas verdes. Qual a probabilidade de retirar uma bola que não seja vermelha?', 'public/uploads/imagem-1234567908-urna.jpg', '20%', '30%', '40%', '50%', '60%', 'D', 'Total de bolas: 10. Bolas não vermelhas: 3 + 2 = 5. Probabilidade: 5/10 = 0,5 = 50%.');
+
+-- Inserindo o primeiro quiz de Geografia (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES ('Geografia ENEM - Aspectos Físicos e Naturais', 'Quiz com questões sobre geografia física e meio ambiente que caem no ENEM', 1, 'Médio', 8, 'public/uploads/imagem-1234567890.jpg', 'Geografia');
+
+-- Questões para o primeiro quiz (id_quiz = 11)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(11, 'Qual é o principal fator responsável pela formação dos ventos alísios?', 'public/uploads/imagem-1234567891.jpg', 'Diferença de pressão atmosférica entre os trópicos e o equador', 'Rotação da Terra (Força de Coriolis)', 'Diferença de temperatura entre os oceanos e continentes', 'Influência das correntes marítimas', 'Variação da umidade relativa do ar', 'A', 'Os ventos alísios são resultantes da diferença de pressão entre as altas pressões subtropicais e as baixas pressões equatoriais.'),
+(11, 'O fenômeno conhecido como "La Niña" caracteriza-se por:', 'public/uploads/imagem-1234567892.jpg', 'Aquecimento anormal das águas do Pacífico Equatorial', 'Resfriamento anormal das águas do Pacífico Equatorial', 'Aumento da pressão atmosférica no Atlântico Sul', 'Diminuição da temperatura no Oceano Índico', 'Intensificação das chuvas no Nordeste brasileiro', 'B', 'La Niña é o resfriamento anormal das águas superficiais do Oceano Pacífico Equatorial.'),
+(11, 'Qual bioma brasileiro é caracterizado por vegetação rasteira, solos ácidos e ocorrência de queimadas naturais?', 'public/uploads/imagem-1234567893.jpg', 'Mata Atlântica', 'Cerrado', 'Caatinga', 'Pantanal', 'Amazônia', 'B', 'O Cerrado possui vegetação adaptada a solos ácidos e pobres em nutrientes, com ocorrência natural de fogo.'),
+(11, 'A Zona da Mata Nordestina é uma região caracterizada:', 'public/uploads/imagem-1234567894.jpg', 'Pelo cultivo de cana-de-açúcar desde o período colonial', 'Pela predominância do bioma Caatinga', 'Por ser a área mais úmida do Sertão', 'Pela ausência de atividades agrícolas', 'Pelo extrativismo da borracha', 'A', 'A Zona da Mata foi a principal região produtora de cana-de-açúcar no Brasil Colonial.'),
+(11, 'Qual é o principal tipo de clima encontrado no Sertão nordestino?', 'public/uploads/imagem-1234567895.jpg', 'Tropical úmido', 'Semiárido', 'Equatorial', 'Subtropical', 'Temperado', 'B', 'O Sertão nordestino é caracterizado pelo clima semiárido, com poucas chuvas e longos períodos de estiagem.'),
+(11, 'O processo de formação dos solos conhecido como laterização é comum em qual região brasileira?', 'public/uploads/imagem-1234567896.jpg', 'Região Sul', 'Amazônia', 'Centro-Oeste', 'Nordeste', 'Sudeste', 'B', 'A laterização é intensa na região amazônica devido ao clima quente e úmido que favorece a lixiviação.'),
+(11, 'Qual desses fatores NÃO contribui para a formação de ilhas de calor nas grandes cidades?', 'public/uploads/imagem-1234567897.jpg', 'Grande concentração de superfícies asfálticas', 'Falta de áreas verdes', 'Alta concentração de edifícios', 'Elevada umidade relativa do ar', 'Poluição atmosférica', 'D', 'A umidade relativa alta ajuda a amenizar as temperaturas, não sendo fator para formação de ilhas de calor.'),
+(11, 'A inversão térmica é um fenômetro atmosférico que:', 'public/uploads/imagem-1234567898.jpg', 'Aumenta a dispersão de poluentes', 'Intensifica as correntes de convecção', 'Inverte as camadas de ar frio e quente', 'Reduz a umidade relativa do ar', 'Acelera os ventos na superfície', 'C', 'A inversão térmica ocorre quando uma camada de ar frio fica abaixo de uma camada de ar quente, impedindo a dispersão de poluentes.');
+
+-- Inserindo o segundo quiz de Geografia (ENEM)
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES ('Geografia ENEM - Economia e População', 'Questões sobre geografia humana e econômica frequentes no ENEM', 1, 'Difícil', 10, 'public/uploads/imagem-1234567899.jpg', 'Geografia');
+
+-- Questões para o segundo quiz (id_quiz = 12)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(12, 'O que caracteriza um país emergente ou em desenvolvimento como o Brasil?', 'public/uploads/imagem-1234567900.jpg', 'Baixa desigualdade social', 'Economia baseada exclusivamente no setor primário', 'Industrialização recente e dependência tecnológica', 'População predominantemente rural', 'Ausência de problemas ambientais', 'C', 'Países emergentes como o Brasil têm industrialização recente e ainda dependem de tecnologia estrangeira.'),
+(12, 'Qual foi o principal fator para a expansão da fronteira agrícola no Centro-Oeste brasileiro?', 'public/uploads/imagem-1234567901.jpg', 'Implementação da reforma agrária', 'Descoberta de grandes jazidas minerais', 'Desenvolvimento de técnicas de correção do solo', 'Expansão da indústria de transformação', 'Crescimento populacional acelerado', 'C', 'A correção da acidez do solo com calcário permitiu a agricultura em larga escala no cerrado.'),
+(12, 'O êxodo rural no Brasil foi intensificado principalmente a partir:', 'public/uploads/imagem-1234567902.jpg', 'Do período colonial', 'Da Primeira Guerra Mundial', 'Da década de 1950', 'Do Plano Real', 'Da crise de 1929', 'C', 'A partir dos anos 1950, com a industrialização e mecanização agrícola, intensificou-se o êxodo rural.'),
+(12, 'Qual dessas alternativas melhor explica o conceito de "globalização"?', 'public/uploads/imagem-1234567903.jpg', 'Uniformização cultural completa', 'Independência econômica das nações', 'Integração mundial em diferentes aspectos', 'Dominação política por um único país', 'Redução do comércio internacional', 'C', 'Globalização é o processo de integração mundial em aspectos econômicos, culturais e políticos.'),
+(12, 'O IDH (Índice de Desenvolvimento Humano) leva em consideração:', 'public/uploads/imagem-1234567904.jpg', 'Renda, educação e saneamento básico', 'Renda, educação e expectativa de vida', 'Educação, saúde e segurança pública', 'Renda, saúde e meio ambiente', 'Educação, saneamento e habitação', 'B', 'O IDH considera três dimensões: renda, educação e expectativa de vida ao nascer.'),
+(12, 'Qual é o principal desafio demográfico enfrentado pelos países desenvolvidos atualmente?', 'public/uploads/imagem-1234567905.jpg', 'Altas taxas de natalidade', 'Envelhecimento populacional', 'Êxodo rural acelerado', 'Superpopulação urbana', 'Elevado crescimento vegetativo', 'B', 'Os países desenvolvidos enfrentam o envelhecimento populacional e baixas taxas de natalidade.'),
+(12, 'A chamada "década perdida" na economia brasileira refere-se aos anos:', 'public/uploads/imagem-1234567906.jpg', '1950', '1960', '1970', '1980', '1990', 'D', 'A década de 1980 foi marcada por estagnação econômica, inflação e crise da dívida externa.'),
+(12, 'Qual desses blocos econômicos tem o Brasil como membro efetivo?', 'public/uploads/imagem-1234567907.jpg', 'NAFTA', 'União Europeia', 'Mercosul', 'ASEAN', 'APEC', 'C', 'O Brasil é membro fundador do Mercosul, junto com Argentina, Paraguai e Uruguai.'),
+(12, 'O que explica a concentração industrial no Sudeste brasileiro?', 'public/uploads/imagem-1234567908.jpg', 'Abundância de recursos energéticos', 'Proximidade com as matérias-primas do Norte', 'Processo histórico de desenvolvimento', 'Mão de obra mais qualificada que em outras regiões', 'Isenção total de impostos', 'C', 'A concentração industrial no Sudeste resulta de um processo histórico iniciado no século XIX.'),
+(12, 'Qual fator NÃO está relacionado com o processo de favelização nas grandes cidades brasileiras?', 'public/uploads/imagem-1234567909.jpg', 'Êxodo rural', 'Especulação imobiliária', 'Distribuição equitativa de renda', 'Falta de empregos formais', 'Políticas habitacionais insuficientes', 'C', 'A desigualdade na distribuição de renda é uma das causas da favelização, não sua distribuição equitativa.');
+
+-- Inserir o primeiro quiz de Artes
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'Artes no ENEM: Modernismo Brasileiro', 
+    'Quiz sobre o Modernismo Brasileiro e seus principais artistas, tema frequente no ENEM', 
+    1, 
+    'Médio', 
+    8, 
+    'public/uploads/imagem-1234567890-modernismo.jpg', 
+    'Artes'
+);
+
+-- Inserir as questões para o primeiro quiz (id_quiz = 13)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(13, 'Qual foi o evento marcante que inaugurou o Modernismo no Brasil?', 'public/uploads/imagem-1234567891-semana22.jpg', 'Exposição Nacional de 1908', 'Semana de Arte Moderna de 1922', 'Fundação da Academia Brasileira de Letras', 'Independência do Brasil em 1822', 'Abolição da Escravatura em 1888', 'B', 'A Semana de Arte Moderna de 1922, realizada em São Paulo, é considerada o marco inicial do Modernismo brasileiro.'),
+(13, 'Qual destes artistas NÃO participou ativamente da Semana de Arte Moderna de 1922?', 'public/uploads/imagem-1234567892-artistas.jpg', 'Anita Malfatti', 'Tarsila do Amaral', 'Di Cavalcanti', 'Mário de Andrade', 'Vicente do Rego Monteiro', 'B', 'Tarsila do Amaral, apesar de ser uma das principais artistas modernistas, estava estudando na Europa durante a Semana de 22 e não participou do evento.'),
+(13, 'Qual obra de Anita Malfatti causou grande polêmica em 1917 por seu estilo expressionista?', 'public/uploads/imagem-1234567893-malfatti.jpg', 'Abaporu', 'Operários', 'O Homem Amarelo', 'A Negra', 'Carnaval em Madureira', 'C', '"O Homem Amarelo" foi uma das obras que mais chocou a crítica conservadora da época, sendo alvo de duras críticas por Monteiro Lobato.'),
+(13, 'Qual destas características NÃO é típica do Modernismo Brasileiro em sua primeira fase?', NULL, 'Ruptura com as formas acadêmicas', 'Valorização da cultura nacional', 'Uso de linguagem coloquial', 'Preocupação com a perfeição formal', 'Liberdade de expressão', 'D', 'O Modernismo justamente rompeu com a preocupação excessiva com a perfeição formal das academias, buscando maior liberdade criativa.'),
+(13, 'Qual destes movimentos artísticos europeus influenciou o Modernismo Brasileiro?', 'public/uploads/imagem-1234567894-vanguardas.jpg', 'Renascimento', 'Barroco', 'Expressionismo e Cubismo', 'Arte Gótica', 'Arte Bizantina', 'C', 'O Modernismo brasileiro foi fortemente influenciado pelas vanguardas europeias como Expressionismo, Cubismo e Futurismo.'),
+(13, 'Qual destas obras é considerada um marco da segunda fase do Modernismo Brasileiro?', 'public/uploads/imagem-1234567895-abaporu.jpg', 'Operários - Tarsila do Amaral', 'Abaporu - Tarsila do Amaral', 'A Boba - Anita Malfatti', 'São Paulo - Di Cavalcanti', 'Retrato de Mário de Andrade - Lasar Segall', 'B', 'O "Abaporu" (1928) de Tarsila do Amaral é uma obra emblemática da fase antropofágica do Modernismo.'),
+(13, 'O Manifesto Antropófago, escrito por Oswald de Andrade, propunha:', NULL, 'A imitação dos modelos artísticos europeus', 'A "deglutição" das influências estrangeiras para criar uma arte genuinamente brasileira', 'O retorno aos padrões acadêmicos do século XIX', 'A rejeição total de qualquer influência externa', 'A adoção do realismo socialista', 'B', 'O Manifesto Antropófago defendia a "devoração" das culturas estrangeiras para transformá-las em algo novo e brasileiro.'),
+(13, 'Qual destes escritores NÃO está associado à primeira geração do Modernismo Brasileiro?', 'public/uploads/imagem-1234567896-escritores.jpg', 'Mário de Andrade', 'Oswald de Andrade', 'Manuel Bandeira', 'Carlos Drummond de Andrade', 'Menotti del Picchia', 'D', 'Carlos Drummond de Andrade é da geração de 1930, considerada segunda fase do Modernismo.');
+
+-- Inserir o segundo quiz de Artes
+INSERT INTO quizes (titulo, descricao, id_professor, dificuldade, questoes, imagem_path, categoria)
+VALUES (
+    'Artes no ENEM: Barroco Brasileiro', 
+    'Quiz sobre o Barroco no Brasil, com enfoque em Aleijadinho e arte sacra, conteúdo recorrente no ENEM', 
+    1, 
+    'Difícil', 
+    9, 
+    'public/uploads/imagem-1234567897-barroco.jpg', 
+    'Artes'
+);
+
+-- Inserir as questões para o segundo quiz (id_quiz = 14)
+INSERT INTO questoes (id_quiz, enunciado, imagem_path, alternativa_a, alternativa_b, alternativa_c, alternativa_d, alternativa_e, resposta_correta, explicacao)
+VALUES
+(14, 'Em qual período histórico o Barroco brasileiro se desenvolveu?', NULL, 'Século XVI', 'Século XVII e XVIII', 'Século XIX', 'Século XX', 'Período Colonial até a Independência', 'B', 'O Barroco no Brasil floresceu principalmente nos séculos XVII e XVIII, durante o período colonial.'),
+(14, 'Qual destas cidades brasileiras é considerada o principal centro do Barroco no país?', 'public/uploads/imagem-1234567898-ouropreto.jpg', 'Salvador', 'Rio de Janeiro', 'São Paulo', 'Ouro Preto', 'Recife', 'D', 'Ouro Preto, em Minas Gerais, é considerada a capital do Barroco brasileiro, com suas igrejas e obras de Aleijadinho.'),
+(14, 'Qual destas características é típica do estilo Barroco?', 'public/uploads/imagem-1234567899-caracteristicas.jpg', 'Simplicidade e minimalismo', 'Linhas retas e formas geométricas', 'Exagero de detalhes e dramaticidade', 'Uso exclusivo de cores primárias', 'Representação abstrata da realidade', 'C', 'O Barroco se caracteriza pelo excesso de detalhes, dramaticidade, contrastes e movimento nas formas.'),
+(14, 'Antônio Francisco Lisboa, o Aleijadinho, é famoso por:', NULL, 'Pintar o teto da Igreja de São Francisco em Salvador', 'Escrever poemas épicos sobre o descobrimento do Brasil', 'Projetar a cidade de Brasília', 'Criar esculturas e projetos arquitetônicos em Minas Gerais', 'Fundar a Academia Imperial de Belas Artes', 'D', 'Aleijadinho foi o maior expoente do Barroco mineiro, conhecido por suas esculturas e projetos arquitetônicos como o Santuário de Bom Jesus de Matosinhos.'),
+(14, 'Qual destas obras é atribuída a Aleijadinho?', 'public/uploads/imagem-1234567900-profetas.jpg', 'Os Retirantes - Portinari', 'Os Doze Profetas - conjunto escultórico', 'Operários - Tarsila', 'O Grito - Munch', 'A Santa Ceia - Da Vinci', 'B', 'Os Doze Profetas, conjunto escultórico em pedra-sabão no Santuário de Bom Jesus de Matosinhos em Congonhas, é uma de suas obras mais famosas.'),
+(14, 'Qual destes elementos NÃO é característico da arquitetura barroca brasileira?', 'public/uploads/imagem-1234567901-arquitetura.jpg', 'Frontões curvos', 'Torres laterais', 'Interiores ricamente decorados', 'Linhas retas e simetria perfeita', 'Talha dourada', 'D', 'O Barroco privilegiava formas curvas, movimento e assimetria, diferentemente da simetria perfeita do Renascimento.'),
+(14, 'Qual destes artistas é contemporâneo do Barroco brasileiro?', NULL, 'Mestre Valentim', 'Anita Malfatti', 'Portinari', 'Di Cavalcanti', 'Tarsila do Amaral', 'A', 'Mestre Valentim foi um importante escultor e arquiteto do período colonial, atuando no Rio de Janeiro no final do século XVIII.'),
+(14, 'A pintura barroca no Brasil tinha como principal temática:', 'public/uploads/imagem-1234567902-pintura.jpg', 'Cenas do cotidiano urbano', 'Paisagens naturais', 'Retratos da família real', 'Temas religiosos', 'Cenas mitológicas', 'D', 'A arte barroca no Brasil era predominantemente religiosa, servindo como instrumento de catequese e expressão da fé.'),
+(14, 'Qual destas igrejas é um exemplar do Barroco brasileiro?', 'public/uploads/imagem-1234567903-igrejas.jpg', 'Igreja de São Francisco de Assis (Ouro Preto)', 'Catedral de Brasília', 'Igreja da Pampulha (Belo Horizonte)', 'Mosteiro de São Bento (São Paulo)', 'Catedral da Sé (São Paulo)', 'A', 'A Igreja de São Francisco de Assis em Ouro Preto, com projeto atribuído a Aleijadinho e pinturas de Mestre Ataíde, é uma das obras-primas do Barroco mineiro.');

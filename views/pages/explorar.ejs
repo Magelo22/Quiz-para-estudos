@@ -1,4 +1,4 @@
-<%- include ('../partials/header') %>
+<%- include('../partials/header') %>
 
     <style>
         :root {
@@ -26,7 +26,7 @@
             padding: 2rem 1rem;
         }
 
-        /* Cabeçalho Principal */
+        
         .explore-header {
             text-align: center;
             margin-bottom: 3rem;
@@ -48,7 +48,7 @@
             margin: 0 auto 2rem;
         }
 
-        /* Seção de Filtros - Melhor Alinhamento */
+        
         .filters-section {
             background: white;
             padding: 1.5rem;
@@ -113,7 +113,7 @@
             border-color: var(--primary-color);
         }
 
-        /* Banner Promocional - Centralizado */
+        
         .promo-banner {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
@@ -150,7 +150,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
-        /* Seções de Conteúdo - Alinhamento Consistente */
+        
         .content-section {
             margin-bottom: 3.5rem;
             padding: 0 0.5rem;
@@ -165,7 +165,7 @@
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
         }
 
-        /* Categorias - Alinhamento Perfeito */
+        
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -198,7 +198,7 @@
             display: inline-block;
         }
 
-        /* Quizzes - Grid Alinhado */
+        
         .quizzes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -286,7 +286,7 @@
             color: #dc3545;
         }
 
-        /* Responsividade - Alinhamento em Todas as Telas */
+        
         @media (max-width: 992px) {
             .explore-title {
                 font-size: 2.2rem;
@@ -350,25 +350,15 @@
 
     <main class="pagina-explore">
         <div class="explore-container">
-            <!-- Cabeçalho Principal -->
+            
             <div class="explore-header">
                 <h1 class="explore-title">Explore Nossos Quizzes</h1>
                 <p class="explore-subtitle">Descubra e desafie seus conhecimentos em diversas áreas do saber</p>
             </div>
 
-            <!-- Seção de Filtros - Perfeitamente Alinhada -->
+            
             <div class="filters-section">
                 <div class="search-filter">
-                    <div class="search-bar">
-                        <span class="search-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                            </svg>
-                        </span>
-                        <input type="text" placeholder="Pesquisar quizzes...">
-                    </div>
                     <select class="filter-select">
                         <option value="">Todas Categorias</option>
                         <option value="technology">Tecnologia</option>
@@ -384,17 +374,27 @@
                         <option value="medium">Médio</option>
                         <option value="hard">Difícil</option>
                     </select>
+                    <div class="search-bar">
+                        <span class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </span>
+                        <input type="text" placeholder="Pesquisar quizzes...">
+                    </div>
                 </div>
             </div>
 
-            <!-- Banner Promocional - Centralizado e Alinhado -->
+            
             <div class="promo-banner">
                 <h3 class="promo-title">Quizzes Premium com Conteúdo Exclusivo</h3>
                 <p>Desbloqueie todos os recursos e desafios especiais</p>
                 <button class="promo-button">Experimente Grátis</button>
             </div>
 
-            <!-- Seção de Categorias - Alinhamento Perfeito -->
+            
             <section class="content-section">
                 <h2 class="section-title">Navegue por Categorias</h2>
                 <div class="categories-grid">
@@ -425,13 +425,13 @@
                 </div>
             </section>
 
-            <!-- Seção de Quizzes em Destaque - Alinhamento Consistente -->
+            
 
             <h2 class="section-title">Quizzes em Destaque</h2>
             <section class="content-section">
-                <% if (quizes && quizes.length > 0) { %>
-                    <% quizes.forEach(quiz=> { %>
-                        <div class="quizzes-grid">
+                <% if (quizes && quizes.length> 0) { %>
+                    <div class="quizzes-grid"> 
+                        <% quizes.forEach(quiz=> { %>
                             <div class="quiz-card">
                                 <div class="quiz-image-container">
                                     <img src='/quizes/imagem/<%= quiz.id %>' alt="Imagem do Quiz" class="quiz-image">
@@ -449,69 +449,47 @@
                                             <%= quiz.dificuldade %>
                                         </span>
                                     </div>
-                                    <a href="/quiz/<%= quiz.id %>" class="quiz-button">Fazer Quiz</a>
+                                    <a href="/questoes/questoes/<%= quiz.id %>" class="quiz-button">Acessar Quiz</a>
                                 </div>
                             </div>
-                        </div>
-                        <% }) %>
-                            <% } else { %>
-                                <p>Nenhum quiz encontrado.</p>
-                                <% } %>
+                            <% }) %>
+                    </div> 
+                    <% } else { %>
+                        <h3>Nenhum quiz encontrado.</h3>
+                        <% } %>
             </section>
 
-            <!-- Seção de Quizzes Recentes - Mesmo Padrão de Alinhamento -->
+            
+            <h2 class="section-title">Adicionados recentemente</h2>
             <section class="content-section">
-                <h2 class="section-title">Adicionados Recentemente</h2>
-                <div class="quizzes-grid">
-                    <div class="quiz-card">
-                        <div class="quiz-image-container">
-                            <img src="https://source.unsplash.com/random/600x400/?math,algebra" alt="Matemática"
-                                class="quiz-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">Álgebra Linear</h3>
-                            <p class="quiz-description">Matrizes, vetores e transformações
-                                lineares para estudantes de
-                                exatas</p>
-                            <div class="quiz-meta">
-                                <span>12 questões</span>
-                                <span class="quiz-difficulty medium">Médio</span>
+                <% if (quizes && quizes.length> 0) { %>
+                    <div class="quizzes-grid"> 
+                        <% quizes.forEach(quiz=> { %>
+                            <div class="quiz-card">
+                                <div class="quiz-image-container">
+                                    <img src='/quizes/imagem/<%= quiz.id %>' alt="Imagem do Quiz" class="quiz-image">
+                                </div>
+                                <div class="quiz-content">
+                                    <h3 class="quiz-title">
+                                        <%= quiz.titulo %>
+                                    </h3>
+                                    <p class="quiz-description">
+                                        <%= quiz.descricao %>
+                                    </p>
+                                    <div class="quiz-meta">
+                                        <span></span>
+                                        <span class="quiz-difficulty <%= quiz.dificuldade.toLowerCase() %>">
+                                            <%= quiz.dificuldade %>
+                                        </span>
+                                    </div>
+                                    <a href="/questoes/questoes/<%= quiz.id %>" class="quiz-button">Acessar Quiz</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="quiz-card">
-                        <div class="quiz-image-container">
-                            <img src="https://source.unsplash.com/random/600x400/?art,painting" alt="Artes"
-                                class="quiz-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">História da Arte</h3>
-                            <p class="quiz-description">Descubra os principais movimentos
-                                artísticos e seus grandes
-                                mestres</p>
-                            <div class="quiz-meta">
-                                <span>14 questões</span>
-                                <span class="quiz-difficulty easy">Fácil</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quiz-card">
-                        <div class="quiz-image-container">
-                            <img src="https://source.unsplash.com/random/600x400/?world,map" alt="Geografia"
-                                class="quiz-image">
-                        </div>
-                        <div class="quiz-content">
-                            <h3 class="quiz-title">Geografia Mundial</h3>
-                            <p class="quiz-description">Teste seu conhecimento sobre países,
-                                capitais e curiosidades
-                                globais</p>
-                            <div class="quiz-meta">
-                                <span>16 questões</span>
-                                <span class="quiz-difficulty medium">Médio</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            <% }) %>
+                    </div> 
+                    <% } else { %>
+                        <h3>Nenhum quiz encontrado.</h3>
+                        <% } %>
             </section>
         </div>
     </main>

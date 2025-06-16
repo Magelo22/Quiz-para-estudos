@@ -1,35 +1,307 @@
 <%- include ('../partials/header') %>
+    <style>
+        
+        #quiz-criacao-main {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #dfe3f0 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-    <main>
-        <div>
-            <h1>Prencha as informações do seu Quiz</h1>
-            <form action='/quizes/inserir-quizes' method="post" enctype="multipart/form-data">
-                <div>
-                    <div class="atualizacao-file-quiz">
-                        <input type="file" id="imagem_upload" name="imagem" class="atualizacao-file-quiz-input"
-                            accept="image/*" required>
-                        <label for="imagem_path" class="atualizacao-file-imagem-label">Adicionar Imagem</label>
-                    </div>
+        #quiz-criacao-main::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(106, 130, 235, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        #quiz-criacao-main::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: rgba(106, 130, 235, 0.08);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        
+        #quiz-criacao-container {
+            position: relative;
+            z-index: 1;
+            color: #2a3a7a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        
+        #quiz-criacao-titulo {
+            font-size: 28px;
+            color: #2a3a7a;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        #quiz-criacao-titulo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b4d9c, #6a82eb);
+            border-radius: 4px;
+        }
+
+        
+        #quiz-criacao-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+        }
+
+        
+        .quiz-criacao-label {
+            font-size: 15px;
+            color: #2a3a7a;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        
+        .quiz-criacao-input,
+        .quiz-criacao-select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #dfe3f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f9fafc;
+            color: #2a3a7a;
+        }
+
+        .quiz-criacao-input:focus,
+        .quiz-criacao-select:focus {
+            outline: none;
+            border-color: #6a82eb;
+            box-shadow: 0 0 0 3px rgba(106, 130, 235, 0.1);
+        }
+
+        
+        .quiz-criacao-upload-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .quiz-criacao-upload-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .quiz-criacao-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 30px 20px;
+            border: 2px dashed #dfe3f0;
+            border-radius: 12px;
+            background-color: #f9fafc;
+            color: #3b4d9c;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quiz-criacao-upload-label:hover {
+            border-color: #6a82eb;
+            background-color: rgba(106, 130, 235, 0.05);
+        }
+
+        .quiz-criacao-upload-label::before {
+            content: '+';
+            font-size: 2rem;
+            color: #6a82eb;
+            margin-bottom: 10px;
+        }
+
+        
+        .quiz-criacao-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232a3a7a'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 15px;
+            cursor: pointer;
+        }
+
+        
+        #quiz-criacao-submit {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #3b4d9c 0%, #6a82eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(59, 77, 156, 0.2);
+            margin-top: 10px;
+        }
+
+        #quiz-criacao-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 77, 156, 0.3);
+        }
+
+        
+        .quiz-criacao-preview {
+            display: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quiz-criacao-preview-img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        @media (max-width: 768px) {
+            #quiz-criacao-container {
+                padding: 40px;
+            }
+
+            #quiz-criacao-titulo {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #quiz-criacao-container {
+                padding: 30px;
+                border-radius: 16px;
+            }
+
+            #quiz-criacao-titulo {
+                font-size: 22px;
+            }
+        }
+    </style>
+
+    <main id="quiz-criacao-main">
+        <div id="quiz-criacao-container">
+            <h1 id="quiz-criacao-titulo">Preencha as informações do seu Quiz</h1>
+            <form id="quiz-criacao-form" action='/quizes/inserir-quizes' method="post" enctype="multipart/form-data">
+                <div class="quiz-criacao-upload-container">
+                    <input type="file" id="quiz-criacao-upload" name="imagem" class="quiz-criacao-upload-input"
+                        accept="image/*" required>
+                    <label for="quiz-criacao-upload" class="quiz-criacao-upload-label">Clique para adicionar uma imagem
+                        de capa</label>
                 </div>
-                <label for="titulo">Titulo:</label>
-                <input type="text" id="titulo" name="titulo" placeholder="Titulo do Quiz" required>
 
-                <label for="descricao">Descrição:</label>
-                <input type="text" id="descricao" name="descricao" placeholder="Descricao do Quiz" required>
+                <div>
+                    <label for="quiz-criacao-titulo-input" class="quiz-criacao-label">Título:</label>
+                    <input type="text" id="quiz-criacao-titulo-input" name="titulo" class="quiz-criacao-input"
+                        placeholder="Digite o titulo do seu quiz" required>
+                </div>
 
-                <label for="questoes">Quantidade de questões:</label>
-                <input type="number" id="questoes" name="questoes" placeholder="questoes do Quiz" required>
+                <div>
+                    <label for="quiz-criacao-descricao" class="quiz-criacao-label">Descrição:</label>
+                    <input type="text" id="quiz-criacao-descricao" name="descricao" class="quiz-criacao-input"
+                        placeholder="Digite a descricao do seu quiz" required>
+                </div>
 
-                <label for="dificuldade">Qual a dificuldade:</label>
-                <select name="dificuldade" id="dificuldade">
-                    <option value="" disabled selected>Selecione a dificuldade</option>
-                    <option value="Fácil">Fácil</option>
-                    <option value="Médio">Médio</option>
-                    <option value="Difícil">Difícil</option>
-                </select>
+                <div>
+                    <label for=" quiz-criacao-questoes" class="quiz-criacao-label">Quantidade de questões:</label>
+                    <input type="number" id="quiz-criacao-questoes" name="questoes" class="quiz-criacao-input"
+                        placeholder="Digite a quantidade de questões" min="1" max="50" required>
+                </div>
 
-                <button type="submit">Continuar</button>
+                <div>
+                    <label for="quiz-criacao-categoria" class="quiz-criacao-label">Categoria:</label>
+                    <select name="categoria" id="quiz-criacao-categoria" class="quiz-criacao-select" required>
+                        <option value="" disabled selected>Selecione a categoria</option>
+                        <option value="Tecnologia">Tecnologia</option>
+                        <option value="Ciências">Ciências</option>
+                        <option value="História">História</option>
+                        <option value="Matemática">Matemática</option>
+                        <option value="Geografia">Geografia</option>
+                        <option value="Artes">Artes</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="quiz-criacao-dificuldade" class="quiz-criacao-label">Dificuldade:</label>
+                    <select name="dificuldade" id="quiz-criacao-dificuldade" class="quiz-criacao-select" required>
+                        <option value="" disabled selected>Selecione a dificuldade</option>
+                        <option value="Fácil">Fácil</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Difícil">Difícil</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="quiz-criacao-submit">Continuar</button>
             </form>
+        </div>
     </main>
+
+    <script>
+        document.getElementById('quiz-criacao-upload').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    let previewContainer = document.querySelector('.quiz-criacao-preview');
+                    if (!previewContainer) {
+                        previewContainer = document.createElement('div');
+                        previewContainer.className = 'quiz-criacao-preview';
+                        const previewImg = document.createElement('img');
+                        previewImg.className = 'quiz-criacao-preview-img';
+                        previewContainer.appendChild(previewImg);
+                        const fileUploadDiv = document.querySelector('.quiz-criacao-upload-container');
+                        fileUploadDiv.parentNode.insertBefore(previewContainer, fileUploadDiv.nextSibling);
+                    }
+                    previewContainer.style.display = 'block';
+                    previewContainer.querySelector('img').src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 
     <%- include ('../partials/footer') %>
