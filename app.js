@@ -8,6 +8,7 @@ const quizesroutes = require('./src/routes/quizRoutes')
 const questoesroutes = require('./src/routes/questoesRoutes');
 const session = require('express-session');
 const verificarAutenticacao = require('./src/middleware/usuarioMiddleware');
+const verificarProf = require('./src/middleware/usuarioProf');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -57,7 +58,7 @@ app.get('/login-usuario', (req, res) => {
     res.render('pages/login-usuario', { title: "Login do Usuario" });
 });
 
-app.get('/criar-quiz', verificarAutenticacao, (req, res) => {
+app.get('/criar-quiz', verificarAutenticacao, verificarProf, (req, res) => {
     res.render('pages/criar-quiz', { title: "Criar Quiz" });
 });
 

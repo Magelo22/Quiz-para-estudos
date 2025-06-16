@@ -10,8 +10,8 @@ router.get('/explorar', verificarAutenticacao, QuizControllers.getTodosQuizes);
 router.get('/quiz/:id', verificarAutenticacao, QuizControllers.getQuiz);
 router.post('/inserir-quizes', verificarAutenticacao, verificarProf, upload, QuizControllers.inserir);
 router.post('/atualizar-quizes/:id', verificarAutenticacao, verificarAutoridade, upload, QuizControllers.atualizar);
-router.get('/deletar-quizes/:id', verificarAutenticacao, verificarAutoridade, QuizControllers.deletar);
-router.get('/criar-perguntas/:id', verificarAutenticacao, verificarProf, QuizControllers.criarPerguntas);
+router.get('/deletar-quizes/:id', verificarAutoridade, verificarAutenticacao, QuizControllers.deletar);
+router.get('/criar-perguntas/:id', verificarProf, verificarAutenticacao, QuizControllers.criarPerguntas);
 router.get('/imagem/:id', verificarAutenticacao, QuizControllers.getImagem);
 
 module.exports = router;
